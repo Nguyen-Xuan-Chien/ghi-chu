@@ -1,10 +1,11 @@
 import UIKit
-var note: Note?
-var onEdit: ((Note) -> Void)?
+
 
 class MoreMenuViewController: UIViewController {
+    var note: Note?
+    var onEdit: ((Note) -> Void)?
 
-    var onEdit: (() -> Void)?
+//    var onEdit: (() -> Void)?
     @IBOutlet weak var containerView: UIView!
 
     @IBOutlet weak var editButton: UIButton!
@@ -22,19 +23,15 @@ class MoreMenuViewController: UIViewController {
     }
 
     @IBAction func editTapped(_ sender: UIButton) {
-
-        if let parentVC = presentingViewController {
-
-               dismiss(animated: true) {
-                   let vc = EditNoteViewController(nibName: "EditNoteViewController", bundle: nil)
-                   vc.modalPresentationStyle = .fullScreen
-                   vc.note = note
-
-                   parentVC.present(vc, animated: true)
-               }
-           }
-
+        guard let note = note else {
+            dismiss(animated: true)
+            return
+        }
+        dismiss(animated: true) { [weak self] in
+            self?.onEdit?(note)
+        }
     }
+    
 
     @IBAction func bookmarkTapped(_ sender: UIButton) {
         dismiss(animated: true)

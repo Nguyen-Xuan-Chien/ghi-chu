@@ -56,7 +56,7 @@
                                 <color key="baseForegroundColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </buttonConfiguration>
                             <connections>
-                                <action selector="editTapped:" destination="-1" eventType="touchUpInside" id="7zd-sz-nlb"/>
+                                <action selector="editTapped:" destination="-1" eventType="touchUpInside" id="fKS-V2-rvd"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZKP-fS-p71">

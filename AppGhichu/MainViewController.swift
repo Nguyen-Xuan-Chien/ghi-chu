@@ -32,6 +32,16 @@ class MainViewController: UIViewController {
     
     private let db = DatabaseHelper.shared
     private var notes: [Note] = []
+    private var sections: [(title: String, items: [Note])] = []
+    private let sectionPalette: [UIColor] = [
+        UIColor(red: 0.29, green: 0.22, blue: 0.47, alpha: 1.0),
+        UIColor(red: 0.18, green: 0.30, blue: 0.52, alpha: 1.0),
+        UIColor(red: 0.33, green: 0.19, blue: 0.43, alpha: 1.0),
+        UIColor(red: 0.17, green: 0.36, blue: 0.34, alpha: 1.0),
+        UIColor(red: 0.40, green: 0.22, blue: 0.26, alpha: 1.0),
+        UIColor(red: 0.36, green: 0.28, blue: 0.18, alpha: 1.0)
+    ]
+    private var headerDateLabel: UILabel?
 
     let icons: [IconData] = [
         IconData(img: "icon1", title: "bài viết năm nay"),
@@ -44,6 +54,8 @@ class MainViewController: UIViewController {
         
         setupDateLabel()
         setupUI()
+        hideLegacyHeader()
+        liftTableView()
         setupIcons()
         loadNotesFromDatabase()
         updateIconData()
@@ -54,19 +66,27 @@ class MainViewController: UIViewController {
 
         let nib = UINib(nibName: "NoteCell", bundle: nil)
         tblv.register(nib, forCellReuseIdentifier: "NoteCell")
+        tblv.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: "MonthHeader")
         
         tblv.backgroundColor = .black
         tblv.backgroundView = nil
         tblv.separatorStyle = .none
         tblv.showsVerticalScrollIndicator = false
+        if #available(iOS 15.0, *) {
+            tblv.sectionHeaderTopPadding = 0
+        }
+        tblv.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        installTableDateHeader()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loadNotesFromDatabase()
+        buildSections()
         updateIconData()
         tblv.reloadData()
         updateEmptyState()
+        headerDateLabel?.text = formattedHeaderDate()
     }
 
     private func updateEmptyState() {
@@ -122,44 +142,140 @@ class MainViewController: UIViewController {
     }
 
     private func setupUI() {
-        dateLabel.textColor = .lightGray
-        noteTitleLabel.textColor = .white
-        noteBodyTextView.textColor = .lightGray
-        noteBodyTextView.isEditable = false
-        noteBodyTextView.backgroundColor = .clear
+        dateLabel?.textColor = .lightGray
+        noteTitleLabel?.textColor = .white
+        noteBodyTextView?.textColor = .lightGray
+        noteBodyTextView?.isEditable = false
+        noteBodyTextView?.backgroundColor = .clear
 
-            noteTitleLabel.backgroundColor = UIColor(white: 0.2, alpha: 1)
-            noteTitleLabel.layer.cornerRadius = 10
-            noteTitleLabel.clipsToBounds = true
-            noteTitleLabel.textAlignment = .left
+        noteTitleLabel?.backgroundColor = UIColor(white: 0.2, alpha: 1)
+        noteTitleLabel?.layer.cornerRadius = 10
+        noteTitleLabel?.clipsToBounds = true
+        noteTitleLabel?.textAlignment = .left
 
-            noteBodyTextView.textColor = .lightGray
-            noteBodyTextView.isEditable = false
-            noteBodyTextView.backgroundColor = UIColor(white: 0.18, alpha: 1)
-            noteBodyTextView.layer.cornerRadius = 12
-            noteBodyTextView.clipsToBounds = true
-            
+        noteBodyTextView?.textColor = .lightGray
+        noteBodyTextView?.isEditable = false
+        noteBodyTextView?.backgroundColor = UIColor(white: 0.18, alpha: 1)
+        noteBodyTextView?.layer.cornerRadius = 12
+        noteBodyTextView?.clipsToBounds = true
+    }
+    private func hideLegacyHeader() {
+        noteTitleLabel?.isHidden = true
+        noteBodyTextView?.isHidden = true
+        dateLabel?.isHidden = true
+        func walk(_ v: UIView) {
+            for s in v.subviews {
+                if let l = s as? UILabel,
+                   (l.text ?? "").lowercased().contains("tháng"),
+                   !(l.isDescendant(of: tblv)) {
+                    l.isHidden = true
+                }
+                walk(s)
+            }
+        }
+        walk(view)
+    }
+    private func formattedHeaderDate() -> String {
+        let f = DateFormatter()
+        f.locale = Locale(identifier: "vi_VN")
+        f.dateFormat = "EEEE, d 'tháng' M"
+        return f.string(from: Date()).capitalized
+    }
+    private func installTableDateHeader() {
+        tblv.applyDateHeader()
+        headerDateLabel = tblv.dateHeaderLabel
+    }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        tblv.refreshDateHeaderWidth()
+    }
+    private func liftTableView() {
+        var removed: [NSLayoutConstraint] = []
+        for c in view.constraints {
+            if (c.firstItem as? UITableView) == tblv && c.firstAttribute == .top {
+                removed.append(c)
+            }
+        }
+        NSLayoutConstraint.deactivate(removed)
+        let top = tblv.topAnchor.constraint(equalTo: lblText3.bottomAnchor, constant: 0)
+        top.priority = .required
+        top.isActive = true
+        view.setNeedsLayout()
     }
 
     private func setupDateLabel() {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "vi_VN")
         formatter.dateFormat = "EEEE, 'ngày' d 'thg' M"
-        dateLabel.text = formatter.string(from: Date()).capitalized
+        let text = formatter.string(from: Date()).capitalized
+        dateLabel?.text = text
+        headerDateLabel?.text = text
     }
 
     func loadNotesFromDatabase() {
         notes = db.getAllNotes()
 
         guard let latestNote = notes.first else {
-            noteTitleLabel.text = "Chưa có ghi chú"
-            noteBodyTextView.text = ""
+            noteTitleLabel?.text = "Chưa có ghi chú"
+            noteBodyTextView?.text = ""
             return
         }
 
-        noteTitleLabel.text = latestNote.title
-        noteBodyTextView.text = latestNote.content
+        noteTitleLabel?.numberOfLines = 1
+        noteTitleLabel?.text = "Tiêu đề: \(latestNote.title)"
+        noteBodyTextView?.text = latestNote.content
     }
+    private func buildSections() {
+        let cal = Calendar.current
+        let grouped = Dictionary(grouping: notes) { (note) -> Date in
+            let comps = cal.dateComponents([.year, .month], from: note.createdAt)
+            return cal.date(from: comps) ?? note.createdAt
+        }
+        let sortedKeys = grouped.keys.sorted(by: { $0 > $1 })
+        var result: [(title: String, items: [Note])] = []
+        let titleFormatter = DateFormatter()
+        titleFormatter.locale = Locale(identifier: "vi_VN")
+        titleFormatter.dateFormat = "'tháng' M 'năm' yyyy"
+        for key in sortedKeys {
+            var items = grouped[key] ?? []
+            items.sort(by: { $0.createdAt > $1.createdAt })
+            let title = titleFormatter.string(from: key)
+            result.append((title: title, items: items))
+        }
+        sections = result
+    }
+    private func timeOfDay(for date: Date) -> String {
+        let hour = Calendar.current.component(.hour, from: date)
+        switch hour {
+        case 5..<12: return "sáng"
+        case 12..<18: return "chiều"
+        default: return "tối"
+        }
+    }
+    func openEdit(note: Note) {
+        let editVC = EditNoteViewController(
+            nibName: "EditNoteViewController",
+            bundle: nil
+        )
+
+        editVC.modalPresentationStyle = .fullScreen
+        editVC.note = note
+
+        editVC.onSave = { [weak self] updatedNote in
+            guard let self = self else { return }
+
+            // 🔥 cập nhật DB
+            self.db.updateNote(updatedNote)
+
+            // 🔥 reload lại giao diện
+            self.loadNotesFromDatabase()
+            self.tblv.reloadData()
+        }
+
+        present(editVC, animated: true)
+    }
+
+
 
     @IBAction func addButtonTapped(_ sender: UIButton) {
         let newPostVC = NewPostViewController(nibName: "NewPostViewController", bundle: nil)
@@ -170,36 +286,69 @@ class MainViewController: UIViewController {
 
 extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return sections.count
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return notes.count
+        return sections[section].items.count
     }
 
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        let cell = tableView.dequeueReusableCell(withIdentifier: "NoteCell", for: indexPath) as! NoteCell
-        let note = notes[indexPath.row]
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: "NoteCell",
+            for: indexPath
+        ) as! NoteCell
+
+        let note = sections[indexPath.section].items[indexPath.row]
         cell.configure(note: note)
-//        cell.contentView.backgroundColor = UIColor.secondarySystemBackground
-//        cell.backgroundColor = .clear
-//        tableView.backgroundColor = UIColor.black
-//        tableView.separatorStyle = .none
+        let color = sectionPalette[indexPath.section % sectionPalette.count]
+        cell.applyTheme(baseColor: color)
+
+        // 🔥 KHI BẤM DẤU 3 CHẤM
         cell.onMoreTapped = { [weak self] in
-            self?.showMoreMenu()
+            self?.showMoreMenu(for: note)
         }
 
         return cell
     }
+
     
-    func showMoreMenu() {
-        let vc = MoreMenuViewController(nibName: "MoreMenuViewController", bundle: nil)
-        vc.modalPresentationStyle = .overCurrentContext
-        vc.modalTransitionStyle = .crossDissolve
-        present(vc, animated: true)
+    func showMoreMenu(for note: Note) {
+
+        let menuVC = MoreMenuViewController(
+            nibName: "MoreMenuViewController",
+            bundle: nil
+        )
+        menuVC.note = note
+        menuVC.modalPresentationStyle = .overCurrentContext
+        menuVC.modalTransitionStyle = .crossDissolve
+
+        menuVC.onEdit = { [weak self] updatedNote in
+            self?.openEdit(note: note)
+        }
+
+        present(menuVC, animated: true)
     }
 
 
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 400
+        return 320
+    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return CGFloat.leastNormalMagnitude
+    }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return nil
+    }
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return CGFloat.leastNormalMagnitude
+    }
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let v = UIView()
+        v.backgroundColor = .clear
+        return v
     }
 }

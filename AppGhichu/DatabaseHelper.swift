@@ -168,4 +168,29 @@ class DatabaseHelper {
 
         print("🔄 Database đã reset, sẽ tạo lại khi app chạy.")
     }
+    func updateNote(_ note: Note) {
+        let sql = """
+        UPDATE notes
+        SET title = ?, content = ?, dateISO = ?
+        WHERE id = ?
+        """
+
+        var statement: OpaquePointer?
+        if sqlite3_prepare_v2(db, sql, -1, &statement, nil) == SQLITE_OK {
+
+            sqlite3_bind_text(statement, 1, (note.title as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(statement, 2, (note.content as NSString).utf8String, -1, nil)
+            sqlite3_bind_text(statement, 3, (note.dateISO as NSString).utf8String, -1, nil)
+            sqlite3_bind_int64(statement, 4, note.id)
+
+            if sqlite3_step(statement) == SQLITE_DONE {
+                print("✅ Update note thành công")
+            } else {
+                print("❌ Update note thất bại")
+            }
+        }
+
+        sqlite3_finalize(statement)
+    }
+
 }

@@ -19,6 +19,7 @@
                 <outlet property="mapImageView" destination="QXZ-xu-z6H" id="5wF-aS-Yqa"/>
                 <outlet property="moreButton" destination="q1L-hs-TV4" id="ogh-em-ObT"/>
                 <outlet property="textView" destination="4QC-hQ-Mc6" id="0B4-o5-DyF"/>
+                <outlet property="textView1" destination="2Gf-o0-akZ" id="6XE-l4-Xmf"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -40,12 +41,12 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UL8-us-EvF">
-                            <rect key="frame" x="321" y="56" width="64" height="39"/>
+                            <rect key="frame" x="335.33333333333331" y="56" width="49.666666666666686" height="39"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="39" id="af7-Zm-98N"/>
                             </constraints>
                             <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" title="Xong">
+                            <buttonConfiguration key="configuration" style="plain" image="checkmark.circle.fill" catalog="system">
                                 <color key="baseForegroundColor" red="0.35980298370000002" green="0.3510707408" blue="0.79835590489999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </buttonConfiguration>
                             <connections>
@@ -53,7 +54,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q1L-hs-TV4">
-                            <rect key="frame" x="251.33333333333334" y="56" width="49.666666666666657" height="39"/>
+                            <rect key="frame" x="285.66666666666669" y="56" width="49.666666666666686" height="39"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="39" id="uPH-j4-Icb"/>
                             </constraints>
@@ -86,7 +87,7 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <state key="normal" title="Button"/>
                                     <buttonConfiguration key="configuration" style="plain" image="clear" catalog="system">
-                                        <color key="baseForegroundColor" red="0.48480902780000001" green="0.48480902780000001" blue="0.48480902780000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </buttonConfiguration>
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chuyến thăm buổi chiều đến Công Ty Luki VN" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CY2-9J-jFe">
@@ -110,10 +111,46 @@
                             </constraints>
                         </view>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="4QC-hQ-Mc6">
-                            <rect key="frame" x="16" y="310" width="361" height="174"/>
+                            <rect key="frame" x="16" y="377" width="361" height="107"/>
                             <color key="backgroundColor" red="0.23867582070000001" green="0.23867582070000001" blue="0.23867582070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="174" id="8BJ-k8-Utx"/>
+                                <constraint firstAttribute="height" constant="107" id="8BJ-k8-Utx"/>
+                            </constraints>
+                            <color key="textColor" systemColor="secondarySystemBackgroundColor"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        </textView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dzA-sg-MLX">
+                            <rect key="frame" x="209" y="489" width="56" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="35" id="Sij-pX-Q6k"/>
+                            </constraints>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" image="camera" catalog="system">
+                                <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </buttonConfiguration>
+                            <connections>
+                                <action selector="icn2:" destination="-1" eventType="touchUpInside" id="wlO-ug-gmt"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CkI-kX-qFv">
+                            <rect key="frame" x="146" y="489" width="56" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="35" id="1kq-NX-P5D"/>
+                            </constraints>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" image="photo.on.rectangle" catalog="system">
+                                <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </buttonConfiguration>
+                            <connections>
+                                <action selector="icn1:" destination="-1" eventType="touchUpInside" id="dVz-FU-GoR"/>
+                            </connections>
+                        </button>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="2Gf-o0-akZ">
+                            <rect key="frame" x="16" y="311" width="361" height="55"/>
+                            <color key="backgroundColor" red="0.23867582070000001" green="0.23867582070000001" blue="0.23867582070000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="55" id="PBl-he-Sai"/>
                             </constraints>
                             <color key="textColor" systemColor="secondarySystemBackgroundColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -122,15 +159,22 @@
                     </subviews>
                     <color key="backgroundColor" red="0.23867582070707072" green="0.23867582070707072" blue="0.23867582070707072" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
-                        <constraint firstItem="4QC-hQ-Mc6" firstAttribute="top" secondItem="Mus-oH-dqf" secondAttribute="bottom" constant="4" id="27T-DR-1Q4"/>
-                        <constraint firstItem="UL8-us-EvF" firstAttribute="leading" secondItem="q1L-hs-TV4" secondAttribute="trailing" constant="4" id="50M-Sa-2i3"/>
+                        <constraint firstItem="dzA-sg-MLX" firstAttribute="top" secondItem="4QC-hQ-Mc6" secondAttribute="bottom" constant="5" id="06g-jT-wue"/>
+                        <constraint firstItem="4QC-hQ-Mc6" firstAttribute="top" secondItem="Mus-oH-dqf" secondAttribute="bottom" constant="71" id="27T-DR-1Q4"/>
+                        <constraint firstItem="UL8-us-EvF" firstAttribute="leading" secondItem="q1L-hs-TV4" secondAttribute="trailing" id="50M-Sa-2i3"/>
                         <constraint firstItem="Yq8-fJ-uMc" firstAttribute="leading" secondItem="5Eo-aC-4Kk" secondAttribute="trailing" constant="71" id="6dn-1w-H0b"/>
+                        <constraint firstAttribute="trailing" secondItem="2Gf-o0-akZ" secondAttribute="trailing" constant="16" id="7t5-2h-6bv"/>
+                        <constraint firstAttribute="trailing" secondItem="dzA-sg-MLX" secondAttribute="trailing" constant="128" id="8lS-Nx-HdR"/>
+                        <constraint firstItem="CkI-kX-qFv" firstAttribute="leading" secondItem="1wj-LP-1aF" secondAttribute="leading" constant="146" id="GeU-yq-yaA"/>
                         <constraint firstAttribute="trailing" secondItem="UL8-us-EvF" secondAttribute="trailing" constant="8" id="Pp5-rv-Lcw"/>
                         <constraint firstAttribute="trailing" secondItem="Mus-oH-dqf" secondAttribute="trailing" constant="16" id="St1-q2-3ER"/>
                         <constraint firstItem="Yq8-fJ-uMc" firstAttribute="top" secondItem="1wj-LP-1aF" secondAttribute="top" constant="62" id="U6h-8b-mfY"/>
+                        <constraint firstItem="CkI-kX-qFv" firstAttribute="top" secondItem="4QC-hQ-Mc6" secondAttribute="bottom" constant="5" id="UDS-0L-aW5"/>
+                        <constraint firstItem="2Gf-o0-akZ" firstAttribute="top" secondItem="Mus-oH-dqf" secondAttribute="bottom" constant="5" id="XaH-c8-z1q"/>
                         <constraint firstItem="q1L-hs-TV4" firstAttribute="top" secondItem="1wj-LP-1aF" secondAttribute="top" constant="56" id="aDr-66-hQW"/>
                         <constraint firstItem="5Eo-aC-4Kk" firstAttribute="top" secondItem="1wj-LP-1aF" secondAttribute="top" constant="58" id="b0y-k4-aSd"/>
                         <constraint firstAttribute="trailing" secondItem="4QC-hQ-Mc6" secondAttribute="trailing" constant="16" id="bvZ-V4-47f"/>
+                        <constraint firstItem="2Gf-o0-akZ" firstAttribute="leading" secondItem="1wj-LP-1aF" secondAttribute="leading" constant="16" id="cK6-ce-SU4"/>
                         <constraint firstItem="4QC-hQ-Mc6" firstAttribute="leading" secondItem="1wj-LP-1aF" secondAttribute="leading" constant="16" id="dKF-eh-3Pi"/>
                         <constraint firstItem="5Eo-aC-4Kk" firstAttribute="leading" secondItem="1wj-LP-1aF" secondAttribute="leading" constant="8" id="dxv-R0-l0F"/>
                         <constraint firstItem="UL8-us-EvF" firstAttribute="top" secondItem="1wj-LP-1aF" secondAttribute="top" constant="56" id="jct-n3-3uU"/>
@@ -152,9 +196,12 @@
     </objects>
     <resources>
         <image name="bookmark" catalog="system" width="110" height="128"/>
+        <image name="camera" catalog="system" width="128" height="93"/>
+        <image name="checkmark.circle.fill" catalog="system" width="128" height="123"/>
         <image name="clear" catalog="system" width="128" height="114"/>
         <image name="ellipsis.circle" catalog="system" width="128" height="123"/>
         <image name="img_icon" width="1114" height="557"/>
+        <image name="photo.on.rectangle" catalog="system" width="128" height="98"/>
         <systemColor name="secondarySystemBackgroundColor">
             <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

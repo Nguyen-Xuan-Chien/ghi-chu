@@ -37,7 +37,7 @@
                             </buttonConfiguration>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Te2-09-Czd">
-                            <rect key="frame" x="223" y="98" width="54" height="35"/>
+                            <rect key="frame" x="227" y="100" width="54" height="35"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="35" id="KCB-X3-XJB"/>
                             </constraints>
@@ -109,7 +109,7 @@
                             </buttonConfiguration>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HYD-CI-eDZ">
-                            <rect key="frame" x="229" y="165" width="48" height="35"/>
+                            <rect key="frame" x="230" y="163" width="48" height="35"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="35" id="tC5-T3-RFG"/>
                             </constraints>
@@ -130,17 +130,15 @@
                         <constraint firstItem="qLc-Lh-yZi" firstAttribute="top" secondItem="B3Z-Og-Ibm" secondAttribute="top" constant="16" id="KJH-oe-yVk"/>
                         <constraint firstAttribute="trailing" secondItem="9b5-JI-jow" secondAttribute="trailing" constant="4" id="Mzy-Xw-ddh"/>
                         <constraint firstAttribute="trailing" secondItem="qLc-Lh-yZi" secondAttribute="trailing" constant="4" id="OHu-ta-TXF"/>
-                        <constraint firstAttribute="trailing" secondItem="9b5-JI-jow" secondAttribute="trailing" constant="4" id="TRC-7a-DWA"/>
                         <constraint firstItem="LRD-wo-789" firstAttribute="top" secondItem="B3Z-Og-Ibm" secondAttribute="top" constant="17" id="WhX-gi-bQG"/>
                         <constraint firstItem="51m-Hc-s5J" firstAttribute="top" secondItem="ZKP-fS-p71" secondAttribute="bottom" constant="35" id="YkR-Je-uUf"/>
                         <constraint firstAttribute="bottom" secondItem="HYD-CI-eDZ" secondAttribute="bottom" id="bht-cT-myZ"/>
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="200" id="cVM-Mj-GOP"/>
                         <constraint firstItem="9b5-JI-jow" firstAttribute="top" secondItem="qLc-Lh-yZi" secondAttribute="bottom" constant="9" id="ctt-ch-xQx"/>
                         <constraint firstItem="HYD-CI-eDZ" firstAttribute="top" secondItem="Te2-09-Czd" secondAttribute="bottom" constant="32" id="e4C-cV-VuN"/>
-                        <constraint firstAttribute="trailing" secondItem="qLc-Lh-yZi" secondAttribute="trailing" constant="4" id="gRd-bV-zkN"/>
+                        
                         <constraint firstItem="Mql-eb-sO6" firstAttribute="leading" secondItem="B3Z-Og-Ibm" secondAttribute="leading" constant="8" id="mJW-33-TH4"/>
-                        <constraint firstAttribute="trailing" secondItem="HYD-CI-eDZ" secondAttribute="trailing" constant="4" id="nAv-Ee-kRg"/>
-                        <constraint firstAttribute="trailing" secondItem="Te2-09-Czd" secondAttribute="trailing" constant="4" id="oro-DL-v0E"/>
+                        
                         <constraint firstItem="LRD-wo-789" firstAttribute="leading" secondItem="B3Z-Og-Ibm" secondAttribute="leading" constant="8" id="qWf-RQ-Zm1"/>
                         <constraint firstItem="Te2-09-Czd" firstAttribute="top" secondItem="9b5-JI-jow" secondAttribute="bottom" constant="9" id="rpD-cp-x76"/>
                         <constraint firstItem="51m-Hc-s5J" firstAttribute="leading" secondItem="B3Z-Og-Ibm" secondAttribute="leading" constant="8" id="sWI-5h-bkn"/>

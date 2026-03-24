@@ -306,7 +306,6 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
         let color = sectionPalette[indexPath.section % sectionPalette.count]
         cell.applyTheme(baseColor: color)
 
-        // 🔥 KHI BẤM DẤU 3 CHẤM
         cell.onMoreTapped = { [weak self] in
             self?.showMoreMenu(for: note)
         }

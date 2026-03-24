@@ -19,6 +19,7 @@ class EditNoteViewController: UIViewController {
     @IBOutlet weak var mapImageView: UIImageView!
     @IBOutlet weak var closeMapButton: UIButton!
     @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var mapContainerHeightConstraint: NSLayoutConstraint!
     
     private var pickedImageFilename: String?
     
@@ -32,6 +33,14 @@ class EditNoteViewController: UIViewController {
     }
     
     @IBAction func icn2(_ sender: Any) {
+    }
+    
+    @IBAction func removeImageTapped(_ sender: UIButton) {
+        mapContainerView.isHidden = true
+        mapContainerHeightConstraint.constant = 0
+        pickedImageFilename = nil
+        closeMapButton.isHidden = true
+        locationLabel.isHidden = true
     }
     
     @IBOutlet weak var textView: UITextView!
@@ -120,10 +129,27 @@ class EditNoteViewController: UIViewController {
                 if let img = UIImage(contentsOfFile: url.path) {
                     mapImageView.image = img
                     pickedImageFilename = name
+                    mapContainerView.isHidden = false
+                    mapContainerHeightConstraint.constant = 199
                     locationLabel.isHidden = false
                     closeMapButton.isHidden = false
+                } else {
+                    mapContainerView.isHidden = true
+                    mapContainerHeightConstraint.constant = 0
+                    locationLabel.isHidden = true
+                    closeMapButton.isHidden = true
                 }
+            } else {
+                mapContainerView.isHidden = true
+                mapContainerHeightConstraint.constant = 0
+                locationLabel.isHidden = true
+                closeMapButton.isHidden = true
             }
+        } else {
+            mapContainerView.isHidden = true
+            mapContainerHeightConstraint.constant = 0
+            locationLabel.isHidden = true
+            closeMapButton.isHidden = true
         }
         let body = note.content.replacingOccurrences(of: #"\[IMAGE:.+?\]\n?"#, with: "", options: .regularExpression)
         textView1.text = body
@@ -145,13 +171,13 @@ class EditNoteViewController: UIViewController {
         
             let inputTitle = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)
        
-//            if inputTitle.isEmpty {
-//                let tod = timeOfDay(for: Date())
-//                //note.title = "Chuyến thăm buổi \(tod) đến Công Ty Luki VN"//
-//            } else {
+            if inputTitle.isEmpty {
+                let tod = timeOfDay(for: Date())
+                note.title = "Chuyến thăm buổi \(tod) đến Công Ty Luki VN"//
+            } else {
                 note.title = inputTitle
-//            }
-//            
+            }
+            
             let now = Date()
             let df = DateFormatter()
             df.dateFormat = "yyyy-MM-dd HH:mm:ss"
@@ -189,6 +215,8 @@ extension EditNoteViewController: PHPickerViewControllerDelegate {
             guard let img = object as? UIImage else { return }
             DispatchQueue.main.async {
                 self?.mapImageView.image = img
+                self?.mapContainerView.isHidden = false
+                self?.mapContainerHeightConstraint.constant = 199
                 self?.locationLabel.isHidden = false
                 self?.closeMapButton.isHidden = false
                 if let file = self?.saveImageToDocuments(img) {

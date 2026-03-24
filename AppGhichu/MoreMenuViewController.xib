@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24765" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24743"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -27,7 +27,7 @@
                     <rect key="frame" x="56" y="351" width="281" height="200"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9b5-JI-jow">
-                            <rect key="frame" x="230.66666666666669" y="54" width="46.333333333333314" height="35"/>
+                            <rect key="frame" x="229" y="54" width="48" height="35"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="35" id="hwq-wl-x3M"/>
                             </constraints>
@@ -37,7 +37,7 @@
                             </buttonConfiguration>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Te2-09-Czd">
-                            <rect key="frame" x="227" y="100" width="54" height="35"/>
+                            <rect key="frame" x="227" y="97" width="54" height="35"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="35" id="KCB-X3-XJB"/>
                             </constraints>
@@ -109,10 +109,7 @@
                             </buttonConfiguration>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HYD-CI-eDZ">
-                            <rect key="frame" x="230" y="163" width="48" height="35"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="35" id="tC5-T3-RFG"/>
-                            </constraints>
+                            <rect key="frame" x="230" y="165" width="48" height="35"/>
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="plain" image="trash" catalog="system">
                                 <color key="baseForegroundColor" red="1" green="0.31420099289999998" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -121,26 +118,26 @@
                     </subviews>
                     <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="Te2-09-Czd" secondAttribute="trailing" constant="4" id="2kJ-db-Gpi"/>
-                        <constraint firstAttribute="trailing" secondItem="HYD-CI-eDZ" secondAttribute="trailing" constant="4" id="6Eu-Ju-CVL"/>
+                        <constraint firstAttribute="trailing" secondItem="Te2-09-Czd" secondAttribute="trailing" id="2kJ-db-Gpi"/>
+                        <constraint firstAttribute="bottom" secondItem="HYD-CI-eDZ" secondAttribute="bottom" id="Auf-Ym-N6G"/>
                         <constraint firstAttribute="height" constant="200" id="BlX-yd-Wv9"/>
                         <constraint firstItem="ZKP-fS-p71" firstAttribute="leading" secondItem="B3Z-Og-Ibm" secondAttribute="leading" constant="8" id="CJf-qM-Iz4"/>
                         <constraint firstItem="ZKP-fS-p71" firstAttribute="top" secondItem="Mql-eb-sO6" secondAttribute="bottom" constant="13" id="F97-KV-LWD"/>
+                        <constraint firstItem="HYD-CI-eDZ" firstAttribute="top" secondItem="51m-Hc-s5J" secondAttribute="top" constant="2" id="FAz-Lj-LpA"/>
                         <constraint firstItem="Mql-eb-sO6" firstAttribute="top" secondItem="LRD-wo-789" secondAttribute="bottom" constant="12" id="JeK-sH-tTS"/>
                         <constraint firstItem="qLc-Lh-yZi" firstAttribute="top" secondItem="B3Z-Og-Ibm" secondAttribute="top" constant="16" id="KJH-oe-yVk"/>
+                        <constraint firstItem="HYD-CI-eDZ" firstAttribute="top" secondItem="Te2-09-Czd" secondAttribute="bottom" constant="33" id="Mdo-jl-Wgv"/>
                         <constraint firstAttribute="trailing" secondItem="9b5-JI-jow" secondAttribute="trailing" constant="4" id="Mzy-Xw-ddh"/>
                         <constraint firstAttribute="trailing" secondItem="qLc-Lh-yZi" secondAttribute="trailing" constant="4" id="OHu-ta-TXF"/>
+                        <constraint firstItem="HYD-CI-eDZ" firstAttribute="trailing" secondItem="9b5-JI-jow" secondAttribute="trailing" constant="1" id="T6N-HV-9fs"/>
                         <constraint firstItem="LRD-wo-789" firstAttribute="top" secondItem="B3Z-Og-Ibm" secondAttribute="top" constant="17" id="WhX-gi-bQG"/>
                         <constraint firstItem="51m-Hc-s5J" firstAttribute="top" secondItem="ZKP-fS-p71" secondAttribute="bottom" constant="35" id="YkR-Je-uUf"/>
-                        <constraint firstAttribute="bottom" secondItem="HYD-CI-eDZ" secondAttribute="bottom" id="bht-cT-myZ"/>
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="200" id="cVM-Mj-GOP"/>
                         <constraint firstItem="9b5-JI-jow" firstAttribute="top" secondItem="qLc-Lh-yZi" secondAttribute="bottom" constant="9" id="ctt-ch-xQx"/>
-                        <constraint firstItem="HYD-CI-eDZ" firstAttribute="top" secondItem="Te2-09-Czd" secondAttribute="bottom" constant="32" id="e4C-cV-VuN"/>
-                        
                         <constraint firstItem="Mql-eb-sO6" firstAttribute="leading" secondItem="B3Z-Og-Ibm" secondAttribute="leading" constant="8" id="mJW-33-TH4"/>
-                        
                         <constraint firstItem="LRD-wo-789" firstAttribute="leading" secondItem="B3Z-Og-Ibm" secondAttribute="leading" constant="8" id="qWf-RQ-Zm1"/>
-                        <constraint firstItem="Te2-09-Czd" firstAttribute="top" secondItem="9b5-JI-jow" secondAttribute="bottom" constant="9" id="rpD-cp-x76"/>
+                        <constraint firstItem="Te2-09-Czd" firstAttribute="top" secondItem="9b5-JI-jow" secondAttribute="bottom" constant="8" id="rpD-cp-x76"/>
+                        <constraint firstItem="HYD-CI-eDZ" firstAttribute="centerX" secondItem="9b5-JI-jow" secondAttribute="centerX" constant="1" id="rq1-VL-fow"/>
                         <constraint firstItem="51m-Hc-s5J" firstAttribute="leading" secondItem="B3Z-Og-Ibm" secondAttribute="leading" constant="8" id="sWI-5h-bkn"/>
                     </constraints>
                 </view>

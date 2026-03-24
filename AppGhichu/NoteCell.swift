@@ -20,26 +20,9 @@ class NoteCell: UITableViewCell {
         cardView.layer.cornerRadius = 15
         cardView.clipsToBounds = true
         
-        btnMore.addTarget(self, action: #selector(handleMoreTap), for: .touchUpInside)
-        if #available(iOS 15.0, *) {
-            if var cfg = btnMore.configuration {
-                cfg.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-            } else {
-                var cfg = UIButton.Configuration.plain()
-                cfg.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-                btnMore.configuration = cfg
-            }
-        } else {
-            btnMore.contentEdgeInsets = .zero
-        }
-        btnMore.contentHorizontalAlignment = .trailing
-        btnMore.setContentHuggingPriority(.required, for: .horizontal)
-        btnMore.setContentCompressionResistancePriority(.required, for: .horizontal)
-        cardView.bringSubviewToFront(btnMore)
     }
-
-
-    @objc private func handleMoreTap() {
+    
+    @IBAction func handleMoreTap() {
         onMoreTapped?()
     }
 

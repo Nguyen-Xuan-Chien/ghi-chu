@@ -194,7 +194,7 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstItem="bVv-m8-Xbz" firstAttribute="top" secondItem="9Kd-jK-tqK" secondAttribute="top" constant="10" id="CG0-NC-vOy"/>
-                                <constraint firstItem="9eL-iC-455" firstAttribute="centerY" secondItem="2Gf-o0-akZ" secondAttribute="centerY" id="centerYIcons"/>
+                                <constraint firstItem="9eL-iC-455" firstAttribute="top" secondItem="2Gf-o0-akZ" secondAttribute="top" id="topIconsTitle"/>
                                 <constraint firstItem="bVv-m8-Xbz" firstAttribute="leading" secondItem="9Kd-jK-tqK" secondAttribute="leading" constant="16" id="leadingStack"/>
                                 <constraint firstItem="9eL-iC-455" firstAttribute="trailing" secondItem="bVv-m8-Xbz" secondAttribute="trailing" id="trailingIcons"/>
                                 <constraint firstAttribute="trailing" secondItem="bVv-m8-Xbz" secondAttribute="trailing" constant="16" id="trailingStack"/>

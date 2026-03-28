@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="24765" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24743"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -28,14 +28,6 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="46M-HV-amF">
                     <rect key="frame" x="0.0" y="118" width="393" height="40"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="253" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HKF-ek-f67">
-                            <rect key="frame" x="20.000000000000004" y="2.6666666666666714" width="46.333333333333343" height="35"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="35" id="kNQ-Zy-ili"/>
-                            </constraints>
-                            <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" image="bookmark" catalog="system"/>
-                        </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thứ ..., Ngày ..., Thg ..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NSD-ao-9y4">
                             <rect key="frame" x="127.66666666666669" y="12.333333333333343" width="138" height="15.666666666666664"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -54,12 +46,20 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2rY-Ix-1lm">
-                            <rect key="frame" x="273" y="3" width="49.666666666666686" height="35"/>
+                            <rect key="frame" x="273" y="2.6666666666666714" width="49.666666666666686" height="35"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="35" id="Hbv-ZZ-iQ7"/>
                             </constraints>
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="plain" image="ellipsis.circle" catalog="system"/>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="253" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HKF-ek-f67">
+                            <rect key="frame" x="0.0" y="2.6666666666666714" width="46.333333333333336" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="35" id="kNQ-Zy-ili"/>
+                            </constraints>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" image="bookmark" catalog="system"/>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -69,7 +69,7 @@
                         <constraint firstItem="NSD-ao-9y4" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="Z1w-yO-C8F"/>
                         <constraint firstItem="HKF-ek-f67" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="eQd-qU-5Sh"/>
                         <constraint firstAttribute="trailing" secondItem="MfY-8R-GHM" secondAttribute="trailing" constant="10" id="gl7-Cx-3su"/>
-                        <constraint firstItem="HKF-ek-f67" firstAttribute="leading" secondItem="46M-HV-amF" secondAttribute="leading" constant="20" id="kgV-Ik-QM6"/>
+                        <constraint firstItem="HKF-ek-f67" firstAttribute="leading" secondItem="46M-HV-amF" secondAttribute="leading" id="kgV-Ik-QM6"/>
                         <constraint firstItem="NSD-ao-9y4" firstAttribute="centerX" secondItem="46M-HV-amF" secondAttribute="centerX" id="mBo-hq-lD4"/>
                         <constraint firstAttribute="height" constant="40" id="ySY-qf-IHF"/>
                         <constraint firstItem="2rY-Ix-1lm" firstAttribute="centerY" secondItem="MfY-8R-GHM" secondAttribute="centerY" id="yyw-yR-dSy"/>

@@ -6,6 +6,7 @@ class NoteCell: UITableViewCell {
     @IBOutlet weak var lblMonth: UILabel!
     @IBOutlet weak var imgIcon: UIImageView!
     @IBOutlet weak var lblTitle: UILabel!
+    @IBOutlet weak var lblContent: UILabel!
     @IBOutlet weak var lblDate: UILabel!
     @IBOutlet weak var btnMore: UIButton!
     @IBOutlet weak var lblHeaderDate: UILabel!
@@ -34,15 +35,18 @@ class NoteCell: UITableViewCell {
     func configure(note: Note) {
         let rawTitle = note.title.trimmingCharacters(in: .whitespacesAndNewlines)
         if rawTitle.isEmpty {
-            let firstLine = note.content
-                .components(separatedBy: .newlines)
-                .first?
-                .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-            lblTitle.text = firstLine.isEmpty ? "Tiêu đề" : firstLine
+            lblTitle.text = "Tiêu đề"
         } else {
             lblTitle.text = rawTitle
         }
-        lblTitle.numberOfLines = 2
+        
+        // 🔥 Lấy nội dung ghi chú (loại bỏ [IMAGE:...])
+        let cleanedContent = note.content.replacingOccurrences(of: #"\[IMAGE:.+?\]\n?"#, with: "", options: .regularExpression).trimmingCharacters(in: .whitespacesAndNewlines)
+        lblContent.text = cleanedContent.isEmpty ? "Bắt đầu viết" : cleanedContent
+        
+        lblTitle.numberOfLines = 1
+        lblContent.numberOfLines = 2
+        
         lblDate.isHidden = false
         lblDate.text = getFullDate(from: note.dateISO)
         lblHeaderDate.text = getHeaderDate(from: note.dateISO)
@@ -72,6 +76,7 @@ class NoteCell: UITableViewCell {
         cardView.backgroundColor = baseColor.withAlphaComponent(0.35)
         cardView.layer.borderWidth = 0
         lblTitle.textColor = .white
+        lblContent.textColor = UIColor(white: 1.0, alpha: 0.7)
         lblDate.textColor = UIColor(white: 1.0, alpha: 0.75)
     }
 

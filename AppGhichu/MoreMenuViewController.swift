@@ -4,6 +4,7 @@ import UIKit
 class MoreMenuViewController: UIViewController {
     var note: Note?
     var onEdit: ((Note) -> Void)?
+    var onDelete: ((Note) -> Void)?
 
 //    var onEdit: (() -> Void)?
     @IBOutlet weak var containerView: UIView!
@@ -44,8 +45,13 @@ class MoreMenuViewController: UIViewController {
     }
 
     @IBAction func deleteTapped(_ sender: UIButton) {
-        dismiss(animated: true)
-        print("Xóa")
+        guard let note = note else {
+            dismiss(animated: true)
+            return
+        }
+        dismiss(animated: true) { [weak self] in
+            self?.onDelete?(note)
+        }
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

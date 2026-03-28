@@ -328,6 +328,25 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
             self?.openEdit(note: note)
         }
 
+        menuVC.onDelete = { [weak self] noteToDelete in
+            guard let self = self else { return }
+            
+            let alert = UIAlertController(title: "Xác nhận xóa", message: "Bạn có chắc chắn muốn xóa ghi chú này không?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Hủy", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Xóa", style: .destructive, handler: { _ in
+                // 🔥 Xoá khỏi DB
+                self.db.deleteNote(id: noteToDelete.id)
+                
+                // 🔥 Cập nhật lại list và UI
+                self.loadNotesFromDatabase()
+                self.buildSections()
+                self.updateIconData()
+                self.tblv.reloadData()
+                self.updateEmptyState()
+            }))
+            self.present(alert, animated: true)
+        }
+
         present(menuVC, animated: true)
     }
 

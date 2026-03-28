@@ -70,6 +70,30 @@ class ComposeViewController: UIViewController {
         ])
         imagesCollectionView = cv
         cv.isHidden = true
+        
+        // 🔥 Thêm TapGesture cho previewImageView
+        previewImageView.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(onPreviewImageTapped))
+        previewImageView.addGestureRecognizer(tap)
+    }
+    
+    @objc private func onPreviewImageTapped() {
+        if !selectedImages.isEmpty {
+            let size = previewImageView.bounds.size
+            if let collage = gridImage(from: selectedImages, columns: gridColumns, size: size) {
+                openNewImageScreen(with: collage)
+            }
+        } else if let image = previewImageView.image {
+            openNewImageScreen(with: image)
+        }
+    }
+    
+    private func openNewImageScreen(with image: UIImage) {
+        let vc = NewImageViewController(nibName: "NewImageViewController", bundle: nil)
+        vc.modalPresentationStyle = .fullScreen
+        vc.inputImage = image
+        vc.dateString = dateLabel.text
+        present(vc, animated: true)
     }
     
     private func gridImage(from images: [UIImage], columns: Int, size: CGSize) -> UIImage? {
@@ -233,6 +257,8 @@ extension ComposeViewController: UICollectionViewDataSource, UICollectionViewDel
             iv.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor),
             iv.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor)
         ])
+        // 🔥 Đảm bảo cell nhận được touch event
+        cell.isUserInteractionEnabled = true 
         return cell
     }
     
@@ -289,6 +315,9 @@ extension ComposeViewController: UICollectionViewDataSource, UICollectionViewDel
         let w = (width - totalSpacing)
         let itemW = floor(w / CGFloat(gridColumns))
         return CGSize(width: itemW, height: itemW)
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        onPreviewImageTapped()
     }
 }
 

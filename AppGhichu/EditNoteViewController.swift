@@ -18,7 +18,6 @@ class EditNoteViewController: UIViewController {
     @IBOutlet weak var mapContainerView: UIView!
     @IBOutlet weak var mapImageView: UIImageView!
     @IBOutlet weak var closeMapButton: UIButton!
-    @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var mapContainerHeightConstraint: NSLayoutConstraint!
     
     private var pickedImageFilename: String?
@@ -40,11 +39,10 @@ class EditNoteViewController: UIViewController {
         mapContainerHeightConstraint.constant = 0
         pickedImageFilename = nil
         closeMapButton.isHidden = true
-        locationLabel.isHidden = true
     }
     
-    @IBOutlet weak var textView: UITextView!
-    @IBOutlet weak var textView1: UITextView!
+    @IBOutlet weak var titleTextView: UITextView!
+    @IBOutlet weak var bodyTextView: UITextView!
 
     var note: Note?
 
@@ -63,37 +61,43 @@ class EditNoteViewController: UIViewController {
     
 
     private func setupUI() {
-        mapContainerView.layer.cornerRadius = 12
-        mapContainerView.clipsToBounds = true
         mapImageView.contentMode = .scaleAspectFill
+        mapImageView.clipsToBounds = true
         dateLabel.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
         dateLabel.adjustsFontSizeToFitWidth = true
         dateLabel.minimumScaleFactor = 0.7
         dateLabel.numberOfLines = 1
-        textView1.delegate = self   
-        textView1.textContainer.lineFragmentPadding = 0
-        textView.textContainer.lineFragmentPadding = 0
+        titleTextView.delegate = self
+        bodyTextView.delegate = self   
+        bodyTextView.textContainer.lineFragmentPadding = 0
+        titleTextView.textContainer.lineFragmentPadding = 0
         
         titlePlaceholderLabel.text = "Tiêu đề"
+        titlePlaceholderLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         titlePlaceholderLabel.textColor = UIColor(white: 1.0, alpha: 0.6)
         titlePlaceholderLabel.translatesAutoresizingMaskIntoConstraints = false
-        textView1.addSubview(titlePlaceholderLabel)
+        titleTextView.addSubview(titlePlaceholderLabel)
         NSLayoutConstraint.activate([
-            titlePlaceholderLabel.topAnchor.constraint(equalTo: textView1.topAnchor, constant: 8),
-            titlePlaceholderLabel.leadingAnchor.constraint(equalTo: textView1.leadingAnchor, constant: 8),
-            titlePlaceholderLabel.trailingAnchor.constraint(lessThanOrEqualTo: textView1.trailingAnchor, constant: -8)
+            titlePlaceholderLabel.topAnchor.constraint(equalTo: titleTextView.topAnchor, constant: 8),
+            titlePlaceholderLabel.leadingAnchor.constraint(equalTo: titleTextView.leadingAnchor, constant: 0),
+            titlePlaceholderLabel.trailingAnchor.constraint(lessThanOrEqualTo: titleTextView.trailingAnchor, constant: -8)
         ])
         
         bodyPlaceholderLabel.text = "Bắt đầu viết"
+        bodyPlaceholderLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         bodyPlaceholderLabel.textColor = UIColor(white: 1.0, alpha: 0.6)
         bodyPlaceholderLabel.translatesAutoresizingMaskIntoConstraints = false
-        textView.addSubview(bodyPlaceholderLabel)
+        bodyTextView.addSubview(bodyPlaceholderLabel)
         NSLayoutConstraint.activate([
-            bodyPlaceholderLabel.topAnchor.constraint(equalTo: textView.topAnchor, constant: 8),
-            bodyPlaceholderLabel.leadingAnchor.constraint(equalTo: textView.leadingAnchor, constant: 8),
-            bodyPlaceholderLabel.trailingAnchor.constraint(lessThanOrEqualTo: textView.trailingAnchor, constant: -8)
+            bodyPlaceholderLabel.topAnchor.constraint(equalTo: bodyTextView.topAnchor, constant: 8),
+            bodyPlaceholderLabel.leadingAnchor.constraint(equalTo: bodyTextView.leadingAnchor, constant: 0),
+            bodyPlaceholderLabel.trailingAnchor.constraint(lessThanOrEqualTo: bodyTextView.trailingAnchor, constant: -8)
         ])
         
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+        mapImageView.addGestureRecognizer(tapGesture)
+        mapImageView.isUserInteractionEnabled = true
+
         let targetIds = ["50M-Sa-2i3", "aDr-66-hQW"]
         func adjustConstraints(in view: UIView) {
             for c in view.constraints {
@@ -115,9 +119,8 @@ class EditNoteViewController: UIViewController {
     private func fillData() {
         guard let note = note else { return }
 
-        textView.text = note.title
+        titleTextView.text = note.title
         dateLabel.text = formatDate(note.createdAt)
-        locationLabel.text = "Chuyến thăm buổi chiều đến Công Ty Luki VN"
         
         if let range = note.content.range(of: #"\[IMAGE:(.+?)\]"#, options: .regularExpression) {
             let marker = String(note.content[range])
@@ -131,28 +134,24 @@ class EditNoteViewController: UIViewController {
                     pickedImageFilename = name
                     mapContainerView.isHidden = false
                     mapContainerHeightConstraint.constant = 199
-                    locationLabel.isHidden = false
                     closeMapButton.isHidden = false
                 } else {
                     mapContainerView.isHidden = true
                     mapContainerHeightConstraint.constant = 0
-                    locationLabel.isHidden = true
                     closeMapButton.isHidden = true
                 }
             } else {
                 mapContainerView.isHidden = true
                 mapContainerHeightConstraint.constant = 0
-                locationLabel.isHidden = true
                 closeMapButton.isHidden = true
             }
         } else {
             mapContainerView.isHidden = true
             mapContainerHeightConstraint.constant = 0
-            locationLabel.isHidden = true
             closeMapButton.isHidden = true
         }
         let body = note.content.replacingOccurrences(of: #"\[IMAGE:.+?\]\n?"#, with: "", options: .regularExpression)
-        textView1.text = body
+        bodyTextView.text = body
         updatePlaceholderVisibility()
     }
 
@@ -169,7 +168,7 @@ class EditNoteViewController: UIViewController {
             return
         }
         
-            let inputTitle = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)
+            let inputTitle = titleTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
        
             if inputTitle.isEmpty {
                 let tod = timeOfDay(for: Date())
@@ -184,7 +183,7 @@ class EditNoteViewController: UIViewController {
             note.dateISO = df.string(from: now)
             note.createdAt = now
         
-            let cleaned = (textView1.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+            let cleaned = (bodyTextView.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
             if let fname = pickedImageFilename {
                 note.content = "[IMAGE:\(fname)]\n" + cleaned
             } else {
@@ -204,6 +203,16 @@ class EditNoteViewController: UIViewController {
         default: return "tối"
         }
     }
+    
+    @objc func imageTapped() {
+        guard let image = mapImageView.image else { return }
+        
+        let vc = NewImageViewController(nibName: "NewImageViewController", bundle: nil)
+        vc.modalPresentationStyle = .fullScreen
+        vc.inputImage = image
+        vc.dateString = dateLabel.text // Truyền ngày tháng sang
+        present(vc, animated: true)
+    }
 }
 
 extension EditNoteViewController: PHPickerViewControllerDelegate {
@@ -217,7 +226,6 @@ extension EditNoteViewController: PHPickerViewControllerDelegate {
                 self?.mapImageView.image = img
                 self?.mapContainerView.isHidden = false
                 self?.mapContainerHeightConstraint.constant = 199
-                self?.locationLabel.isHidden = false
                 self?.closeMapButton.isHidden = false
                 if let file = self?.saveImageToDocuments(img) {
                     self?.pickedImageFilename = file
@@ -252,8 +260,8 @@ extension EditNoteViewController: UITextViewDelegate {
     }
     
     private func updatePlaceholderVisibility() {
-        let titleEmpty = (self.textView.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-        let bodyEmpty = (self.textView1.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        let titleEmpty = (self.titleTextView.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        let bodyEmpty = (self.bodyTextView.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         titlePlaceholderLabel.isHidden = !titleEmpty
         bodyPlaceholderLabel.isHidden = !bodyEmpty
     }

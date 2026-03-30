@@ -1,5 +1,6 @@
 import UIKit
 import PhotosUI
+import AVFoundation
 
 class EditNoteViewController: UIViewController {
 
@@ -32,6 +33,43 @@ class EditNoteViewController: UIViewController {
     }
     
     @IBAction func icn2(_ sender: Any) {
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        switch status {
+        case .authorized:
+            self.showCamera()
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                if granted {
+                    DispatchQueue.main.async {
+                        self.showCamera()
+                    }
+                }
+            }
+        case .denied, .restricted:
+            let alert = UIAlertController(title: "Quyền truy cập", message: "Vui lòng cấp quyền truy cập máy ảnh trong Cài đặt để sử dụng tính năng này.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Hủy", style: .cancel))
+            alert.addAction(UIAlertAction(title: "Cài đặt", style: .default) { _ in
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(url)
+                }
+            })
+            present(alert, animated: true)
+        @unknown default:
+            break
+        }
+    }
+    
+    private func showCamera() {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            let picker = UIImagePickerController()
+            picker.sourceType = .camera
+            picker.delegate = self
+            present(picker, animated: true)
+        } else {
+            let alert = UIAlertController(title: "Lỗi", message: "Thiết開 không hỗ trợ máy ảnh hoặc đang chạy trên máy ảo.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            present(alert, animated: true)
+        }
     }
     
     @IBAction func removeImageTapped(_ sender: UIButton) {
@@ -210,17 +248,18 @@ class EditNoteViewController: UIViewController {
         let vc = NewImageViewController(nibName: "NewImageViewController", bundle: nil)
         vc.modalPresentationStyle = .fullScreen
         vc.inputImage = image
-        vc.dateString = dateLabel.text // Truyền ngày tháng sang
+        vc.dateString = dateLabel.text 
         present(vc, animated: true)
     }
 }
 
-extension EditNoteViewController: PHPickerViewControllerDelegate {
+extension EditNoteViewController: PHPickerViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         dismiss(animated: true)
         guard let first = results.first,
               first.itemProvider.canLoadObject(ofClass: UIImage.self) else { return }
-        first.itemProvider.loadObject(ofClass: UIImage.self) { [weak self] object, _ in
+        
+        first.itemProvider.loadObject(ofClass: UIImage.self) { [weak self] (object, error) in
             guard let img = object as? UIImage else { return }
             DispatchQueue.main.async {
                 self?.mapImageView.image = img
@@ -234,6 +273,23 @@ extension EditNoteViewController: PHPickerViewControllerDelegate {
         }
     }
     
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true)
+        if let img = info[.originalImage] as? UIImage {
+            self.mapImageView.image = img
+            self.mapContainerView.isHidden = false
+            self.mapContainerHeightConstraint.constant = 199
+            self.closeMapButton.isHidden = false
+            if let file = self.saveImageToDocuments(img) {
+                self.pickedImageFilename = file
+            }
+        }
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true)
+    }
+
     private func saveImageToDocuments(_ image: UIImage) -> String? {
         guard let data = image.jpegData(compressionQuality: 0.9) else { return nil }
         let filename = "note_img_\(UUID().uuidString).jpg"

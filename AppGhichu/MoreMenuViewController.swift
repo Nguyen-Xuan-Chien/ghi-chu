@@ -6,7 +6,6 @@ class MoreMenuViewController: UIViewController {
     var onEdit: ((Note) -> Void)?
     var onDelete: ((Note) -> Void)?
 
-//    var onEdit: (() -> Void)?
     @IBOutlet weak var containerView: UIView!
 
     @IBOutlet weak var editButton: UIButton!

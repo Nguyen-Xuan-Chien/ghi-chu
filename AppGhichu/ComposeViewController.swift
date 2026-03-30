@@ -1,5 +1,6 @@
 import UIKit
 import PhotosUI
+import AVFoundation
 
 class ComposeViewController: UIViewController {
     
@@ -24,12 +25,14 @@ class ComposeViewController: UIViewController {
         super.viewDidLoad()
         setupDateLabel()
         bton1.addTarget(self, action: #selector(onSystemPhotosTapped), for: .touchUpInside)
-        bton2.addTarget(self, action: #selector(onSystemPhotosTapped), for: .touchUpInside)
+        bton2.addTarget(self, action: #selector(onCameraTapped), for: .touchUpInside)
         setupImagesCollectionView()
-//        titleTextView?.textContainer.lineFragmentPadding = 0
-//        titleTextView?.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 70)
         deleteButton?.isHidden = true
         setupTextViews()
+        
+        // Ensure icon colors are correct even if XIB fails to apply
+        bton1.tintColor = .white
+        bton2.tintColor = .white
     }
     
     override func viewDidLayoutSubviews() {
@@ -71,7 +74,6 @@ class ComposeViewController: UIViewController {
         imagesCollectionView = cv
         cv.isHidden = true
         
-        // 🔥 Thêm TapGesture cho previewImageView
         previewImageView.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(onPreviewImageTapped))
         previewImageView.addGestureRecognizer(tap)
@@ -163,6 +165,46 @@ class ComposeViewController: UIViewController {
         present(picker, animated: true)
     }
     
+    @objc private func onCameraTapped(_ sender: UIButton) {
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+        switch status {
+        case .authorized:
+            self.showCamera()
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                if granted {
+                    DispatchQueue.main.async {
+                        self.showCamera()
+                    }
+                }
+            }
+        case .denied, .restricted:
+            let alert = UIAlertController(title: "Quyền truy cập", message: "Vui lòng cấp quyền truy cập máy ảnh trong Cài đặt để sử dụng tính năng này.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Hủy", style: .cancel))
+            alert.addAction(UIAlertAction(title: "Cài đặt", style: .default) { _ in
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(url)
+                }
+            })
+            present(alert, animated: true)
+        @unknown default:
+            break
+        }
+    }
+    
+    private func showCamera() {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            let picker = UIImagePickerController()
+            picker.sourceType = .camera
+            picker.delegate = self
+            present(picker, animated: true)
+        } else {
+            let alert = UIAlertController(title: "Lỗi", message: "Thiết bị không hỗ trợ máy ảnh hoặc đang chạy trên máy ảo.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            present(alert, animated: true)
+        }
+    }
+    
     @IBAction func doneButtonTapped(_ sender: Any) {
         let titleInput = (titleTextView?.text ?? titleTextField.text ?? "")
         let title = titleInput.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -206,7 +248,7 @@ class ComposeViewController: UIViewController {
     }
 }
 
-extension ComposeViewController: PHPickerViewControllerDelegate {
+extension ComposeViewController: PHPickerViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         dismiss(animated: true)
         guard !results.isEmpty else { return }
@@ -224,18 +266,34 @@ extension ComposeViewController: PHPickerViewControllerDelegate {
             }
         }
         group.notify(queue: .main) {
-            self.view.layoutIfNeeded()
-            let c = self.selectedImages.count
-            if c == 4 { self.gridColumns = 2 }
-            else if c >= 3 { self.gridColumns = 3 }
-            else { self.gridColumns = max(1, c) }
-            self.previewImageView.image = nil
-            self.imagesCollectionView?.isHidden = false
-            self.imagesCollectionView?.reloadData()
-            self.previewImageView.isHidden = false
-            self.deleteButton?.isHidden = self.selectedImages.isEmpty
-            self.updateTitleRightInsetToAvoidIcons()
+            self.updatePreview()
         }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true)
+        if let image = info[.originalImage] as? UIImage {
+            self.selectedImages = [image]
+            self.updatePreview()
+        }
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true)
+    }
+    
+    private func updatePreview() {
+        self.view.layoutIfNeeded()
+        let c = self.selectedImages.count
+        if c == 4 { self.gridColumns = 2 }
+        else if c >= 3 { self.gridColumns = 3 }
+        else { self.gridColumns = max(1, c) }
+        self.previewImageView.image = nil
+        self.imagesCollectionView?.isHidden = false
+        self.imagesCollectionView?.reloadData()
+        self.previewImageView.isHidden = false
+        self.deleteButton?.isHidden = self.selectedImages.isEmpty
+        self.updateTitleRightInsetToAvoidIcons()
     }
 }
 
@@ -257,8 +315,7 @@ extension ComposeViewController: UICollectionViewDataSource, UICollectionViewDel
             iv.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor),
             iv.bottomAnchor.constraint(equalTo: cell.contentView.bottomAnchor)
         ])
-        // 🔥 Đảm bảo cell nhận được touch event
-        cell.isUserInteractionEnabled = true 
+        cell.isUserInteractionEnabled = true
         return cell
     }
     

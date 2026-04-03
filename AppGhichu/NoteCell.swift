@@ -10,6 +10,7 @@ class NoteCell: UITableViewCell {
     @IBOutlet weak var lblDate: UILabel!
     @IBOutlet weak var btnMore: UIButton!
     @IBOutlet weak var lblHeaderDate: UILabel!
+    @IBOutlet weak var lblHeaderEmoji: UILabel!
 
     // Callback gửi ra MainViewController
     var onMoreTapped: (() -> Void)?
@@ -50,6 +51,7 @@ class NoteCell: UITableViewCell {
         lblDate.isHidden = false
         lblDate.text = getFullDate(from: note.dateISO)
         lblHeaderDate.text = getHeaderDate(from: note.dateISO)
+        lblHeaderEmoji.text = note.emoji ?? ""
         
         
         if let range = note.content.range(of: #"\[IMAGE:(.+?)\]"#, options: .regularExpression) {

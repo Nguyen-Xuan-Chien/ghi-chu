@@ -13,9 +13,13 @@
                 <outlet property="bodyTextView" destination="QU1-mC-fVh" id="DqJ-GN-piA"/>
                 <outlet property="bton1" destination="7Ls-6O-LQS" id="btV-3o-7B1"/>
                 <outlet property="bton2" destination="rEw-uz-Zuy" id="snq-Wj-W7J"/>
+                <outlet property="colorPencilButton" destination="wS9-DL-32s" id="color-pencil-id-conn"/>
+                <outlet property="contentContainerView" destination="9Kd-jK-tqK" id="content-container-conn"/>
                 <outlet property="dateLabel" destination="NSD-ao-9y4" id="A4S-zh-tlC"/>
                 <outlet property="deleteButton" destination="Xrm-kZ-Del" id="lqI-Xb-Nc9"/>
+                <outlet property="emojiButton" destination="Rq8-BO-lWL" id="emoji-id-conn"/>
                 <outlet property="previewImageView" destination="9G4-8P-5pf" id="hPT-wO-bwy"/>
+                <outlet property="titleBarView" destination="46M-HV-amF" id="title-bar-id-conn"/>
                 <outlet property="titleTextView" destination="0gu-ff-Kh4" id="6ea-hz-sfi"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -29,12 +33,12 @@
                     <rect key="frame" x="0.0" y="118" width="393" height="40"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thứ ..., Ngày ..., Thg ..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NSD-ao-9y4">
-                            <rect key="frame" x="127.66666666666669" y="12.333333333333343" width="138" height="15.666666666666664"/>
+                            <rect key="frame" x="128" y="12.333333333333343" width="137" height="15.666666666666664"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MfY-8R-GHM">
+                        <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="752" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MfY-8R-GHM">
                             <rect key="frame" x="319.33333333333331" y="4" width="63.666666666666686" height="32"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="32" id="FBM-5q-vHE"/>
@@ -45,7 +49,7 @@
                                 <action selector="doneButtonTapped:" destination="-1" eventType="touchUpInside" id="FGA-rk-eiy"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2rY-Ix-1lm">
+                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2rY-Ix-1lm">
                             <rect key="frame" x="273" y="2.6666666666666714" width="49.666666666666686" height="35"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="35" id="Hbv-ZZ-iQ7"/>
@@ -53,8 +57,19 @@
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="plain" image="ellipsis.circle" catalog="system"/>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="253" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HKF-ek-f67">
-                            <rect key="frame" x="0.0" y="2.6666666666666714" width="46.333333333333336" height="35"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wS9-DL-32s">
+                            <rect key="frame" x="68" y="2.6666666666666714" width="35" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="35" id="color-pencil-height"/>
+                                <constraint firstAttribute="width" constant="35" id="color-pencil-width"/>
+                            </constraints>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" image="pencil.tip.crop.circle.badge.plus.fill" catalog="system">
+                                <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </buttonConfiguration>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HKF-ek-f67">
+                            <rect key="frame" x="8" y="3" width="20" height="35"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="35" id="kNQ-Zy-ili"/>
                             </constraints>
@@ -64,13 +79,17 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
+                        <constraint firstItem="2rY-Ix-1lm" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="NSD-ao-9y4" secondAttribute="trailing" constant="8" id="9tL-eM-f1F"/>
                         <constraint firstItem="MfY-8R-GHM" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="Bd9-zq-vpD"/>
+                        <constraint firstItem="wS9-DL-32s" firstAttribute="centerY" secondItem="NSD-ao-9y4" secondAttribute="centerY" id="IDk-BG-LKX"/>
                         <constraint firstItem="MfY-8R-GHM" firstAttribute="leading" secondItem="2rY-Ix-1lm" secondAttribute="trailing" constant="-3.3333333333333712" id="Jfs-ql-C0F"/>
                         <constraint firstItem="NSD-ao-9y4" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="Z1w-yO-C8F"/>
                         <constraint firstItem="HKF-ek-f67" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="eQd-qU-5Sh"/>
                         <constraint firstAttribute="trailing" secondItem="MfY-8R-GHM" secondAttribute="trailing" constant="10" id="gl7-Cx-3su"/>
-                        <constraint firstItem="HKF-ek-f67" firstAttribute="leading" secondItem="46M-HV-amF" secondAttribute="leading" id="kgV-Ik-QM6"/>
-                        <constraint firstItem="NSD-ao-9y4" firstAttribute="centerX" secondItem="46M-HV-amF" secondAttribute="centerX" id="mBo-hq-lD4"/>
+                        <constraint firstItem="HKF-ek-f67" firstAttribute="leading" secondItem="46M-HV-amF" secondAttribute="leading" constant="8" id="kgV-Ik-QM6"/>
+                        <constraint firstItem="NSD-ao-9y4" firstAttribute="leading" secondItem="wS9-DL-32s" secondAttribute="trailing" constant="25" id="leading-date-from-pencil"/>
+                        <constraint firstItem="NSD-ao-9y4" firstAttribute="centerX" secondItem="46M-HV-amF" secondAttribute="centerX" priority="750" id="mBo-hq-lD4"/>
+                        <constraint firstItem="wS9-DL-32s" firstAttribute="leading" secondItem="HKF-ek-f67" secondAttribute="trailing" constant="40" id="pencil-leading-bookmark"/>
                         <constraint firstAttribute="height" constant="40" id="ySY-qf-IHF"/>
                         <constraint firstItem="2rY-Ix-1lm" firstAttribute="centerY" secondItem="MfY-8R-GHM" secondAttribute="centerY" id="yyw-yR-dSy"/>
                     </constraints>
@@ -89,7 +108,7 @@
                                 </imageView>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="0gu-ff-Kh4">
                                     <rect key="frame" x="0.0" y="0.0" width="393" height="60"/>
-                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="60" id="CGi-H2-mks"/>
                                     </constraints>
@@ -99,19 +118,30 @@
                                 </textView>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="QU1-mC-fVh">
                                     <rect key="frame" x="0.0" y="107" width="393" height="587"/>
-                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 </textView>
                             </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </stackView>
                         <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="9eL-iC-455">
-                            <rect key="frame" x="299" y="0.0" width="78" height="35"/>
+                            <rect key="frame" x="256" y="107" width="121" height="35"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Ls-6O-LQS">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rq8-BO-lWL">
                                     <rect key="frame" x="0.0" y="0.0" width="35" height="35"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="35" id="1Mj-C3-xWS"/>
+                                        <constraint firstAttribute="height" constant="35" id="8yk-IX-Qtc"/>
+                                    </constraints>
+                                    <state key="normal" title="Button"/>
+                                    <buttonConfiguration key="configuration" style="plain" image="face.smiling.inverse" catalog="system">
+                                        <color key="baseForegroundColor" systemColor="systemYellowColor"/>
+                                    </buttonConfiguration>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Ls-6O-LQS">
+                                    <rect key="frame" x="43" y="0.0" width="35" height="35"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="35" id="DAi-sa-xCX"/>
                                         <constraint firstAttribute="width" constant="35" id="WID-7Ls-width"/>
@@ -122,7 +152,7 @@
                                     </buttonConfiguration>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rEw-uz-Zuy">
-                                    <rect key="frame" x="43" y="0.0" width="35" height="35"/>
+                                    <rect key="frame" x="86" y="0.0" width="35" height="35"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="35" id="WID-rEw-width"/>
                                         <constraint firstAttribute="height" constant="35" id="zdd-k2-LK8"/>
@@ -151,9 +181,9 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
+                        <constraint firstItem="9eL-iC-455" firstAttribute="top" secondItem="QU1-mC-fVh" secondAttribute="top" id="IMo-ah-gdB"/>
                         <constraint firstItem="bVv-m8-Xbz" firstAttribute="top" secondItem="9Kd-jK-tqK" secondAttribute="top" id="OuG-MB-XIa"/>
                         <constraint firstItem="Xrm-kZ-Del" firstAttribute="trailing" secondItem="9G4-8P-5pf" secondAttribute="trailing" constant="-4" id="QJH-7y-9fM"/>
-                        <constraint firstItem="9eL-iC-455" firstAttribute="top" secondItem="0gu-ff-Kh4" secondAttribute="top" id="Top-Icon-Title"/>
                         <constraint firstItem="9eL-iC-455" firstAttribute="trailing" secondItem="9Kd-jK-tqK" secondAttribute="trailing" constant="-16" id="Tra-Il-Right"/>
                         <constraint firstItem="Xrm-kZ-Del" firstAttribute="top" secondItem="9G4-8P-5pf" secondAttribute="top" constant="4" id="Yu8-0F-6eS"/>
                         <constraint firstAttribute="trailing" secondItem="bVv-m8-Xbz" secondAttribute="trailing" id="Zqf-Rf-AhZ"/>
@@ -180,10 +210,12 @@
         <image name="bookmark" catalog="system" width="110" height="128"/>
         <image name="camera" catalog="system" width="128" height="93"/>
         <image name="ellipsis.circle" catalog="system" width="128" height="123"/>
+        <image name="face.smiling.inverse" catalog="system" width="128" height="123"/>
+        <image name="pencil.tip.crop.circle.badge.plus.fill" catalog="system" width="128" height="114"/>
         <image name="photo.artframe" catalog="system" width="128" height="93"/>
         <image name="xmark.circle.fill" catalog="system" width="128" height="123"/>
-        <systemColor name="labelColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

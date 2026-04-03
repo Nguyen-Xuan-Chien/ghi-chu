@@ -284,11 +284,15 @@ class MainViewController: UIViewController {
     }
 }
 
-extension MainViewController: UITableViewDataSource, UITableViewDelegate {
-
+extension MainViewController: UITableViewDelegate, UITableViewDataSource, UIPopoverPresentationControllerDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         return sections.count
     }
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return sections[section].items.count
     }
@@ -303,18 +307,33 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
 
         let note = sections[indexPath.section].items[indexPath.row]
         cell.configure(note: note)
-        let color = sectionPalette[indexPath.section % sectionPalette.count]
-        cell.applyTheme(baseColor: color)
+
+        // 🔥 Hiển thị màu sắc đã lưu
+        if let hex = note.colorHex, let color = UIColor(hex: hex) {
+            cell.cardView.backgroundColor = color
+            
+            // Nếu có màu chữ riêng thì áp dụng, không thì mặc định trắng
+            if let tHex = note.textColorHex, let tColor = UIColor(hex: tHex) {
+                cell.lblTitle.textColor = tColor
+                cell.lblContent.textColor = tColor.withAlphaComponent(0.8)
+            } else {
+                cell.lblTitle.textColor = .white
+                cell.lblContent.textColor = .white.withAlphaComponent(0.8)
+            }
+        } else {
+            // Theme mặc định nếu không có màu chọn
+            let color = sectionPalette[indexPath.section % sectionPalette.count]
+            cell.applyTheme(baseColor: color)
+        }
 
         cell.onMoreTapped = { [weak self] in
             self?.showMoreMenu(for: note)
         }
-
+        
         return cell
     }
-
     
-    func showMoreMenu(for note: Note) {
+    private func showMoreMenu(for note: Note) {
 
         let menuVC = MoreMenuViewController(
             nibName: "MoreMenuViewController",

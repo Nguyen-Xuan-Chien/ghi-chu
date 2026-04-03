@@ -12,6 +12,10 @@ class ComposeViewController: UIViewController {
     @IBOutlet weak var bton1: UIButton!  
     @IBOutlet weak var previewImageView: UIImageView!
     @IBOutlet weak var deleteButton: UIButton!
+    @IBOutlet weak var emojiButton: UIButton!
+    @IBOutlet weak var colorPencilButton: UIButton!
+    @IBOutlet weak var titleBarView: UIView!
+    @IBOutlet weak var contentContainerView: UIView!
     private let titlePlaceholderLabel = UILabel()
     private let bodyPlaceholderLabel = UILabel()
     private let assetNames = ["image1", "image2", "image3", "img_icon"]
@@ -19,6 +23,9 @@ class ComposeViewController: UIViewController {
     private var selectedImages: [UIImage] = []
     private var imagesCollectionView: UICollectionView?
     private var gridColumns: Int = 2
+    private var selectedColorHex: String?
+    private var selectedTextColorHex: String?
+    private var selectedEmoji: String?
     
     @IBOutlet weak var bton2: UIButton!
     override func viewDidLoad() {
@@ -26,6 +33,8 @@ class ComposeViewController: UIViewController {
         setupDateLabel()
         bton1.addTarget(self, action: #selector(onSystemPhotosTapped), for: .touchUpInside)
         bton2.addTarget(self, action: #selector(onCameraTapped), for: .touchUpInside)
+        setupEmojiMenu()
+        setupColorMenu()
         setupImagesCollectionView()
         deleteButton?.isHidden = true
         setupTextViews()
@@ -192,6 +201,93 @@ class ComposeViewController: UIViewController {
         }
     }
     
+    private func setupEmojiMenu() {
+        guard let button = emojiButton else { return }
+        
+        // Remove menu logic, use simple tap for grid presentation
+        button.menu = nil
+        button.showsMenuAsPrimaryAction = false
+        button.addTarget(self, action: #selector(onEmojiButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc private func onEmojiButtonTapped(_ sender: UIButton) {
+        let picker = EmojiPickerViewController()
+        picker.onEmojiSelected = { [weak self] emoji in
+            // Lưu emoji để hiển thị trên thanh tiêu đề màn main
+            self?.selectedEmoji = emoji
+            
+            self?.updatePlaceholderVisibility()
+            self?.dismiss(animated: true)
+        }
+        
+        picker.modalPresentationStyle = .popover
+        if let pop = picker.popoverPresentationController {
+            pop.sourceView = sender
+            pop.sourceRect = sender.bounds
+            pop.permittedArrowDirections = [.any]
+            pop.delegate = self
+        }
+        
+        present(picker, animated: true)
+    }
+    
+    private func setupColorMenu() {
+        guard let button = colorPencilButton else { return }
+        button.addTarget(self, action: #selector(onColorPencilButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc private func onColorPencilButtonTapped(_ sender: UIButton) {
+        let alert = UIAlertController(title: "Chọn màu", message: nil, preferredStyle: .actionSheet)
+        
+        alert.addAction(UIAlertAction(title: "Đổi màu nền", style: .default, handler: { _ in
+            self.presentColorPicker(forBackground: true, from: sender)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Đổi màu chữ", style: .default, handler: { _ in
+            self.presentColorPicker(forBackground: false, from: sender)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Hủy", style: .cancel))
+        
+        if let pop = alert.popoverPresentationController {
+            pop.sourceView = sender
+            pop.sourceRect = sender.bounds
+        }
+        
+        present(alert, animated: true)
+    }
+    
+    private func presentColorPicker(forBackground: Bool, from sender: UIButton) {
+        let picker = ColorPickerViewController()
+        picker.onColorSelected = { [weak self] color in
+            if forBackground {
+                // Lưu màu nền
+                self?.selectedColorHex = color.toHexString()
+                self?.contentContainerView?.backgroundColor = color
+                self?.titleTextView?.backgroundColor = .clear
+                self?.bodyTextView?.backgroundColor = .clear
+            } else {
+                // Lưu màu chữ
+                self?.selectedTextColorHex = color.toHexString()
+                self?.titleTextView?.textColor = color
+                self?.bodyTextView?.textColor = color
+            }
+            
+            self?.bodyTextView.becomeFirstResponder()
+            self?.dismiss(animated: true)
+        }
+        
+        picker.modalPresentationStyle = .popover
+        if let pop = picker.popoverPresentationController {
+            pop.sourceView = sender
+            pop.sourceRect = sender.bounds
+            pop.permittedArrowDirections = [.any]
+            pop.delegate = self
+        }
+        
+        present(picker, animated: true)
+    }
+    
     private func showCamera() {
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             let picker = UIImagePickerController()
@@ -231,7 +327,7 @@ class ComposeViewController: UIViewController {
             }
         }
 
-        DatabaseHelper.shared.insertNote(title: title, content: body, dateISO: dateISO)
+        DatabaseHelper.shared.insertNote(title: title, content: body, dateISO: dateISO, colorHex: selectedColorHex, textColorHex: selectedTextColorHex, emoji: selectedEmoji)
 
         
 
@@ -382,12 +478,14 @@ extension ComposeViewController: UITextViewDelegate {
     private func updateTitleRightInsetToAvoidIcons() {
         guard let tv = titleTextView,
               let b1 = bton1,
-              let b2 = bton2 else { return }
+              let b2 = bton2,
+              let b3 = emojiButton else { return }
         let spacing: CGFloat = 8
         let trailingMargin: CGFloat = 16
         let w1 = b1.bounds.width > 0 ? b1.bounds.width : 35
         let w2 = b2.bounds.width > 0 ? b2.bounds.width : 35
-        let requiredRightInset = max(16, w1 + spacing + w2 + trailingMargin)
+        let w3 = b3.bounds.width > 0 ? b3.bounds.width : 35
+        let requiredRightInset = max(16, w1 + spacing + w2 + spacing + w3 + trailingMargin)
         var inset = tv.textContainerInset
         if abs(inset.right - requiredRightInset) > 0.5 {
             inset.right = requiredRightInset
@@ -405,5 +503,12 @@ extension ComposeViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         updatePlaceholderVisibility()
         updateTitleRightInsetToAvoidIcons()
+    }
+}
+
+// MARK: - UIPopoverPresentationControllerDelegate
+extension ComposeViewController: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none // Forces popover on iPhone
     }
 }

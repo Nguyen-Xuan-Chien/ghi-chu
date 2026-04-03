@@ -90,18 +90,30 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thứ ..., ... tháng ..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HDR-DA-TE1">
-                        <rect key="frame" x="8" y="15" width="318" height="17"/>
+                        <rect key="frame" x="8" y="15" width="125" height="17"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                         <color key="textColor" white="1" alpha="0.94999999999999996" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="😊" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="emoji-header-id">
+                        <rect key="frame" x="138" y="13.666666666666664" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="w-emoji-header"/>
+                            <constraint firstAttribute="height" constant="20" id="h-emoji-header"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="HDR-DA-TE1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="1Im-px-Lb4"/>
+                    <constraint firstItem="emoji-header-id" firstAttribute="centerY" secondItem="HDR-DA-TE1" secondAttribute="centerY" id="cy-emoji-header"/>
+                    <constraint firstItem="emoji-header-id" firstAttribute="leading" secondItem="HDR-DA-TE1" secondAttribute="trailing" constant="5" id="lead-emoji-header"/>
                     <constraint firstItem="oWh-oq-ZCj" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="40" id="BBl-Li-SIG"/>
                     <constraint firstItem="HDR-DA-TE1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="HdL-LE-adL"/>
-                    <constraint firstAttribute="trailing" secondItem="HDR-DA-TE1" secondAttribute="trailing" constant="8" id="U2s-8v-MFZ"/>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="emoji-header-id" secondAttribute="trailing" constant="8" id="U2s-8v-MFZ-new"/>
                     <constraint firstAttribute="trailing" secondItem="oWh-oq-ZCj" secondAttribute="trailing" constant="8" id="Yto-D7-1Ui"/>
                     <constraint firstAttribute="bottom" secondItem="oWh-oq-ZCj" secondAttribute="bottom" id="a9f-ew-a22"/>
                     <constraint firstItem="oWh-oq-ZCj" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="nqU-MI-KLZ"/>
@@ -116,6 +128,7 @@
                 <outlet property="lblContent" destination="content-label-id" id="conn-content-id"/>
                 <outlet property="lblDate" destination="goK-Hd-1YZ" id="lrn-MB-ESK"/>
                 <outlet property="lblHeaderDate" destination="HDR-DA-TE1" id="wq2-4q-9kV"/>
+                <outlet property="lblHeaderEmoji" destination="emoji-header-id" id="emoji-header-conn"/>
                 <outlet property="lblTitle" destination="1Hz-3Q-pu8" id="jhr-aj-z9e"/>
             </connections>
             <point key="canvasLocation" x="76.33587786259541" y="117.60563380281691"/>

@@ -20,8 +20,15 @@ class EditNoteViewController: UIViewController {
     @IBOutlet weak var mapImageView: UIImageView!
     @IBOutlet weak var closeMapButton: UIButton!
     @IBOutlet weak var mapContainerHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var emojiButton: UIButton!
+    @IBOutlet weak var colorPencilButton: UIButton!
+    @IBOutlet weak var headerView: UIView!
+    @IBOutlet weak var contentContainerView: UIView!
     
     private var pickedImageFilename: String?
+    private var selectedColorHex: String?
+    private var selectedTextColorHex: String?
+    private var selectedEmoji: String?
     
     @IBAction func icn1(_ sender: Any) {
         var config = PHPickerConfiguration(photoLibrary: .shared())
@@ -81,6 +88,7 @@ class EditNoteViewController: UIViewController {
     
     @IBOutlet weak var titleTextView: UITextView!
     @IBOutlet weak var bodyTextView: UITextView!
+    @IBOutlet weak var icnStack: UIStackView!
 
     var note: Note?
 
@@ -94,7 +102,97 @@ class EditNoteViewController: UIViewController {
         super.viewDidLoad()
 
         setupUI()
+        setupEmojiMenu()
+        setupColorMenu()
         fillData()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        updateTitleRightInsetToAvoidIcons()
+    }
+    
+    private func setupEmojiMenu() {
+        guard let button = emojiButton else { return }
+        button.addTarget(self, action: #selector(onEmojiButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc private func onEmojiButtonTapped(_ sender: UIButton) {
+        let picker = EmojiPickerViewController()
+        picker.onEmojiSelected = { [weak self] emoji in
+            // Lưu emoji để hiển thị trên thanh tiêu đề màn main
+            self?.selectedEmoji = emoji
+            
+            self?.updatePlaceholderVisibility()
+            self?.dismiss(animated: true)
+        }
+        
+        picker.modalPresentationStyle = .popover
+        if let pop = picker.popoverPresentationController {
+            pop.sourceView = sender
+            pop.sourceRect = sender.bounds
+            pop.permittedArrowDirections = [.any]
+            pop.delegate = self
+        }
+        
+        present(picker, animated: true)
+    }
+    
+    private func setupColorMenu() {
+        guard let button = colorPencilButton else { return }
+        button.addTarget(self, action: #selector(onColorPencilButtonTapped), for: .touchUpInside)
+    }
+    
+    @objc private func onColorPencilButtonTapped(_ sender: UIButton) {
+        let alert = UIAlertController(title: "Chọn màu", message: nil, preferredStyle: .actionSheet)
+        
+        alert.addAction(UIAlertAction(title: "Đổi màu nền", style: .default, handler: { _ in
+            self.presentColorPicker(forBackground: true, from: sender)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Đổi màu chữ", style: .default, handler: { _ in
+            self.presentColorPicker(forBackground: false, from: sender)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Hủy", style: .cancel))
+        
+        if let pop = alert.popoverPresentationController {
+            pop.sourceView = sender
+            pop.sourceRect = sender.bounds
+        }
+        
+        present(alert, animated: true)
+    }
+    
+    private func presentColorPicker(forBackground: Bool, from sender: UIButton) {
+        let picker = ColorPickerViewController()
+        picker.onColorSelected = { [weak self] color in
+            if forBackground {
+                // Lưu màu nền
+                self?.selectedColorHex = color.toHexString()
+                self?.contentContainerView?.backgroundColor = color
+                self?.titleTextView?.backgroundColor = .clear
+                self?.bodyTextView?.backgroundColor = .clear
+            } else {
+                // Lưu màu chữ
+                self?.selectedTextColorHex = color.toHexString()
+                self?.titleTextView?.textColor = color
+                self?.bodyTextView?.textColor = color
+            }
+            
+            self?.bodyTextView.becomeFirstResponder()
+            self?.dismiss(animated: true)
+        }
+        
+        picker.modalPresentationStyle = .popover
+        if let pop = picker.popoverPresentationController {
+            pop.sourceView = sender
+            pop.sourceRect = sender.bounds
+            pop.permittedArrowDirections = [.any]
+            pop.delegate = self
+        }
+        
+        present(picker, animated: true)
     }
     
 
@@ -160,6 +258,25 @@ class EditNoteViewController: UIViewController {
         titleTextView.text = note.title
         dateLabel.text = formatDate(note.createdAt)
         
+        // 🔥 Hiển thị màu sắc đã lưu
+        if let hex = note.colorHex, let color = UIColor(hex: hex) {
+            selectedColorHex = hex
+            contentContainerView.backgroundColor = color
+            titleTextView.backgroundColor = .clear
+            bodyTextView.backgroundColor = .clear
+        }
+        
+        if let tHex = note.textColorHex, let tColor = UIColor(hex: tHex) {
+            selectedTextColorHex = tHex
+            titleTextView.textColor = tColor
+            bodyTextView.textColor = tColor
+        } else {
+            titleTextView.textColor = .white
+            bodyTextView.textColor = .white
+        }
+        
+        selectedEmoji = note.emoji
+        
         if let range = note.content.range(of: #"\[IMAGE:(.+?)\]"#, options: .regularExpression) {
             let marker = String(note.content[range])
             let name = marker
@@ -220,6 +337,9 @@ class EditNoteViewController: UIViewController {
             df.dateFormat = "yyyy-MM-dd HH:mm:ss"
             note.dateISO = df.string(from: now)
             note.createdAt = now
+            note.colorHex = selectedColorHex
+            note.textColorHex = selectedTextColorHex
+            note.emoji = selectedEmoji
         
             let cleaned = (bodyTextView.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
             if let fname = pickedImageFilename {
@@ -307,12 +427,30 @@ extension EditNoteViewController: PHPickerViewControllerDelegate, UIImagePickerC
 extension EditNoteViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         updatePlaceholderVisibility()
+        updateTitleRightInsetToAvoidIcons()
     }
     func textViewDidBeginEditing(_ textView: UITextView) {
         updatePlaceholderVisibility()
+        updateTitleRightInsetToAvoidIcons()
     }
     func textViewDidEndEditing(_ textView: UITextView) {
         updatePlaceholderVisibility()
+    }
+    
+    private func updateTitleRightInsetToAvoidIcons() {
+        guard let tv = titleTextView,
+              let stack = icnStack else { return }
+        
+        let spacing: CGFloat = 8
+        let trailingMargin: CGFloat = 16
+        let stackWidth = stack.bounds.width > 0 ? stack.bounds.width : 120
+        let requiredRightInset = max(16, stackWidth + trailingMargin)
+        
+        var inset = tv.textContainerInset
+        if abs(inset.right - requiredRightInset) > 0.5 {
+            inset.right = requiredRightInset
+            tv.textContainerInset = inset
+        }
     }
     
     private func updatePlaceholderVisibility() {
@@ -320,5 +458,12 @@ extension EditNoteViewController: UITextViewDelegate {
         let bodyEmpty = (self.bodyTextView.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         titlePlaceholderLabel.isHidden = !titleEmpty
         bodyPlaceholderLabel.isHidden = !bodyEmpty
+    }
+}
+
+// MARK: - UIPopoverPresentationControllerDelegate
+extension EditNoteViewController: UIPopoverPresentationControllerDelegate {
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
     }
 }

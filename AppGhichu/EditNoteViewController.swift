@@ -22,6 +22,7 @@ class EditNoteViewController: UIViewController {
     @IBOutlet weak var mapContainerHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var emojiButton: UIButton!
     @IBOutlet weak var colorPencilButton: UIButton!
+    @IBOutlet weak var selectedEmojiLabel: UILabel!
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var contentContainerView: UIView!
     
@@ -108,7 +109,7 @@ class EditNoteViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        updateTitleRightInsetToAvoidIcons()
+        updateTextViewInsets()
     }
     
     private func setupEmojiMenu() {
@@ -120,6 +121,8 @@ class EditNoteViewController: UIViewController {
         let picker = EmojiPickerViewController()
         picker.onEmojiSelected = { [weak self] emoji in
             self?.selectedEmoji = emoji
+            
+            self?.selectedEmojiLabel.text = emoji
             
             self?.updatePlaceholderVisibility()
             self?.dismiss(animated: true)
@@ -271,6 +274,7 @@ class EditNoteViewController: UIViewController {
         }
         
         selectedEmoji = note.emoji
+        selectedEmojiLabel.text = note.emoji ?? ""
         
         if let range = note.content.range(of: #"\[IMAGE:(.+?)\]"#, options: .regularExpression) {
             let marker = String(note.content[range])
@@ -422,29 +426,35 @@ extension EditNoteViewController: PHPickerViewControllerDelegate, UIImagePickerC
 extension EditNoteViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         updatePlaceholderVisibility()
-        updateTitleRightInsetToAvoidIcons()
+        updateTextViewInsets()
     }
     func textViewDidBeginEditing(_ textView: UITextView) {
         updatePlaceholderVisibility()
-        updateTitleRightInsetToAvoidIcons()
+        updateTextViewInsets()
     }
     func textViewDidEndEditing(_ textView: UITextView) {
         updatePlaceholderVisibility()
     }
     
-    private func updateTitleRightInsetToAvoidIcons() {
-        guard let tv = titleTextView,
+    private func updateTextViewInsets() {
+        guard let titleTv = titleTextView,
+              let bodyTv = bodyTextView,
               let stack = icnStack else { return }
         
-        let spacing: CGFloat = 8
         let trailingMargin: CGFloat = 16
         let stackWidth = stack.bounds.width > 0 ? stack.bounds.width : 120
         let requiredRightInset = max(16, stackWidth + trailingMargin)
         
-        var inset = tv.textContainerInset
-        if abs(inset.right - requiredRightInset) > 0.5 {
-            inset.right = requiredRightInset
-            tv.textContainerInset = inset
+        var titleInset = titleTv.textContainerInset
+        if abs(titleInset.right - requiredRightInset) > 0.5 {
+            titleInset.right = requiredRightInset
+            titleTv.textContainerInset = titleInset
+        }
+        
+        var bodyInset = bodyTv.textContainerInset
+        if abs(bodyInset.right - requiredRightInset) > 0.5 {
+            bodyInset.right = requiredRightInset
+            bodyTv.textContainerInset = bodyInset
         }
     }
     

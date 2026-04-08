@@ -79,7 +79,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wS9-DL-32s">
-                                    <rect key="frame" x="54" y="3" width="35" height="35"/>
+                                    <rect key="frame" x="107.33333333333334" y="2.6666666666666643" width="35" height="35"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="35" id="color-pencil-height-edit"/>
                                         <constraint firstAttribute="width" constant="35" id="color-pencil-width-edit"/>
@@ -89,20 +89,33 @@
                                         <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </buttonConfiguration>
                                 </button>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="emoji-label-id-edit">
+                                    <rect key="frame" x="246.66666666666666" y="10" width="20" height="20"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="20" id="w-emoji-val-edit"/>
+                                        <constraint firstAttribute="height" constant="20" id="h-emoji-val-edit"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstItem="Yq8-fJ-uMc" firstAttribute="centerX" secondItem="46M-HV-amF" secondAttribute="centerX" priority="750" id="centerXHeader"/>
                                 <constraint firstItem="5Eo-aC-4Kk" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="centerYBookmark"/>
+                                <constraint firstItem="emoji-label-id-edit" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="center-y-emoji-edit"/>
+                                <constraint firstItem="emoji-label-id-edit" firstAttribute="leading" secondItem="Yq8-fJ-uMc" secondAttribute="trailing" constant="3" id="lead-emoji-from-date-edit"/>
                                 <constraint firstItem="UL8-us-EvF" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="centerYDone"/>
                                 <constraint firstItem="Yq8-fJ-uMc" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="centerYHeader"/>
                                 <constraint firstItem="q1L-hs-TV4" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="centerYMore"/>
                                 <constraint firstItem="wS9-DL-32s" firstAttribute="centerY" secondItem="Yq8-fJ-uMc" secondAttribute="centerY" constant="1" id="centerYPencilEdit"/>
                                 <constraint firstAttribute="height" constant="40" id="headerHeight"/>
-                                <constraint firstItem="Yq8-fJ-uMc" firstAttribute="leading" secondItem="wS9-DL-32s" secondAttribute="trailing" constant="60.333333333333343" id="leading-date-from-pencil-edit"/>
+                                <constraint firstItem="Yq8-fJ-uMc" firstAttribute="leading" secondItem="wS9-DL-32s" secondAttribute="trailing" constant="25" id="leading-date-from-pencil-edit"/>
                                 <constraint firstItem="5Eo-aC-4Kk" firstAttribute="leading" secondItem="46M-HV-amF" secondAttribute="leading" id="leadingBookmark"/>
+                                <constraint firstItem="q1L-hs-TV4" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="emoji-label-id-edit" secondAttribute="trailing" constant="5" id="lead-more-from-emoji-edit"/>
                                 <constraint firstItem="UL8-us-EvF" firstAttribute="leading" secondItem="q1L-hs-TV4" secondAttribute="trailing" id="leadingDoneMore"/>
-                                <constraint firstItem="wS9-DL-32s" firstAttribute="leading" secondItem="5Eo-aC-4Kk" secondAttribute="trailing" constant="7.3333333333333357" id="pencil-leading-bookmark-edit"/>
+                                <constraint firstItem="wS9-DL-32s" firstAttribute="leading" secondItem="5Eo-aC-4Kk" secondAttribute="trailing" constant="61.333333333333357" id="pencil-leading-bookmark-edit"/>
                                 <constraint firstAttribute="trailing" secondItem="UL8-us-EvF" secondAttribute="trailing" constant="8" id="trailingDone"/>
                             </constraints>
                         </view>

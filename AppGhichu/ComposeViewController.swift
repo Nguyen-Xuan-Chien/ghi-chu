@@ -14,6 +14,7 @@ class ComposeViewController: UIViewController {
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var emojiButton: UIButton!
     @IBOutlet weak var colorPencilButton: UIButton!
+    @IBOutlet weak var selectedEmojiLabel: UILabel!
     @IBOutlet weak var titleBarView: UIView!
     @IBOutlet weak var contentContainerView: UIView!
     private let titlePlaceholderLabel = UILabel()
@@ -45,7 +46,7 @@ class ComposeViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        updateTitleRightInsetToAvoidIcons()
+        updateTextViewInsets()
     }
     
     private func setupDateLabel() {
@@ -212,6 +213,8 @@ class ComposeViewController: UIViewController {
         let picker = EmojiPickerViewController()
         picker.onEmojiSelected = { [weak self] emoji in
             self?.selectedEmoji = emoji
+            
+            self?.selectedEmojiLabel.text = emoji
             
             self?.updatePlaceholderVisibility()
             self?.dismiss(animated: true)
@@ -384,7 +387,7 @@ extension ComposeViewController: PHPickerViewControllerDelegate, UIImagePickerCo
         self.imagesCollectionView?.reloadData()
         self.previewImageView.isHidden = false
         self.deleteButton?.isHidden = self.selectedImages.isEmpty
-        self.updateTitleRightInsetToAvoidIcons()
+        self.updateTextViewInsets()
     }
 }
 
@@ -470,40 +473,54 @@ extension ComposeViewController: UICollectionViewDataSource, UICollectionViewDel
 }
 
 extension ComposeViewController: UITextViewDelegate {
-    private func updateTitleRightInsetToAvoidIcons() {
-        guard let tv = titleTextView,
+    private func updateTextViewInsets() {
+        guard let titleTv = titleTextView,
+              let bodyTv = bodyTextView,
               let b1 = bton1,
               let b2 = bton2,
               let b3 = emojiButton else { return }
+        
         let spacing: CGFloat = 8
         let trailingMargin: CGFloat = 16
+        
+        // Tính toán tổng chiều rộng của các icon
         let w1 = b1.bounds.width > 0 ? b1.bounds.width : 35
         let w2 = b2.bounds.width > 0 ? b2.bounds.width : 35
         let w3 = b3.bounds.width > 0 ? b3.bounds.width : 35
-        let requiredRightInset = max(16, w1 + spacing + w2 + spacing + w3 + trailingMargin)
-        var inset = tv.textContainerInset
-        if abs(inset.right - requiredRightInset) > 0.5 {
-            inset.right = requiredRightInset
-            tv.textContainerInset = inset
+        
+        let totalIconsWidth = w1 + w2 + w3 + (spacing * 2)
+        let requiredRightInset = max(16, totalIconsWidth + trailingMargin)
+        
+        // Cập nhật cho Tiêu đề
+        var titleInset = titleTv.textContainerInset
+        if abs(titleInset.right - requiredRightInset) > 0.5 {
+            titleInset.right = requiredRightInset
+            titleTv.textContainerInset = titleInset
+        }
+        
+        // Cập nhật cho Nội dung (Bắt đầu viết) để tránh icon
+        var bodyInset = bodyTv.textContainerInset
+        if abs(bodyInset.right - requiredRightInset) > 0.5 {
+            bodyInset.right = requiredRightInset
+            bodyTv.textContainerInset = bodyInset
         }
     }
     
     func textViewDidChange(_ textView: UITextView) {
         updatePlaceholderVisibility()
-        updateTitleRightInsetToAvoidIcons()
+        updateTextViewInsets()
     }
     func textViewDidEndEditing(_ textView: UITextView) {
         updatePlaceholderVisibility()
     }
     func textViewDidBeginEditing(_ textView: UITextView) {
         updatePlaceholderVisibility()
-        updateTitleRightInsetToAvoidIcons()
+        updateTextViewInsets()
     }
 }
 
-// MARK: - UIPopoverPresentationControllerDelegate
 extension ComposeViewController: UIPopoverPresentationControllerDelegate {
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
-        return .none // Forces popover on iPhone
+        return .none
     }
 }

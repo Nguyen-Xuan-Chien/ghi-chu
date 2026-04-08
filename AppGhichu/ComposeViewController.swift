@@ -38,8 +38,7 @@ class ComposeViewController: UIViewController {
         setupImagesCollectionView()
         deleteButton?.isHidden = true
         setupTextViews()
-        
-        // Ensure icon colors are correct even if XIB fails to apply
+
         bton1.tintColor = .white
         bton2.tintColor = .white
     }
@@ -203,8 +202,7 @@ class ComposeViewController: UIViewController {
     
     private func setupEmojiMenu() {
         guard let button = emojiButton else { return }
-        
-        // Remove menu logic, use simple tap for grid presentation
+  
         button.menu = nil
         button.showsMenuAsPrimaryAction = false
         button.addTarget(self, action: #selector(onEmojiButtonTapped), for: .touchUpInside)
@@ -213,7 +211,6 @@ class ComposeViewController: UIViewController {
     @objc private func onEmojiButtonTapped(_ sender: UIButton) {
         let picker = EmojiPickerViewController()
         picker.onEmojiSelected = { [weak self] emoji in
-            // Lưu emoji để hiển thị trên thanh tiêu đề màn main
             self?.selectedEmoji = emoji
             
             self?.updatePlaceholderVisibility()
@@ -261,13 +258,11 @@ class ComposeViewController: UIViewController {
         let picker = ColorPickerViewController()
         picker.onColorSelected = { [weak self] color in
             if forBackground {
-                // Lưu màu nền
                 self?.selectedColorHex = color.toHexString()
                 self?.contentContainerView?.backgroundColor = color
                 self?.titleTextView?.backgroundColor = .clear
                 self?.bodyTextView?.backgroundColor = .clear
             } else {
-                // Lưu màu chữ
                 self?.selectedTextColorHex = color.toHexString()
                 self?.titleTextView?.textColor = color
                 self?.bodyTextView?.textColor = color

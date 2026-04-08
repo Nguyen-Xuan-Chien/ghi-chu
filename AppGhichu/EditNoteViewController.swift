@@ -92,7 +92,6 @@ class EditNoteViewController: UIViewController {
 
     var note: Note?
 
-    // 🔥 callback gửi dữ liệu về màn trước
     var onSave: ((Note) -> Void)?
 
     private let titlePlaceholderLabel = UILabel()
@@ -120,7 +119,6 @@ class EditNoteViewController: UIViewController {
     @objc private func onEmojiButtonTapped(_ sender: UIButton) {
         let picker = EmojiPickerViewController()
         picker.onEmojiSelected = { [weak self] emoji in
-            // Lưu emoji để hiển thị trên thanh tiêu đề màn main
             self?.selectedEmoji = emoji
             
             self?.updatePlaceholderVisibility()
@@ -168,13 +166,11 @@ class EditNoteViewController: UIViewController {
         let picker = ColorPickerViewController()
         picker.onColorSelected = { [weak self] color in
             if forBackground {
-                // Lưu màu nền
                 self?.selectedColorHex = color.toHexString()
                 self?.contentContainerView?.backgroundColor = color
                 self?.titleTextView?.backgroundColor = .clear
                 self?.bodyTextView?.backgroundColor = .clear
             } else {
-                // Lưu màu chữ
                 self?.selectedTextColorHex = color.toHexString()
                 self?.titleTextView?.textColor = color
                 self?.bodyTextView?.textColor = color
@@ -257,8 +253,7 @@ class EditNoteViewController: UIViewController {
 
         titleTextView.text = note.title
         dateLabel.text = formatDate(note.createdAt)
-        
-        // 🔥 Hiển thị màu sắc đã lưu
+ 
         if let hex = note.colorHex, let color = UIColor(hex: hex) {
             selectedColorHex = hex
             contentContainerView.backgroundColor = color
@@ -461,7 +456,6 @@ extension EditNoteViewController: UITextViewDelegate {
     }
 }
 
-// MARK: - UIPopoverPresentationControllerDelegate
 extension EditNoteViewController: UIPopoverPresentationControllerDelegate {
     func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
         return .none

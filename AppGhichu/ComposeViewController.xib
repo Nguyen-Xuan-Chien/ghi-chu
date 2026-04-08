@@ -57,8 +57,16 @@
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="plain" image="ellipsis.circle" catalog="system"/>
                         </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HKF-ek-f67">
+                            <rect key="frame" x="8" y="2.6666666666666714" width="20" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="35" id="kNQ-Zy-ili"/>
+                            </constraints>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" image="bookmark" catalog="system"/>
+                        </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wS9-DL-32s">
-                            <rect key="frame" x="68" y="2.6666666666666714" width="35" height="35"/>
+                            <rect key="frame" x="48" y="2" width="35" height="35"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="35" id="color-pencil-height"/>
                                 <constraint firstAttribute="width" constant="35" id="color-pencil-width"/>
@@ -67,14 +75,6 @@
                             <buttonConfiguration key="configuration" style="plain" image="pencil.tip.crop.circle.badge.plus.fill" catalog="system">
                                 <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </buttonConfiguration>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HKF-ek-f67">
-                            <rect key="frame" x="8" y="3" width="20" height="35"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="35" id="kNQ-Zy-ili"/>
-                            </constraints>
-                            <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" image="bookmark" catalog="system"/>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -87,9 +87,9 @@
                         <constraint firstItem="HKF-ek-f67" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="eQd-qU-5Sh"/>
                         <constraint firstAttribute="trailing" secondItem="MfY-8R-GHM" secondAttribute="trailing" constant="10" id="gl7-Cx-3su"/>
                         <constraint firstItem="HKF-ek-f67" firstAttribute="leading" secondItem="46M-HV-amF" secondAttribute="leading" constant="8" id="kgV-Ik-QM6"/>
-                        <constraint firstItem="NSD-ao-9y4" firstAttribute="leading" secondItem="wS9-DL-32s" secondAttribute="trailing" constant="25" id="leading-date-from-pencil"/>
+                        <constraint firstItem="NSD-ao-9y4" firstAttribute="leading" secondItem="wS9-DL-32s" secondAttribute="trailing" constant="45" id="leading-date-from-pencil"/>
                         <constraint firstItem="NSD-ao-9y4" firstAttribute="centerX" secondItem="46M-HV-amF" secondAttribute="centerX" priority="750" id="mBo-hq-lD4"/>
-                        <constraint firstItem="wS9-DL-32s" firstAttribute="leading" secondItem="HKF-ek-f67" secondAttribute="trailing" constant="40" id="pencil-leading-bookmark"/>
+                        <constraint firstItem="wS9-DL-32s" firstAttribute="leading" secondItem="HKF-ek-f67" secondAttribute="trailing" constant="20" id="pencil-leading-bookmark"/>
                         <constraint firstAttribute="height" constant="40" id="ySY-qf-IHF"/>
                         <constraint firstItem="2rY-Ix-1lm" firstAttribute="centerY" secondItem="MfY-8R-GHM" secondAttribute="centerY" id="yyw-yR-dSy"/>
                     </constraints>

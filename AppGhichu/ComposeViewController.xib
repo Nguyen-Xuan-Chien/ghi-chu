@@ -30,83 +30,6 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="46M-HV-amF">
-                    <rect key="frame" x="0.0" y="118" width="393" height="40"/>
-                    <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thứ ..., Ngày ..., Thg ..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NSD-ao-9y4">
-                            <rect key="frame" x="128" y="12.333333333333343" width="137" height="15.666666666666664"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="752" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MfY-8R-GHM">
-                            <rect key="frame" x="319.33333333333331" y="4" width="63.666666666666686" height="32"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="32" id="FBM-5q-vHE"/>
-                            </constraints>
-                            <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" title="Xong"/>
-                            <connections>
-                                <action selector="doneButtonTapped:" destination="-1" eventType="touchUpInside" id="FGA-rk-eiy"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2rY-Ix-1lm">
-                            <rect key="frame" x="273" y="2.6666666666666714" width="49.666666666666686" height="35"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="35" id="Hbv-ZZ-iQ7"/>
-                            </constraints>
-                            <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" image="ellipsis.circle" catalog="system"/>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HKF-ek-f67">
-                            <rect key="frame" x="8" y="2.6666666666666714" width="20" height="35"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="35" id="kNQ-Zy-ili"/>
-                            </constraints>
-                            <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" image="bookmark" catalog="system"/>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wS9-DL-32s">
-                            <rect key="frame" x="107.66666666666669" y="2.6666666666666643" width="35" height="35"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="35" id="color-pencil-height"/>
-                                <constraint firstAttribute="width" constant="35" id="color-pencil-width"/>
-                            </constraints>
-                            <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" image="pencil.tip.crop.circle.badge.plus.fill" catalog="system">
-                                <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </buttonConfiguration>
-                        </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="emoji-label-id">
-                            <rect key="frame" x="268" y="10" width="20" height="20"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="20" id="w-emoji-val"/>
-                                <constraint firstAttribute="height" constant="20" id="h-emoji-val"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstItem="2rY-Ix-1lm" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="emoji-label-id" secondAttribute="trailing" constant="5" id="9tL-eM-f1F-new"/>
-                        <constraint firstItem="MfY-8R-GHM" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="Bd9-zq-vpD"/>
-                        <constraint firstItem="emoji-label-id" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="center-y-emoji"/>
-                        <constraint firstItem="emoji-label-id" firstAttribute="leading" secondItem="NSD-ao-9y4" secondAttribute="trailing" constant="3" id="lead-emoji-from-date"/>
-                        <constraint firstItem="wS9-DL-32s" firstAttribute="centerY" secondItem="NSD-ao-9y4" secondAttribute="centerY" id="IDk-BG-LKX"/>
-                        <constraint firstItem="NSD-ao-9y4" firstAttribute="leading" secondItem="wS9-DL-32s" secondAttribute="trailing" constant="25" id="leading-date-from-pencil"/>
-                        <constraint firstItem="MfY-8R-GHM" firstAttribute="leading" secondItem="2rY-Ix-1lm" secondAttribute="trailing" constant="-3.3333333333333712" id="Jfs-ql-C0F"/>
-                        <constraint firstItem="NSD-ao-9y4" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="Z1w-yO-C8F"/>
-                        <constraint firstItem="HKF-ek-f67" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="eQd-qU-5Sh"/>
-                        <constraint firstAttribute="trailing" secondItem="MfY-8R-GHM" secondAttribute="trailing" constant="10" id="gl7-Cx-3su"/>
-                        <constraint firstItem="HKF-ek-f67" firstAttribute="leading" secondItem="46M-HV-amF" secondAttribute="leading" id="kgV-Ik-QM6"/>
-                        <constraint firstItem="wS9-DL-32s" firstAttribute="leading" secondItem="HKF-ek-f67" secondAttribute="trailing" constant="61.333333333333357" id="pencil-leading-bookmark"/>
-                        <constraint firstItem="NSD-ao-9y4" firstAttribute="centerX" secondItem="46M-HV-amF" secondAttribute="centerX" priority="750" id="mBo-hq-lD4"/>
-                        <constraint firstAttribute="height" constant="40" id="ySY-qf-IHF"/>
-                        <constraint firstItem="2rY-Ix-1lm" firstAttribute="centerY" secondItem="MfY-8R-GHM" secondAttribute="centerY" id="yyw-yR-dSy"/>
-                    </constraints>
-                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Kd-jK-tqK">
                     <rect key="frame" x="0.0" y="158" width="393" height="694"/>
                     <subviews>
@@ -202,6 +125,83 @@
                         <constraint firstAttribute="trailing" secondItem="bVv-m8-Xbz" secondAttribute="trailing" id="Zqf-Rf-AhZ"/>
                         <constraint firstAttribute="bottom" secondItem="bVv-m8-Xbz" secondAttribute="bottom" id="hXe-hL-7Fn"/>
                         <constraint firstItem="bVv-m8-Xbz" firstAttribute="leading" secondItem="9Kd-jK-tqK" secondAttribute="leading" id="sHk-2Q-Uhf"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="46M-HV-amF">
+                    <rect key="frame" x="0.0" y="118" width="393" height="40"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="752" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MfY-8R-GHM">
+                            <rect key="frame" x="319.33333333333331" y="4" width="63.666666666666686" height="32"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="32" id="FBM-5q-vHE"/>
+                            </constraints>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Xong"/>
+                            <connections>
+                                <action selector="doneButtonTapped:" destination="-1" eventType="touchUpInside" id="FGA-rk-eiy"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="252" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2rY-Ix-1lm">
+                            <rect key="frame" x="273" y="2.6666666666666714" width="49.666666666666686" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="35" id="Hbv-ZZ-iQ7"/>
+                            </constraints>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" image="ellipsis.circle" catalog="system"/>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HKF-ek-f67">
+                            <rect key="frame" x="0.0" y="2.6666666666666714" width="26.666666666666668" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="35" id="kNQ-Zy-ili"/>
+                            </constraints>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" image="bookmark" catalog="system"/>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="emoji-label-id">
+                            <rect key="frame" x="248" y="10" width="20" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="h-emoji-val"/>
+                                <constraint firstAttribute="width" constant="20" id="w-emoji-val"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wS9-DL-32s">
+                            <rect key="frame" x="47" y="1" width="35" height="35"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="35" id="color-pencil-height"/>
+                                <constraint firstAttribute="width" constant="35" id="color-pencil-width"/>
+                            </constraints>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" image="pencil.tip.crop.circle.badge.plus.fill" catalog="system">
+                                <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </buttonConfiguration>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thứ ..., Ngày ..., Thg ..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NSD-ao-9y4">
+                            <rect key="frame" x="92.333333333333343" y="12" width="131.66666666666666" height="15.666666666666664"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="2rY-Ix-1lm" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="emoji-label-id" secondAttribute="trailing" constant="5" id="9tL-eM-f1F-new"/>
+                        <constraint firstItem="MfY-8R-GHM" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="Bd9-zq-vpD"/>
+                        <constraint firstItem="wS9-DL-32s" firstAttribute="centerY" secondItem="NSD-ao-9y4" secondAttribute="centerY" constant="-1.666666666666675" id="IDk-BG-LKX"/>
+                        <constraint firstItem="MfY-8R-GHM" firstAttribute="leading" secondItem="2rY-Ix-1lm" secondAttribute="trailing" constant="-3.3333333333333712" id="Jfs-ql-C0F"/>
+                        <constraint firstItem="NSD-ao-9y4" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="Z1w-yO-C8F"/>
+                        <constraint firstItem="emoji-label-id" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="center-y-emoji"/>
+                        <constraint firstItem="HKF-ek-f67" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="eQd-qU-5Sh"/>
+                        <constraint firstAttribute="trailing" secondItem="MfY-8R-GHM" secondAttribute="trailing" constant="10" id="gl7-Cx-3su"/>
+                        <constraint firstItem="HKF-ek-f67" firstAttribute="leading" secondItem="46M-HV-amF" secondAttribute="leading" id="kgV-Ik-QM6"/>
+                        <constraint firstItem="emoji-label-id" firstAttribute="leading" secondItem="NSD-ao-9y4" secondAttribute="trailing" constant="10" id="lead-emoji-from-date"/>
+                        <constraint firstItem="NSD-ao-9y4" firstAttribute="leading" secondItem="wS9-DL-32s" secondAttribute="trailing" constant="10" id="leading-date-from-pencil"/>
+                        <constraint firstItem="NSD-ao-9y4" firstAttribute="centerX" secondItem="46M-HV-amF" secondAttribute="centerX" priority="750" id="mBo-hq-lD4"/>
+                        <constraint firstItem="wS9-DL-32s" firstAttribute="leading" secondItem="HKF-ek-f67" secondAttribute="trailing" constant="20.333333333333332" id="pencil-leading-bookmark"/>
+                        <constraint firstAttribute="height" constant="40" id="ySY-qf-IHF"/>
+                        <constraint firstItem="2rY-Ix-1lm" firstAttribute="centerY" secondItem="MfY-8R-GHM" secondAttribute="centerY" id="yyw-yR-dSy"/>
                     </constraints>
                 </view>
             </subviews>

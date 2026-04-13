@@ -11,7 +11,6 @@ class DatabaseHelper {
         createTable()
     }
 
-    // MARK: - Open DB
     func openDatabase() {
         let fileURL = try! FileManager.default
             .url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
@@ -25,7 +24,6 @@ class DatabaseHelper {
         print("📂 DB path: \(fileURL.path)")
     }
 
-    // MARK: - Create Table
     func createTable() {
         let sql = """
         CREATE TABLE IF NOT EXISTS notes (
@@ -43,19 +41,15 @@ class DatabaseHelper {
             print("❌ Lỗi tạo bảng notes.")
         } else {
             print("✔️ Tạo bảng notes OK.")
-            // Thêm cột colorHex nếu bảng đã tồn tại nhưng chưa có cột này (migration)
             let alterSql = "ALTER TABLE notes ADD COLUMN colorHex TEXT;"
             sqlite3_exec(db, alterSql, nil, nil, nil) 
-            // Thêm cột textColorHex
             let alterTextSql = "ALTER TABLE notes ADD COLUMN textColorHex TEXT;"
             sqlite3_exec(db, alterTextSql, nil, nil, nil)
-            // Thêm cột emoji
             let alterEmojiSql = "ALTER TABLE notes ADD COLUMN emoji TEXT;"
             sqlite3_exec(db, alterEmojiSql, nil, nil, nil)
         }
     }
 
-    // MARK: - Insert
     func insertNote(title: String, content: String, dateISO: String, colorHex: String? = nil, textColorHex: String? = nil, emoji: String? = nil) {
         let sql = "INSERT INTO notes (title, content, dateISO, colorHex, textColorHex, emoji) VALUES (?, ?, ?, ?, ?, ?);"
         var stmt: OpaquePointer?
@@ -96,7 +90,6 @@ class DatabaseHelper {
         sqlite3_finalize(stmt)
     }
 
-    // MARK: - Get all notes
     func getAllNotes() -> [Note] {
 
         let sql = "SELECT id, title, content, dateISO, colorHex, textColorHex, emoji FROM notes ORDER BY id DESC;"
@@ -140,7 +133,6 @@ class DatabaseHelper {
         return list
     }
 
-    // MARK: - Delete by ID
     func deleteNote(id: Int64) {
         let sql = "DELETE FROM notes WHERE id = ?;"
         var stmt: OpaquePointer?
@@ -190,7 +182,6 @@ class DatabaseHelper {
         sqlite3_finalize(stmt)
     }
 
-    // MARK: - Delete DB files (reset hoàn toàn database)
     func resetDatabaseFile() {
         let fm = FileManager.default
         let folder = try! fm.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)

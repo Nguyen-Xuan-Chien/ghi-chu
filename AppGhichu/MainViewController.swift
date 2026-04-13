@@ -316,9 +316,11 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UIPopo
             if let tHex = note.textColorHex, let tColor = UIColor(hex: tHex) {
                 cell.lblTitle.textColor = tColor
                 cell.lblContent.textColor = tColor.withAlphaComponent(0.8)
+                cell.lblDate.textColor = tColor.withAlphaComponent(0.7)
             } else {
                 cell.lblTitle.textColor = .white
                 cell.lblContent.textColor = .white.withAlphaComponent(0.8)
+                cell.lblDate.textColor = .white.withAlphaComponent(0.7)
             }
         } else {
             // Theme mặc định nếu không có màu chọn

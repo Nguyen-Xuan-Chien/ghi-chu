@@ -49,8 +49,8 @@ class NoteCell: UITableViewCell {
         lblContent.numberOfLines = 2
         
         lblDate.isHidden = false
-        lblDate.text = getFullDate(from: note.dateISO)
-        lblHeaderDate.text = getHeaderDate(from: note.dateISO)
+        lblDate.text = note.displayDate
+        lblHeaderDate.text = note.displayDate
         lblHeaderEmoji.text = note.emoji ?? ""
         
         
@@ -79,29 +79,7 @@ class NoteCell: UITableViewCell {
         cardView.layer.borderWidth = 0
         lblTitle.textColor = .white
         lblContent.textColor = UIColor(white: 1.0, alpha: 0.7)
-        lblDate.textColor = UIColor(white: 1.0, alpha: 0.75)
-    }
-
-    private func getFullDate(from iso: String) -> String {
-        let inDf = DateFormatter()
-        inDf.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        guard let date = inDf.date(from: iso) else { return "" }
-        let cal = Calendar.current
-        let weekday = cal.component(.weekday, from: date)
-        let day = cal.component(.day, from: date)
-        let month = cal.component(.month, from: date)
-        let year = cal.component(.year, from: date)
-        let weekdayText = (weekday == 1) ? "Chủ Nhật" : "Thứ \(weekday)"
-        return "\(weekdayText), Ngày \(day) Thg \(month), \(year)"
-    }
-    
-    private func getHeaderDate(from iso: String) -> String {
-        let inDf = DateFormatter()
-        inDf.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        guard let date = inDf.date(from: iso) else { return "" }
-        let out = DateFormatter()
-        out.locale = Locale(identifier: "vi_VN")
-        out.dateFormat = "EEEE d 'tháng' M"
-        return out.string(from: date).capitalized
+        lblDate.textColor = UIColor(white: 1.0, alpha: 0.85)
+        lblDate.font = UIFont.systemFont(ofSize: 11, weight: .medium)
     }
 }

@@ -26,6 +26,10 @@ class EditNoteViewController: UIViewController {
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var contentContainerView: UIView!
     
+    private let titleCharCountLabel = UILabel()
+    private let bodyCharCountLabel = UILabel()
+    private let keyboardToolbar = UIToolbar()
+    
     private var pickedImageFilename: String?
     private var selectedColorHex: String?
     private var selectedTextColorHex: String?
@@ -105,6 +109,141 @@ class EditNoteViewController: UIViewController {
         setupEmojiMenu()
         setupColorMenu()
         fillData()
+        setupCharCountLabels()
+        setupKeyboardToolbar()
+        
+        emojiButton.isHidden = true
+        colorPencilButton.isHidden = true
+        icnStack.isHidden = true
+    }
+    
+    private func setupCharCountLabels() {
+        titleCharCountLabel.font = .systemFont(ofSize: 12)
+        titleCharCountLabel.textColor = .lightGray
+        titleCharCountLabel.text = "0/50"
+        view.addSubview(titleCharCountLabel)
+        titleCharCountLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        bodyCharCountLabel.font = .systemFont(ofSize: 12)
+        bodyCharCountLabel.textColor = .lightGray
+        bodyCharCountLabel.text = "0 ký tự"
+        view.addSubview(bodyCharCountLabel)
+        bodyCharCountLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            titleCharCountLabel.topAnchor.constraint(equalTo: titleTextView.bottomAnchor, constant: 2),
+            titleCharCountLabel.trailingAnchor.constraint(equalTo: titleTextView.trailingAnchor, constant: -5),
+            
+            bodyCharCountLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -5),
+            bodyCharCountLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+        ])
+    }
+    
+    private func setupKeyboardToolbar() {
+        keyboardToolbar.sizeToFit()
+        let photoBtn = UIBarButtonItem(image: UIImage(systemName: "photo.on.rectangle"), style: .plain, target: self, action: #selector(icn1))
+        let cameraBtn = UIBarButtonItem(image: UIImage(systemName: "camera"), style: .plain, target: self, action: #selector(icn2))
+        let emojiBtn = UIBarButtonItem(image: UIImage(systemName: "face.smiling"), style: .plain, target: self, action: #selector(onEmojiToolbarTapped(_:)))
+        let colorBtn = UIBarButtonItem(image: UIImage(systemName: "pencil.tip.crop.circle.badge.plus.fill"), style: .plain, target: self, action: #selector(onColorPencilToolbarTapped(_:)))
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneBtn = UIBarButtonItem(title: "Xong", style: .done, target: self, action: #selector(dismissKeyboard))
+        
+        let leadingSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        leadingSpace.width = 8
+        let spaceBetween = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        spaceBetween.width = 12
+        
+        let trailingSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        trailingSpace.width = 40
+        
+        keyboardToolbar.items = [leadingSpace, photoBtn, spaceBetween, cameraBtn, spaceBetween, emojiBtn, spaceBetween, colorBtn, flexSpace, doneBtn, trailingSpace]
+        keyboardToolbar.tintColor = .systemBlue
+        
+        titleTextView.inputAccessoryView = keyboardToolbar
+        bodyTextView.inputAccessoryView = keyboardToolbar
+    }
+    
+    @objc private func onColorPencilToolbarTapped(_ sender: UIBarButtonItem) {
+        let alert = UIAlertController(title: "Chọn màu", message: nil, preferredStyle: .actionSheet)
+        
+        alert.addAction(UIAlertAction(title: "Đổi màu nền", style: .default, handler: { _ in
+            self.presentColorPickerFromToolbar(forBackground: true, from: sender)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Đổi màu chữ", style: .default, handler: { _ in
+            self.presentColorPickerFromToolbar(forBackground: false, from: sender)
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Hủy", style: .cancel))
+        
+        if let pop = alert.popoverPresentationController {
+            pop.barButtonItem = sender
+        }
+        
+        present(alert, animated: true)
+    }
+
+    private func presentColorPickerFromToolbar(forBackground: Bool, from sender: UIBarButtonItem) {
+        let picker = ColorPickerViewController()
+        picker.onColorSelected = { [weak self, weak picker] color in
+            guard let self = self else { return }
+            
+            // Cập nhật UI ngay lập tức
+            if forBackground {
+                self.selectedColorHex = color.toHexString()
+                self.contentContainerView.backgroundColor = color
+                self.titleTextView.backgroundColor = .clear
+                self.bodyTextView.backgroundColor = .clear
+            } else {
+                self.selectedTextColorHex = color.toHexString()
+                self.titleTextView.textColor = color
+                self.bodyTextView.textColor = color
+            }
+            
+            // Chỉ đóng màn hình chọn màu (picker)
+            picker?.dismiss(animated: true) {
+                self.bodyTextView.becomeFirstResponder()
+            }
+        }
+        
+        picker.modalPresentationStyle = .popover
+        if let pop = picker.popoverPresentationController {
+            pop.barButtonItem = sender
+            pop.permittedArrowDirections = [.any]
+            pop.delegate = self
+        }
+        
+        present(picker, animated: true)
+    }
+    
+    @objc private func onEmojiToolbarTapped(_ sender: UIBarButtonItem) {
+        let picker = EmojiPickerViewController()
+        picker.onEmojiSelected = { [weak self, weak picker] emoji in
+            guard let self = self else { return }
+            
+            // Cập nhật UI ngay lập tức
+            self.selectedEmoji = emoji
+            self.selectedEmojiLabel.text = emoji
+            self.updatePlaceholderVisibility()
+            
+            // Chỉ đóng duy nhất màn hình chọn emoji (picker)
+            picker?.dismiss(animated: true) {
+                self.bodyTextView.becomeFirstResponder()
+            }
+        }
+        
+        picker.modalPresentationStyle = .popover
+        if let pop = picker.popoverPresentationController {
+            pop.barButtonItem = sender
+            pop.permittedArrowDirections = [.any]
+            pop.delegate = self
+        }
+        
+        present(picker, animated: true)
+    }
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     override func viewDidLayoutSubviews() {
@@ -167,20 +306,25 @@ class EditNoteViewController: UIViewController {
     
     private func presentColorPicker(forBackground: Bool, from sender: UIButton) {
         let picker = ColorPickerViewController()
-        picker.onColorSelected = { [weak self] color in
+        picker.onColorSelected = { [weak self, weak picker] color in
+            guard let self = self else { return }
+            
+            // Cập nhật UI ngay lập tức
             if forBackground {
-                self?.selectedColorHex = color.toHexString()
-                self?.contentContainerView?.backgroundColor = color
-                self?.titleTextView?.backgroundColor = .clear
-                self?.bodyTextView?.backgroundColor = .clear
+                self.selectedColorHex = color.toHexString()
+                self.contentContainerView.backgroundColor = color
+                self.titleTextView.backgroundColor = .clear
+                self.bodyTextView.backgroundColor = .clear
             } else {
-                self?.selectedTextColorHex = color.toHexString()
-                self?.titleTextView?.textColor = color
-                self?.bodyTextView?.textColor = color
+                self.selectedTextColorHex = color.toHexString()
+                self.titleTextView.textColor = color
+                self.bodyTextView.textColor = color
             }
             
-            self?.bodyTextView.becomeFirstResponder()
-            self?.dismiss(animated: true)
+            // Chỉ đóng màn hình chọn màu (picker)
+            picker?.dismiss(animated: true) {
+                self.bodyTextView.becomeFirstResponder()
+            }
         }
         
         picker.modalPresentationStyle = .popover
@@ -427,6 +571,24 @@ extension EditNoteViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         updatePlaceholderVisibility()
         updateTextViewInsets()
+        
+        if textView == titleTextView {
+            let count = textView.text.count
+            titleCharCountLabel.text = "\(count)/50"
+            titleCharCountLabel.textColor = count > 50 ? .systemRed : .lightGray
+        } else if textView == bodyTextView {
+            bodyCharCountLabel.text = "\(textView.text.count) ký tự"
+        }
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if textView == titleTextView {
+            let currentText = textView.text ?? ""
+            guard let stringRange = Range(range, in: currentText) else { return false }
+            let updatedText = currentText.replacingCharacters(in: stringRange, with: text)
+            return updatedText.count <= 50 || text.isEmpty
+        }
+        return true
     }
     func textViewDidBeginEditing(_ textView: UITextView) {
         updatePlaceholderVisibility()

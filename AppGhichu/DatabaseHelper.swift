@@ -155,7 +155,6 @@ class DatabaseHelper {
         sqlite3_finalize(stmt)
     }
 
-    // MARK: - Delete all notes
     func deleteAllNotes() {
         guard let db = db else {
             print("⚠️ Không thể xoá vì DB chưa mở.")

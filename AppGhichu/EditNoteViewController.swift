@@ -188,7 +188,6 @@ class EditNoteViewController: UIViewController {
         picker.onColorSelected = { [weak self, weak picker] color in
             guard let self = self else { return }
             
-            // Cập nhật UI ngay lập tức
             if forBackground {
                 self.selectedColorHex = color.toHexString()
                 self.contentContainerView.backgroundColor = color
@@ -200,7 +199,6 @@ class EditNoteViewController: UIViewController {
                 self.bodyTextView.textColor = color
             }
             
-            // Chỉ đóng màn hình chọn màu (picker)
             picker?.dismiss(animated: true) {
                 self.bodyTextView.becomeFirstResponder()
             }
@@ -221,12 +219,10 @@ class EditNoteViewController: UIViewController {
         picker.onEmojiSelected = { [weak self, weak picker] emoji in
             guard let self = self else { return }
             
-            // Cập nhật UI ngay lập tức
             self.selectedEmoji = emoji
             self.selectedEmojiLabel.text = emoji
             self.updatePlaceholderVisibility()
             
-            // Chỉ đóng duy nhất màn hình chọn emoji (picker)
             picker?.dismiss(animated: true) {
                 self.bodyTextView.becomeFirstResponder()
             }
@@ -309,7 +305,6 @@ class EditNoteViewController: UIViewController {
         picker.onColorSelected = { [weak self, weak picker] color in
             guard let self = self else { return }
             
-            // Cập nhật UI ngay lập tức
             if forBackground {
                 self.selectedColorHex = color.toHexString()
                 self.contentContainerView.backgroundColor = color
@@ -321,7 +316,6 @@ class EditNoteViewController: UIViewController {
                 self.bodyTextView.textColor = color
             }
             
-            // Chỉ đóng màn hình chọn màu (picker)
             picker?.dismiss(animated: true) {
                 self.bodyTextView.becomeFirstResponder()
             }

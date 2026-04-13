@@ -12,7 +12,6 @@ class NoteCell: UITableViewCell {
     @IBOutlet weak var lblHeaderDate: UILabel!
     @IBOutlet weak var lblHeaderEmoji: UILabel!
 
-    // Callback gửi ra MainViewController
     var onMoreTapped: (() -> Void)?
     
     private var mapTintView: UIView?
@@ -41,7 +40,6 @@ class NoteCell: UITableViewCell {
             lblTitle.text = rawTitle
         }
         
-        // 🔥 Lấy nội dung ghi chú (loại bỏ [IMAGE:...])
         let cleanedContent = note.content.replacingOccurrences(of: #"\[IMAGE:.+?\]\n?"#, with: "", options: .regularExpression).trimmingCharacters(in: .whitespacesAndNewlines)
         lblContent.text = cleanedContent.isEmpty ? "Bắt đầu viết" : cleanedContent
         

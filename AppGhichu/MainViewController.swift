@@ -264,10 +264,8 @@ class MainViewController: UIViewController {
         editVC.onSave = { [weak self] updatedNote in
             guard let self = self else { return }
 
-            // 🔥 cập nhật DB
             self.db.updateNote(updatedNote)
 
-            // 🔥 reload lại giao diện
             self.loadNotesFromDatabase()
             self.tblv.reloadData()
         }
@@ -308,11 +306,9 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UIPopo
         let note = sections[indexPath.section].items[indexPath.row]
         cell.configure(note: note)
 
-        // 🔥 Hiển thị màu sắc đã lưu
         if let hex = note.colorHex, let color = UIColor(hex: hex) {
             cell.cardView.backgroundColor = color
             
-            // Nếu có màu chữ riêng thì áp dụng, không thì mặc định trắng
             if let tHex = note.textColorHex, let tColor = UIColor(hex: tHex) {
                 cell.lblTitle.textColor = tColor
                 cell.lblContent.textColor = tColor.withAlphaComponent(0.8)
@@ -323,7 +319,6 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UIPopo
                 cell.lblDate.textColor = .white.withAlphaComponent(0.7)
             }
         } else {
-            // Theme mặc định nếu không có màu chọn
             let color = sectionPalette[indexPath.section % sectionPalette.count]
             cell.applyTheme(baseColor: color)
         }
@@ -355,10 +350,8 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UIPopo
             let alert = UIAlertController(title: "Xác nhận xóa", message: "Bạn có chắc chắn muốn xóa ghi chú này không?", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Hủy", style: .cancel, handler: nil))
             alert.addAction(UIAlertAction(title: "Xóa", style: .destructive, handler: { _ in
-                // 🔥 Xoá khỏi DB
                 self.db.deleteNote(id: noteToDelete.id)
                 
-                // 🔥 Cập nhật lại list và UI
                 self.loadNotesFromDatabase()
                 self.buildSections()
                 self.updateIconData()

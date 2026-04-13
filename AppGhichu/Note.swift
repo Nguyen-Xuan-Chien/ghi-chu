@@ -10,7 +10,6 @@ struct Note {
     var textColorHex: String?
     var emoji: String?
 
-    // Init khi tạo note mới (date mặc định = thời điểm hiện tại)
     init(id: Int64 = 0, title: String, content: String, date: Date = Date(), colorHex: String? = nil, textColorHex: String? = nil, emoji: String? = nil) {
         self.id = id
         self.title = title
@@ -25,7 +24,6 @@ struct Note {
         self.dateISO = fmt.string(from: date)
     }
 
-    // Init khi lấy từ DB (dateISO có sẵn)
     init(id: Int64, title: String, content: String, dateISO: String, colorHex: String? = nil, textColorHex: String? = nil, emoji: String? = nil) {
         self.id = id
         self.title = title
@@ -40,7 +38,6 @@ struct Note {
         self.createdAt = fmt.date(from: dateISO) ?? Date()
     }
 
-    // Helper
     var date: Date {
         return createdAt
     }
@@ -53,7 +50,6 @@ struct Note {
     }
 }
 
-// MARK: - UIColor Hex Helper
 extension UIColor {
     convenience init?(hex: String) {
         var cString: String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()

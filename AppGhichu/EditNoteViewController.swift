@@ -25,9 +25,8 @@ class EditNoteViewController: UIViewController {
     @IBOutlet weak var selectedEmojiLabel: UILabel!
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var contentContainerView: UIView!
+    @IBOutlet weak var titleCharCountLabel: UILabel!
     
-    private let titleCharCountLabel = UILabel()
-    private let bodyCharCountLabel = UILabel()
     private let keyboardToolbar = UIToolbar()
     
     private var pickedImageFilename: String?
@@ -85,10 +84,10 @@ class EditNoteViewController: UIViewController {
     }
     
     @IBAction func removeImageTapped(_ sender: UIButton) {
-        mapContainerView.isHidden = true
-        mapContainerHeightConstraint.constant = 0
+        mapContainerView?.isHidden = true
+        mapContainerHeightConstraint?.constant = 0
         pickedImageFilename = nil
-        closeMapButton.isHidden = true
+        closeMapButton?.isHidden = true
     }
     
     @IBOutlet weak var titleTextView: UITextView!
@@ -109,34 +108,11 @@ class EditNoteViewController: UIViewController {
         setupEmojiMenu()
         setupColorMenu()
         fillData()
-        setupCharCountLabels()
         setupKeyboardToolbar()
         
         emojiButton.isHidden = true
         colorPencilButton.isHidden = true
         icnStack.isHidden = true
-    }
-    
-    private func setupCharCountLabels() {
-        titleCharCountLabel.font = .systemFont(ofSize: 12)
-        titleCharCountLabel.textColor = .lightGray
-        titleCharCountLabel.text = "0/50"
-        view.addSubview(titleCharCountLabel)
-        titleCharCountLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        bodyCharCountLabel.font = .systemFont(ofSize: 12)
-        bodyCharCountLabel.textColor = .lightGray
-        bodyCharCountLabel.text = "0 ký tự"
-        view.addSubview(bodyCharCountLabel)
-        bodyCharCountLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            titleCharCountLabel.topAnchor.constraint(equalTo: titleTextView.bottomAnchor, constant: 2),
-            titleCharCountLabel.trailingAnchor.constraint(equalTo: titleTextView.trailingAnchor, constant: -5),
-            
-            bodyCharCountLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -5),
-            bodyCharCountLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
-        ])
     }
     
     private func setupKeyboardToolbar() {
@@ -334,6 +310,10 @@ class EditNoteViewController: UIViewController {
     
 
     private func setupUI() {
+        allmenu.layer.cornerRadius = 10
+        allmenu.clipsToBounds = true
+        allmenu.isHidden = true
+
         mapImageView.contentMode = .scaleAspectFill
         mapImageView.clipsToBounds = true
         dateLabel.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
@@ -345,8 +325,10 @@ class EditNoteViewController: UIViewController {
         bodyTextView.textContainer.lineFragmentPadding = 0
         titleTextView.textContainer.lineFragmentPadding = 0
         
+        showCurrentDate()
+        
         titlePlaceholderLabel.text = "Tiêu đề"
-        titlePlaceholderLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        titlePlaceholderLabel.font = UIFont.systemFont(ofSize: 22, weight: .bold)
         titlePlaceholderLabel.textColor = UIColor(white: 1.0, alpha: 0.6)
         titlePlaceholderLabel.translatesAutoresizingMaskIntoConstraints = false
         titleTextView.addSubview(titlePlaceholderLabel)
@@ -357,7 +339,7 @@ class EditNoteViewController: UIViewController {
         ])
         
         bodyPlaceholderLabel.text = "Bắt đầu viết"
-        bodyPlaceholderLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        bodyPlaceholderLabel.font = UIFont.systemFont(ofSize: 22, weight: .bold)
         bodyPlaceholderLabel.textColor = UIColor(white: 1.0, alpha: 0.6)
         bodyPlaceholderLabel.translatesAutoresizingMaskIntoConstraints = false
         bodyTextView.addSubview(bodyPlaceholderLabel)
@@ -569,9 +551,7 @@ extension EditNoteViewController: UITextViewDelegate {
         if textView == titleTextView {
             let count = textView.text.count
             titleCharCountLabel.text = "\(count)/50"
-            titleCharCountLabel.textColor = count > 50 ? .systemRed : .lightGray
-        } else if textView == bodyTextView {
-            bodyCharCountLabel.text = "\(textView.text.count) ký tự"
+            titleCharCountLabel.textColor = count >= 50 ? .systemRed : .lightGray
         }
     }
     
@@ -594,12 +574,9 @@ extension EditNoteViewController: UITextViewDelegate {
     
     private func updateTextViewInsets() {
         guard let titleTv = titleTextView,
-              let bodyTv = bodyTextView,
-              let stack = icnStack else { return }
+              let bodyTv = bodyTextView else { return }
         
-        let trailingMargin: CGFloat = 16
-        let stackWidth = stack.bounds.width > 0 ? stack.bounds.width : 120
-        let requiredRightInset = max(16, stackWidth + trailingMargin)
+        let requiredRightInset: CGFloat = 8
         
         var titleInset = titleTv.textContainerInset
         if abs(titleInset.right - requiredRightInset) > 0.5 {
@@ -615,10 +592,8 @@ extension EditNoteViewController: UITextViewDelegate {
     }
     
     private func updatePlaceholderVisibility() {
-        let titleEmpty = (self.titleTextView.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-        let bodyEmpty = (self.bodyTextView.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-        titlePlaceholderLabel.isHidden = !titleEmpty
-        bodyPlaceholderLabel.isHidden = !bodyEmpty
+        titlePlaceholderLabel.isHidden = !titleTextView.text.isEmpty
+        bodyPlaceholderLabel.isHidden = !bodyTextView.text.isEmpty
     }
 }
 

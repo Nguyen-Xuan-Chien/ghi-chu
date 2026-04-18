@@ -25,6 +25,7 @@
                 <outlet property="mapImageView" destination="QXZ-xu-z6H" id="5wF-aS-Yqa"/>
                 <outlet property="moreButton" destination="q1L-hs-TV4" id="ogh-em-ObT"/>
                 <outlet property="selectedEmojiLabel" destination="emoji-label-id-edit" id="emoji-label-conn-edit"/>
+                <outlet property="titleCharCountLabel" destination="title-char-count-id-edit" id="title-char-count-conn-edit"/>
                 <outlet property="titleTextView" destination="2Gf-o0-akZ" id="0B4-o5-DyF-new"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -50,6 +51,12 @@
                                         <color key="baseForegroundColor" red="0.35980298370000002" green="0.3510707408" blue="0.79835590489999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </buttonConfiguration>
                                 </button>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0/50" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="title-char-count-id-edit">
+                                    <rect key="frame" x="309.33333333333331" y="12.666666666666664" width="26" height="15"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UL8-us-EvF">
                                     <rect key="frame" x="335.33333333333331" y="0.6666666666666643" width="49.666666666666686" height="39"/>
                                     <constraints>
@@ -103,6 +110,8 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
+                                <constraint firstItem="UL8-us-EvF" firstAttribute="leading" secondItem="title-char-count-id-edit" secondAttribute="trailing" id="char-count-to-done-edit"/>
+                                <constraint firstItem="title-char-count-id-edit" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="char-count-center-y-edit"/>
                                 <constraint firstItem="emoji-label-id-edit" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="center-y-emoji-edit"/>
                                 <constraint firstItem="Yq8-fJ-uMc" firstAttribute="centerX" secondItem="46M-HV-amF" secondAttribute="centerX" priority="750" id="centerXHeader"/>
                                 <constraint firstItem="5Eo-aC-4Kk" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="centerYBookmark"/>
@@ -124,7 +133,7 @@
                             <rect key="frame" x="0.0" y="90" width="393" height="762"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="bVv-m8-Xbz">
-                                    <rect key="frame" x="16" y="10" width="361" height="376"/>
+                                    <rect key="frame" x="8" y="10" width="377" height="376"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mus-oH-dqf">
                                             <rect key="frame" x="0.0" y="0.0" width="361" height="199"/>
@@ -184,11 +193,8 @@
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="4QC-hQ-Mc6" userLabel="Body View">
                                             <rect key="frame" x="0.0" y="269" width="361" height="107"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="107" id="8BJ-k8-Utx"/>
-                                            </constraints>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
                                     </subviews>
@@ -244,10 +250,11 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstItem="bVv-m8-Xbz" firstAttribute="top" secondItem="9Kd-jK-tqK" secondAttribute="top" constant="10" id="CG0-NC-vOy"/>
-                                <constraint firstItem="bVv-m8-Xbz" firstAttribute="leading" secondItem="9Kd-jK-tqK" secondAttribute="leading" constant="16" id="leadingStack"/>
+                                <constraint firstItem="bVv-m8-Xbz" firstAttribute="leading" secondItem="9Kd-jK-tqK" secondAttribute="leading" constant="8" id="leadingStack"/>
+                                <constraint firstAttribute="bottom" secondItem="bVv-m8-Xbz" secondAttribute="bottom" constant="10" id="bottomStack"/>
                                 <constraint firstItem="9eL-iC-455" firstAttribute="top" secondItem="2Gf-o0-akZ" secondAttribute="top" id="topIconsTitle"/>
                                 <constraint firstItem="9eL-iC-455" firstAttribute="trailing" secondItem="bVv-m8-Xbz" secondAttribute="trailing" id="trailingIcons"/>
-                                <constraint firstAttribute="trailing" secondItem="bVv-m8-Xbz" secondAttribute="trailing" constant="16" id="trailingStack"/>
+                                <constraint firstAttribute="trailing" secondItem="bVv-m8-Xbz" secondAttribute="trailing" constant="8" id="trailingStack"/>
                             </constraints>
                         </view>
                     </subviews>

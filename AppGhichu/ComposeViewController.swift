@@ -18,8 +18,8 @@ class ComposeViewController: UIViewController {
     @IBOutlet weak var titleBarView: UIView!
     @IBOutlet weak var contentContainerView: UIView!
     
-    private let titleCharCountLabel = UILabel()
-    private let bodyCharCountLabel = UILabel()
+    @IBOutlet weak var titleCharCountLabel: UILabel!
+    @IBOutlet weak var bodyCharCountLabel: UILabel!
     private let keyboardToolbar = UIToolbar()
     
     private let titlePlaceholderLabel = UILabel()
@@ -40,7 +40,7 @@ class ComposeViewController: UIViewController {
         setupEmojiMenu()
         setupColorMenu()
         setupImagesCollectionView()
-        deleteButton?.isHidden = true
+        deleteButton.isHidden = true
         setupTextViews()
         setupCharCountLabels()
         setupKeyboardToolbar()
@@ -52,25 +52,18 @@ class ComposeViewController: UIViewController {
     }
     
     private func setupCharCountLabels() {
-        titleCharCountLabel.font = .systemFont(ofSize: 12)
-        titleCharCountLabel.textColor = .lightGray
         titleCharCountLabel.text = "0/50"
-        view.addSubview(titleCharCountLabel)
+        
+        titleCharCountLabel.removeFromSuperview()
+        contentContainerView.addSubview(titleCharCountLabel)
         titleCharCountLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        bodyCharCountLabel.font = .systemFont(ofSize: 12)
-        bodyCharCountLabel.textColor = .lightGray
-        bodyCharCountLabel.text = "0 ký tự"
-        view.addSubview(bodyCharCountLabel)
-        bodyCharCountLabel.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
-            titleCharCountLabel.topAnchor.constraint(equalTo: titleTextView.bottomAnchor, constant: 2),
-            titleCharCountLabel.trailingAnchor.constraint(equalTo: titleTextView.trailingAnchor, constant: -5),
-            
-            bodyCharCountLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -5),
-            bodyCharCountLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+            titleCharCountLabel.topAnchor.constraint(equalTo: titleTextView.topAnchor, constant: 10),
+            titleCharCountLabel.trailingAnchor.constraint(equalTo: contentContainerView.trailingAnchor, constant: -12)
         ])
+        
+        titleCharCountLabel.textColor = .lightGray
     }
     
     private func setupKeyboardToolbar() {
@@ -122,7 +115,6 @@ class ComposeViewController: UIViewController {
         picker.onColorSelected = { [weak self, weak picker] color in
             guard let self = self else { return }
             
-            // Cập nhật UI ngay lập tức trước khi dismiss
             if forBackground {
                 self.selectedColorHex = color.toHexString()
                 self.contentContainerView.backgroundColor = color
@@ -134,7 +126,6 @@ class ComposeViewController: UIViewController {
                 self.bodyTextView.textColor = color
             }
             
-            // Chỉ đóng màn hình chọn màu (picker)
             picker?.dismiss(animated: true) {
                 self.bodyTextView.becomeFirstResponder()
             }
@@ -155,12 +146,10 @@ class ComposeViewController: UIViewController {
         picker.onEmojiSelected = { [weak self, weak picker] emoji in
             guard let self = self else { return }
             
-            // Cập nhật UI ngay lập tức
             self.selectedEmoji = emoji
             self.selectedEmojiLabel.text = emoji
             self.updatePlaceholderVisibility()
             
-            // Chỉ đóng duy nhất màn hình chọn emoji (picker)
             picker?.dismiss(animated: true) {
                 self.bodyTextView.becomeFirstResponder()
             }
@@ -287,7 +276,7 @@ class ComposeViewController: UIViewController {
                 self.selectedAssetName = name
                 self.imagesCollectionView?.isHidden = true
                 self.previewImageView.isHidden = false
-                self.deleteButton?.isHidden = false
+                self.deleteButton.isHidden = false
             }
             let thumb = resized(UIImage(named: name), to: CGSize(width: 40, height: 40))?.withRenderingMode(.alwaysOriginal)
             action.setValue(thumb, forKey: "image")
@@ -398,7 +387,6 @@ class ComposeViewController: UIViewController {
         picker.onColorSelected = { [weak self, weak picker] color in
             guard let self = self else { return }
             
-            // Cập nhật UI ngay lập tức
             if forBackground {
                 self.selectedColorHex = color.toHexString()
                 self.contentContainerView.backgroundColor = color
@@ -410,7 +398,6 @@ class ComposeViewController: UIViewController {
                 self.bodyTextView.textColor = color
             }
             
-            // Chỉ đóng màn hình chọn màu (picker)
                 picker?.dismiss(animated: true) {
                 self.bodyTextView.becomeFirstResponder()
             }
@@ -528,7 +515,7 @@ extension ComposeViewController: PHPickerViewControllerDelegate, UIImagePickerCo
         self.imagesCollectionView?.isHidden = false
         self.imagesCollectionView?.reloadData()
         self.previewImageView.isHidden = false
-        self.deleteButton?.isHidden = self.selectedImages.isEmpty
+        self.deleteButton.isHidden = self.selectedImages.isEmpty
         self.updateTextViewInsets()
     }
 }
@@ -559,45 +546,44 @@ extension ComposeViewController: UICollectionViewDataSource, UICollectionViewDel
         previewImageView.image = nil
         selectedImages.removeAll()
         imagesCollectionView?.isHidden = true
-        deleteButton?.isHidden = true
+        deleteButton.isHidden = true
         previewImageView.isHidden = true
     }
     
     private func setupTextViews() {
-        titleTextView?.delegate = self
-        bodyTextView?.delegate = self
-        titleTextView?.textContainer.lineFragmentPadding = 0
-        bodyTextView?.textContainer.lineFragmentPadding = 0
-        if let tv = titleTextView {
-            titlePlaceholderLabel.text = "Tiêu đề"
-            titlePlaceholderLabel.textColor = UIColor(white: 1.0, alpha: 0.6)
-            titlePlaceholderLabel.translatesAutoresizingMaskIntoConstraints = false
-            tv.addSubview(titlePlaceholderLabel)
-            NSLayoutConstraint.activate([
-                titlePlaceholderLabel.topAnchor.constraint(equalTo: tv.topAnchor, constant: 8),
-                titlePlaceholderLabel.leadingAnchor.constraint(equalTo: tv.leadingAnchor, constant: 8),
-                titlePlaceholderLabel.trailingAnchor.constraint(lessThanOrEqualTo: tv.trailingAnchor, constant: -8)
-            ])
-        }
-        if let bv = bodyTextView {
-            bodyPlaceholderLabel.text = "Bắt đầu viết"
-            bodyPlaceholderLabel.textColor = UIColor(white: 1.0, alpha: 0.6)
-            bodyPlaceholderLabel.translatesAutoresizingMaskIntoConstraints = false
-            bv.addSubview(bodyPlaceholderLabel)
-            NSLayoutConstraint.activate([
-                bodyPlaceholderLabel.topAnchor.constraint(equalTo: bv.topAnchor, constant: 8),
-                bodyPlaceholderLabel.leadingAnchor.constraint(equalTo: bv.leadingAnchor, constant: 8),
-                bodyPlaceholderLabel.trailingAnchor.constraint(lessThanOrEqualTo: bv.trailingAnchor, constant: -8)
-            ])
-        }
+        titleTextView.delegate = self
+        bodyTextView.delegate = self
+        titleTextView.textContainer.lineFragmentPadding = 0
+        bodyTextView.textContainer.lineFragmentPadding = 0
+        
+        titlePlaceholderLabel.text = "Tiêu đề"
+        titlePlaceholderLabel.font = UIFont.systemFont(ofSize: 22, weight: .bold)
+        titlePlaceholderLabel.textColor = UIColor(white: 1.0, alpha: 0.6)
+        titlePlaceholderLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleTextView.addSubview(titlePlaceholderLabel)
+        NSLayoutConstraint.activate([
+            titlePlaceholderLabel.topAnchor.constraint(equalTo: titleTextView.topAnchor, constant: 8),
+            titlePlaceholderLabel.leadingAnchor.constraint(equalTo: titleTextView.leadingAnchor, constant: 0),
+            titlePlaceholderLabel.trailingAnchor.constraint(lessThanOrEqualTo: titleTextView.trailingAnchor, constant: -8)
+        ])
+        
+        bodyPlaceholderLabel.text = "Bắt đầu viết"
+        bodyPlaceholderLabel.font = UIFont.systemFont(ofSize: 22, weight: .bold)
+        bodyPlaceholderLabel.textColor = UIColor(white: 1.0, alpha: 0.6)
+        bodyPlaceholderLabel.translatesAutoresizingMaskIntoConstraints = false
+        bodyTextView.addSubview(bodyPlaceholderLabel)
+        NSLayoutConstraint.activate([
+            bodyPlaceholderLabel.topAnchor.constraint(equalTo: bodyTextView.topAnchor, constant: 8),
+            bodyPlaceholderLabel.leadingAnchor.constraint(equalTo: bodyTextView.leadingAnchor, constant: 0),
+            bodyPlaceholderLabel.trailingAnchor.constraint(lessThanOrEqualTo: bodyTextView.trailingAnchor, constant: -8)
+        ])
+        
         updatePlaceholderVisibility()
     }
     
     private func updatePlaceholderVisibility() {
-        let titleEmpty = (titleTextView?.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-        let bodyEmpty = (bodyTextView?.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-        titlePlaceholderLabel.isHidden = !titleEmpty
-        bodyPlaceholderLabel.isHidden = !bodyEmpty
+        titlePlaceholderLabel.isHidden = !titleTextView.text.isEmpty
+        bodyPlaceholderLabel.isHidden = !bodyTextView.text.isEmpty
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         guard let layout = collectionViewLayout as? UICollectionViewFlowLayout else { return .zero }
@@ -616,32 +602,19 @@ extension ComposeViewController: UICollectionViewDataSource, UICollectionViewDel
 
 extension ComposeViewController: UITextViewDelegate {
     private func updateTextViewInsets() {
-        guard let titleTv = titleTextView,
-              let bodyTv = bodyTextView,
-              let b1 = bton1,
-              let b2 = bton2,
-              let b3 = emojiButton else { return }
+        let requiredRightInset: CGFloat = 8
+        let titleRequiredRightInset: CGFloat = 55
         
-        let spacing: CGFloat = 8
-        let trailingMargin: CGFloat = 16
-        
-        let w1 = b1.bounds.width > 0 ? b1.bounds.width : 35
-        let w2 = b2.bounds.width > 0 ? b2.bounds.width : 35
-        let w3 = b3.bounds.width > 0 ? b3.bounds.width : 35
-        
-        let totalIconsWidth = w1 + w2 + w3 + (spacing * 2)
-        let requiredRightInset = max(16, totalIconsWidth + trailingMargin)
-        
-        var titleInset = titleTv.textContainerInset
-        if abs(titleInset.right - requiredRightInset) > 0.5 {
-            titleInset.right = requiredRightInset
-            titleTv.textContainerInset = titleInset
+        var titleInset = titleTextView.textContainerInset
+        if abs(titleInset.right - titleRequiredRightInset) > 0.5 {
+            titleInset.right = titleRequiredRightInset
+            titleTextView.textContainerInset = titleInset
         }
         
-        var bodyInset = bodyTv.textContainerInset
+        var bodyInset = bodyTextView.textContainerInset
         if abs(bodyInset.right - requiredRightInset) > 0.5 {
             bodyInset.right = requiredRightInset
-            bodyTv.textContainerInset = bodyInset
+            bodyTextView.textContainerInset = bodyInset
         }
     }
     
@@ -652,9 +625,7 @@ extension ComposeViewController: UITextViewDelegate {
         if textView == titleTextView {
             let count = textView.text.count
             titleCharCountLabel.text = "\(count)/50"
-            titleCharCountLabel.textColor = count > 50 ? .systemRed : .lightGray
-        } else if textView == bodyTextView {
-            bodyCharCountLabel.text = "\(textView.text.count) ký tự"
+            titleCharCountLabel.textColor = count >= 50 ? .systemRed : .lightGray
         }
     }
     
@@ -663,7 +634,7 @@ extension ComposeViewController: UITextViewDelegate {
             let currentText = textView.text ?? ""
             guard let stringRange = Range(range, in: currentText) else { return false }
             let updatedText = currentText.replacingCharacters(in: stringRange, with: text)
-            return updatedText.count <= 50 || text.isEmpty // Allow deletion even if over limit
+            return updatedText.count <= 50 || text.isEmpty 
         }
         return true
     }

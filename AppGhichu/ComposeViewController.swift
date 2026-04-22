@@ -22,8 +22,8 @@ class ComposeViewController: UIViewController {
     @IBOutlet weak var bodyCharCountLabel: UILabel!
     private let keyboardToolbar = UIToolbar()
     
-    private let titlePlaceholderLabel = UILabel()
-    private let bodyPlaceholderLabel = UILabel()
+    @IBOutlet weak var titlePlaceholderLabel: UILabel!
+    @IBOutlet weak var bodyPlaceholderLabel: UILabel!
     private let assetNames = ["image1", "image2", "image3", "img_icon"]
     private var selectedAssetName: String?
     private var selectedImages: [UIImage] = []
@@ -64,6 +64,9 @@ class ComposeViewController: UIViewController {
         ])
         
         titleCharCountLabel.textColor = .lightGray
+
+        bodyCharCountLabel.text = "0"
+        bodyCharCountLabel.isHidden = false
     }
     
     private func setupKeyboardToolbar() {
@@ -556,28 +559,6 @@ extension ComposeViewController: UICollectionViewDataSource, UICollectionViewDel
         titleTextView.textContainer.lineFragmentPadding = 0
         bodyTextView.textContainer.lineFragmentPadding = 0
         
-        titlePlaceholderLabel.text = "Tiêu đề"
-        titlePlaceholderLabel.font = UIFont.systemFont(ofSize: 22, weight: .bold)
-        titlePlaceholderLabel.textColor = UIColor(white: 1.0, alpha: 0.6)
-        titlePlaceholderLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleTextView.addSubview(titlePlaceholderLabel)
-        NSLayoutConstraint.activate([
-            titlePlaceholderLabel.topAnchor.constraint(equalTo: titleTextView.topAnchor, constant: 8),
-            titlePlaceholderLabel.leadingAnchor.constraint(equalTo: titleTextView.leadingAnchor, constant: 0),
-            titlePlaceholderLabel.trailingAnchor.constraint(lessThanOrEqualTo: titleTextView.trailingAnchor, constant: -8)
-        ])
-        
-        bodyPlaceholderLabel.text = "Bắt đầu viết"
-        bodyPlaceholderLabel.font = UIFont.systemFont(ofSize: 22, weight: .bold)
-        bodyPlaceholderLabel.textColor = UIColor(white: 1.0, alpha: 0.6)
-        bodyPlaceholderLabel.translatesAutoresizingMaskIntoConstraints = false
-        bodyTextView.addSubview(bodyPlaceholderLabel)
-        NSLayoutConstraint.activate([
-            bodyPlaceholderLabel.topAnchor.constraint(equalTo: bodyTextView.topAnchor, constant: 8),
-            bodyPlaceholderLabel.leadingAnchor.constraint(equalTo: bodyTextView.leadingAnchor, constant: 0),
-            bodyPlaceholderLabel.trailingAnchor.constraint(lessThanOrEqualTo: bodyTextView.trailingAnchor, constant: -8)
-        ])
-        
         updatePlaceholderVisibility()
     }
     
@@ -602,8 +583,8 @@ extension ComposeViewController: UICollectionViewDataSource, UICollectionViewDel
 
 extension ComposeViewController: UITextViewDelegate {
     private func updateTextViewInsets() {
-        let requiredRightInset: CGFloat = 8
         let titleRequiredRightInset: CGFloat = 55
+        let bodyRequiredRightInset: CGFloat = 45
         
         var titleInset = titleTextView.textContainerInset
         if abs(titleInset.right - titleRequiredRightInset) > 0.5 {
@@ -612,8 +593,8 @@ extension ComposeViewController: UITextViewDelegate {
         }
         
         var bodyInset = bodyTextView.textContainerInset
-        if abs(bodyInset.right - requiredRightInset) > 0.5 {
-            bodyInset.right = requiredRightInset
+        if abs(bodyInset.right - bodyRequiredRightInset) > 0.5 {
+            bodyInset.right = bodyRequiredRightInset
             bodyTextView.textContainerInset = bodyInset
         }
     }
@@ -626,6 +607,9 @@ extension ComposeViewController: UITextViewDelegate {
             let count = textView.text.count
             titleCharCountLabel.text = "\(count)/50"
             titleCharCountLabel.textColor = count >= 50 ? .systemRed : .lightGray
+        } else if textView == bodyTextView {
+            let count = textView.text.count
+            bodyCharCountLabel.text = "\(count)"
         }
     }
     

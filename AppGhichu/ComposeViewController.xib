@@ -25,6 +25,8 @@
                 <outlet property="titleCharCountLabel" destination="title-char-count-id" id="title-char-count-conn"/>
                 <outlet property="bodyCharCountLabel" destination="hidden-body-char-count" id="body-char-count-conn"/>
                 <outlet property="titleTextField" destination="hidden-title-tf" id="title-tf-conn"/>
+                <outlet property="bodyPlaceholderLabel" destination="body-placeholder-id" id="body-placeholder-conn"/>
+                <outlet property="titlePlaceholderLabel" destination="title-placeholder-id" id="title-placeholder-conn"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -33,13 +35,6 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hidden-body-char-count">
-                    <rect key="frame" x="0.0" y="0.0" width="42" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <textField hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hidden-title-tf">
                     <rect key="frame" x="0.0" y="0.0" width="97" height="34"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -76,6 +71,18 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Kd-jK-tqK">
                     <rect key="frame" x="0.0" y="158" width="393" height="694"/>
                     <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tiêu đề" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="title-placeholder-id">
+                            <rect key="frame" x="0.0" y="8" width="71.666666666666671" height="26.333333333333332"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                            <color key="textColor" white="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bắt đầu viết" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="body-placeholder-id">
+                            <rect key="frame" x="0.0" y="78" width="117.66666666666667" height="26.333333333333332"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                            <color key="textColor" white="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="bVv-m8-Xbz">
                             <rect key="frame" x="0.0" y="0.0" width="393" height="694"/>
                             <subviews>
@@ -105,9 +112,21 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </stackView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hidden-body-char-count">
+                            <rect key="frame" x="371" y="658" width="10" height="18"/>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
+                        <constraint firstAttribute="trailing" secondItem="hidden-body-char-count" secondAttribute="trailing" constant="12" id="body-count-trailing"/>
+                        <constraint firstAttribute="bottom" secondItem="hidden-body-char-count" secondAttribute="bottom" constant="60" id="body-count-bottom"/>
+                        <constraint firstItem="title-placeholder-id" firstAttribute="top" secondItem="0gu-ff-Kh4" secondAttribute="top" constant="8" id="title-placeholder-top"/>
+                        <constraint firstItem="title-placeholder-id" firstAttribute="leading" secondItem="0gu-ff-Kh4" secondAttribute="leading" id="title-placeholder-leading"/>
+                        <constraint firstItem="body-placeholder-id" firstAttribute="top" secondItem="QU1-mC-fVh" secondAttribute="top" constant="8" id="body-placeholder-top"/>
+                        <constraint firstItem="body-placeholder-id" firstAttribute="leading" secondItem="QU1-mC-fVh" secondAttribute="leading" id="body-placeholder-leading"/>
                         <constraint firstAttribute="bottom" secondItem="bVv-m8-Xbz" secondAttribute="bottom" id="hXe-hL-7Fn"/>
                         <constraint firstItem="bVv-m8-Xbz" firstAttribute="leading" secondItem="9Kd-jK-tqK" secondAttribute="leading" id="sHk-2Q-Uhf"/>
                         <constraint firstItem="bVv-m8-Xbz" firstAttribute="top" secondItem="9Kd-jK-tqK" secondAttribute="top" id="OuG-MB-XIa"/>

@@ -26,6 +26,7 @@ class EditNoteViewController: UIViewController {
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var contentContainerView: UIView!
     @IBOutlet weak var titleCharCountLabel: UILabel!
+    @IBOutlet weak var bodyCharCountLabel: UILabel!
     
     private let keyboardToolbar = UIToolbar()
     
@@ -98,8 +99,8 @@ class EditNoteViewController: UIViewController {
 
     var onSave: ((Note) -> Void)?
 
-    private let titlePlaceholderLabel = UILabel()
-    private let bodyPlaceholderLabel = UILabel()
+    @IBOutlet weak var titlePlaceholderLabel: UILabel!
+    @IBOutlet weak var bodyPlaceholderLabel: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -312,7 +313,22 @@ class EditNoteViewController: UIViewController {
     private func setupUI() {
         allmenu.layer.cornerRadius = 10
         allmenu.clipsToBounds = true
-        allmenu.isHidden = true
+        allmenu.isHidden = false
+
+        titleCharCountLabel.text = "0/50"
+        titleCharCountLabel.removeFromSuperview()
+        contentContainerView.addSubview(titleCharCountLabel)
+        titleCharCountLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            titleCharCountLabel.topAnchor.constraint(equalTo: titleTextView.topAnchor, constant: 10),
+            titleCharCountLabel.trailingAnchor.constraint(equalTo: contentContainerView.trailingAnchor, constant: -12)
+        ])
+        titleCharCountLabel.textColor = .lightGray
+
+        // Cấu hình nhãn đếm ký tự phần nội dung (body)
+        bodyCharCountLabel.text = "0"
+        bodyCharCountLabel.isHidden = false
 
         mapImageView.contentMode = .scaleAspectFill
         mapImageView.clipsToBounds = true
@@ -327,27 +343,7 @@ class EditNoteViewController: UIViewController {
         
         showCurrentDate()
         
-        titlePlaceholderLabel.text = "Tiêu đề"
-        titlePlaceholderLabel.font = UIFont.systemFont(ofSize: 22, weight: .bold)
-        titlePlaceholderLabel.textColor = UIColor(white: 1.0, alpha: 0.6)
-        titlePlaceholderLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleTextView.addSubview(titlePlaceholderLabel)
-        NSLayoutConstraint.activate([
-            titlePlaceholderLabel.topAnchor.constraint(equalTo: titleTextView.topAnchor, constant: 8),
-            titlePlaceholderLabel.leadingAnchor.constraint(equalTo: titleTextView.leadingAnchor, constant: 0),
-            titlePlaceholderLabel.trailingAnchor.constraint(lessThanOrEqualTo: titleTextView.trailingAnchor, constant: -8)
-        ])
-        
-        bodyPlaceholderLabel.text = "Bắt đầu viết"
-        bodyPlaceholderLabel.font = UIFont.systemFont(ofSize: 22, weight: .bold)
-        bodyPlaceholderLabel.textColor = UIColor(white: 1.0, alpha: 0.6)
-        bodyPlaceholderLabel.translatesAutoresizingMaskIntoConstraints = false
-        bodyTextView.addSubview(bodyPlaceholderLabel)
-        NSLayoutConstraint.activate([
-            bodyPlaceholderLabel.topAnchor.constraint(equalTo: bodyTextView.topAnchor, constant: 8),
-            bodyPlaceholderLabel.leadingAnchor.constraint(equalTo: bodyTextView.leadingAnchor, constant: 0),
-            bodyPlaceholderLabel.trailingAnchor.constraint(lessThanOrEqualTo: bodyTextView.trailingAnchor, constant: -8)
-        ])
+
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
         mapImageView.addGestureRecognizer(tapGesture)
@@ -426,6 +422,7 @@ class EditNoteViewController: UIViewController {
         }
         let body = note.content.replacingOccurrences(of: #"\[IMAGE:.+?\]\n?"#, with: "", options: .regularExpression)
         bodyTextView.text = body
+        bodyCharCountLabel.text = "\(body.count)"
         updatePlaceholderVisibility()
     }
 
@@ -552,6 +549,9 @@ extension EditNoteViewController: UITextViewDelegate {
             let count = textView.text.count
             titleCharCountLabel.text = "\(count)/50"
             titleCharCountLabel.textColor = count >= 50 ? .systemRed : .lightGray
+        } else if textView == bodyTextView {
+            let count = textView.text.count
+            bodyCharCountLabel.text = "\(count)"
         }
     }
     
@@ -576,17 +576,18 @@ extension EditNoteViewController: UITextViewDelegate {
         guard let titleTv = titleTextView,
               let bodyTv = bodyTextView else { return }
         
-        let requiredRightInset: CGFloat = 8
+        let titleRequiredRightInset: CGFloat = 55 // Khoảng cách đủ cho nhãn "0/50"
+        let bodyRequiredRightInset: CGFloat = 45  // Khoảng cách đủ cho nhãn đếm ký tự body
         
         var titleInset = titleTv.textContainerInset
-        if abs(titleInset.right - requiredRightInset) > 0.5 {
-            titleInset.right = requiredRightInset
+        if abs(titleInset.right - titleRequiredRightInset) > 0.5 {
+            titleInset.right = titleRequiredRightInset
             titleTv.textContainerInset = titleInset
         }
         
         var bodyInset = bodyTv.textContainerInset
-        if abs(bodyInset.right - requiredRightInset) > 0.5 {
-            bodyInset.right = requiredRightInset
+        if abs(bodyInset.right - bodyRequiredRightInset) > 0.5 {
+            bodyInset.right = bodyRequiredRightInset
             bodyTv.textContainerInset = bodyInset
         }
     }

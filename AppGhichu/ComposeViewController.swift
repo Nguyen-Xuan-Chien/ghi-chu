@@ -13,10 +13,9 @@ class ComposeViewController: UIViewController {
     @IBOutlet weak var previewImageView: UIImageView!
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var emojiButton: UIButton!
-    @IBOutlet weak var colorPencilButton: UIButton!
-    @IBOutlet weak var selectedEmojiLabel: UILabel!
     @IBOutlet weak var titleBarView: UIView!
     @IBOutlet weak var contentContainerView: UIView!
+    @IBOutlet weak var hiddenElementsContainer: UIView!
     
     @IBOutlet weak var titleCharCountLabel: UILabel!
     @IBOutlet weak var bodyCharCountLabel: UILabel!
@@ -32,41 +31,22 @@ class ComposeViewController: UIViewController {
     private var selectedColorHex: String?
     private var selectedTextColorHex: String?
     private var selectedEmoji: String?
+    private var selectedEmojiLabel: UILabel!
     
     @IBOutlet weak var bton2: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         setupDateLabel()
+        setupEmojiLabel()
         setupEmojiMenu()
-        setupColorMenu()
         setupImagesCollectionView()
         deleteButton.isHidden = true
         setupTextViews()
-        setupCharCountLabels()
         setupKeyboardToolbar()
 
         bton1.isHidden = true
         bton2.isHidden = true
         emojiButton.isHidden = true
-        colorPencilButton.isHidden = true
-    }
-    
-    private func setupCharCountLabels() {
-        titleCharCountLabel.text = "0/50"
-        
-        titleCharCountLabel.removeFromSuperview()
-        contentContainerView.addSubview(titleCharCountLabel)
-        titleCharCountLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            titleCharCountLabel.topAnchor.constraint(equalTo: titleTextView.topAnchor, constant: 10),
-            titleCharCountLabel.trailingAnchor.constraint(equalTo: contentContainerView.trailingAnchor, constant: -12)
-        ])
-        
-        titleCharCountLabel.textColor = .lightGray
-
-        bodyCharCountLabel.text = "0"
-        bodyCharCountLabel.isHidden = false
     }
     
     private func setupKeyboardToolbar() {
@@ -172,16 +152,26 @@ class ComposeViewController: UIViewController {
         view.endEditing(true)
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        updateTextViewInsets()
-    }
-    
     private func setupDateLabel() {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "vi_VN")
         formatter.dateFormat = "EEEE, 'ngày' d 'thg' M"
         dateLabel.text = formatter.string(from: Date()).capitalized
+    }
+    
+    private func setupEmojiLabel() {
+        selectedEmojiLabel = UILabel()
+        selectedEmojiLabel.font = .systemFont(ofSize: 17)
+        selectedEmojiLabel.textAlignment = .center
+        selectedEmojiLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleBarView.addSubview(selectedEmojiLabel)
+        
+        NSLayoutConstraint.activate([
+            selectedEmojiLabel.centerYAnchor.constraint(equalTo: titleBarView.centerYAnchor),
+            selectedEmojiLabel.leadingAnchor.constraint(equalTo: titleBarView.leadingAnchor, constant: 40),
+            selectedEmojiLabel.widthAnchor.constraint(equalToConstant: 25),
+            selectedEmojiLabel.heightAnchor.constraint(equalToConstant: 25)
+        ])
     }
     
     private func resized(_ image: UIImage?, to size: CGSize) -> UIImage? {
@@ -341,7 +331,6 @@ class ComposeViewController: UIViewController {
         let picker = EmojiPickerViewController()
         picker.onEmojiSelected = { [weak self] emoji in
             self?.selectedEmoji = emoji
-            
             self?.selectedEmojiLabel.text = emoji
             
             self?.updatePlaceholderVisibility()
@@ -359,63 +348,7 @@ class ComposeViewController: UIViewController {
         present(picker, animated: true)
     }
     
-    private func setupColorMenu() {
-        guard let button = colorPencilButton else { return }
-        button.addTarget(self, action: #selector(onColorPencilButtonTapped), for: .touchUpInside)
-    }
-    
-    @objc private func onColorPencilButtonTapped(_ sender: UIButton) {
-        let alert = UIAlertController(title: "Chọn màu", message: nil, preferredStyle: .actionSheet)
-        
-        alert.addAction(UIAlertAction(title: "Đổi màu nền", style: .default, handler: { _ in
-            self.presentColorPicker(forBackground: true, from: sender)
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Đổi màu chữ", style: .default, handler: { _ in
-            self.presentColorPicker(forBackground: false, from: sender)
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Hủy", style: .cancel))
-        
-        if let pop = alert.popoverPresentationController {
-            pop.sourceView = sender
-            pop.sourceRect = sender.bounds
-        }
-        
-        present(alert, animated: true)
-    }
-    
-    private func presentColorPicker(forBackground: Bool, from sender: UIButton) {
-        let picker = ColorPickerViewController()
-        picker.onColorSelected = { [weak self, weak picker] color in
-            guard let self = self else { return }
-            
-            if forBackground {
-                self.selectedColorHex = color.toHexString()
-                self.contentContainerView.backgroundColor = color
-                self.titleTextView.backgroundColor = .clear
-                self.bodyTextView.backgroundColor = .clear
-            } else {
-                self.selectedTextColorHex = color.toHexString()
-                self.titleTextView.textColor = color
-                self.bodyTextView.textColor = color
-            }
-            
-                picker?.dismiss(animated: true) {
-                self.bodyTextView.becomeFirstResponder()
-            }
-        }
-        
-        picker.modalPresentationStyle = .popover
-        if let pop = picker.popoverPresentationController {
-            pop.sourceView = sender
-            pop.sourceRect = sender.bounds
-            pop.permittedArrowDirections = [.any]
-            pop.delegate = self
-        }
-        
-        present(picker, animated: true)
-    }
+
     
     private func showCamera() {
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
@@ -519,7 +452,6 @@ extension ComposeViewController: PHPickerViewControllerDelegate, UIImagePickerCo
         self.imagesCollectionView?.reloadData()
         self.previewImageView.isHidden = false
         self.deleteButton.isHidden = self.selectedImages.isEmpty
-        self.updateTextViewInsets()
     }
 }
 
@@ -582,26 +514,8 @@ extension ComposeViewController: UICollectionViewDataSource, UICollectionViewDel
 }
 
 extension ComposeViewController: UITextViewDelegate {
-    private func updateTextViewInsets() {
-        let titleRequiredRightInset: CGFloat = 55
-        let bodyRequiredRightInset: CGFloat = 45
-        
-        var titleInset = titleTextView.textContainerInset
-        if abs(titleInset.right - titleRequiredRightInset) > 0.5 {
-            titleInset.right = titleRequiredRightInset
-            titleTextView.textContainerInset = titleInset
-        }
-        
-        var bodyInset = bodyTextView.textContainerInset
-        if abs(bodyInset.right - bodyRequiredRightInset) > 0.5 {
-            bodyInset.right = bodyRequiredRightInset
-            bodyTextView.textContainerInset = bodyInset
-        }
-    }
-    
     func textViewDidChange(_ textView: UITextView) {
         updatePlaceholderVisibility()
-        updateTextViewInsets()
         
         if textView == titleTextView {
             let count = textView.text.count
@@ -627,7 +541,6 @@ extension ComposeViewController: UITextViewDelegate {
     }
     func textViewDidBeginEditing(_ textView: UITextView) {
         updatePlaceholderVisibility()
-        updateTextViewInsets()
     }
 }
 

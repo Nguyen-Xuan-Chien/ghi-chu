@@ -20,9 +20,6 @@ class EditNoteViewController: UIViewController {
     @IBOutlet weak var mapImageView: UIImageView!
     @IBOutlet weak var closeMapButton: UIButton!
     @IBOutlet weak var mapContainerHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var emojiButton: UIButton!
-    @IBOutlet weak var colorPencilButton: UIButton!
-    @IBOutlet weak var selectedEmojiLabel: UILabel!
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var contentContainerView: UIView!
     @IBOutlet weak var titleCharCountLabel: UILabel!
@@ -35,7 +32,7 @@ class EditNoteViewController: UIViewController {
     private var selectedTextColorHex: String?
     private var selectedEmoji: String?
     
-    @IBAction func icn1(_ sender: Any) {
+    @objc private func icn1() {
         var config = PHPickerConfiguration(photoLibrary: .shared())
         config.selectionLimit = 1
         config.filter = .images
@@ -44,7 +41,7 @@ class EditNoteViewController: UIViewController {
         present(picker, animated: true)
     }
     
-    @IBAction func icn2(_ sender: Any) {
+    @objc private func icn2() {
         let status = AVCaptureDevice.authorizationStatus(for: .video)
         switch status {
         case .authorized:
@@ -78,7 +75,7 @@ class EditNoteViewController: UIViewController {
             picker.delegate = self
             present(picker, animated: true)
         } else {
-            let alert = UIAlertController(title: "Lỗi", message: "Thiết開 không hỗ trợ máy ảnh hoặc đang chạy trên máy ảo.", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Lỗi", message: "Thiết bị không hỗ trợ máy ảnh hoặc đang chạy trên máy ảo.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default))
             present(alert, animated: true)
         }
@@ -93,7 +90,6 @@ class EditNoteViewController: UIViewController {
     
     @IBOutlet weak var titleTextView: UITextView!
     @IBOutlet weak var bodyTextView: UITextView!
-    @IBOutlet weak var icnStack: UIStackView!
 
     var note: Note?
 
@@ -101,19 +97,14 @@ class EditNoteViewController: UIViewController {
 
     @IBOutlet weak var titlePlaceholderLabel: UILabel!
     @IBOutlet weak var bodyPlaceholderLabel: UILabel!
+    @IBOutlet weak var selectedEmojiLabel: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupUI()
-        setupEmojiMenu()
-        setupColorMenu()
         fillData()
         setupKeyboardToolbar()
-        
-        emojiButton.isHidden = true
-        colorPencilButton.isHidden = true
-        icnStack.isHidden = true
     }
     
     private func setupKeyboardToolbar() {
@@ -221,92 +212,6 @@ class EditNoteViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        updateTextViewInsets()
-    }
-    
-    private func setupEmojiMenu() {
-        guard let button = emojiButton else { return }
-        button.addTarget(self, action: #selector(onEmojiButtonTapped), for: .touchUpInside)
-    }
-    
-    @objc private func onEmojiButtonTapped(_ sender: UIButton) {
-        let picker = EmojiPickerViewController()
-        picker.onEmojiSelected = { [weak self] emoji in
-            self?.selectedEmoji = emoji
-            
-            self?.selectedEmojiLabel.text = emoji
-            
-            self?.updatePlaceholderVisibility()
-            self?.dismiss(animated: true)
-        }
-        
-        picker.modalPresentationStyle = .popover
-        if let pop = picker.popoverPresentationController {
-            pop.sourceView = sender
-            pop.sourceRect = sender.bounds
-            pop.permittedArrowDirections = [.any]
-            pop.delegate = self
-        }
-        
-        present(picker, animated: true)
-    }
-    
-    private func setupColorMenu() {
-        guard let button = colorPencilButton else { return }
-        button.addTarget(self, action: #selector(onColorPencilButtonTapped), for: .touchUpInside)
-    }
-    
-    @objc private func onColorPencilButtonTapped(_ sender: UIButton) {
-        let alert = UIAlertController(title: "Chọn màu", message: nil, preferredStyle: .actionSheet)
-        
-        alert.addAction(UIAlertAction(title: "Đổi màu nền", style: .default, handler: { _ in
-            self.presentColorPicker(forBackground: true, from: sender)
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Đổi màu chữ", style: .default, handler: { _ in
-            self.presentColorPicker(forBackground: false, from: sender)
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Hủy", style: .cancel))
-        
-        if let pop = alert.popoverPresentationController {
-            pop.sourceView = sender
-            pop.sourceRect = sender.bounds
-        }
-        
-        present(alert, animated: true)
-    }
-    
-    private func presentColorPicker(forBackground: Bool, from sender: UIButton) {
-        let picker = ColorPickerViewController()
-        picker.onColorSelected = { [weak self, weak picker] color in
-            guard let self = self else { return }
-            
-            if forBackground {
-                self.selectedColorHex = color.toHexString()
-                self.contentContainerView.backgroundColor = color
-                self.titleTextView.backgroundColor = .clear
-                self.bodyTextView.backgroundColor = .clear
-            } else {
-                self.selectedTextColorHex = color.toHexString()
-                self.titleTextView.textColor = color
-                self.bodyTextView.textColor = color
-            }
-            
-            picker?.dismiss(animated: true) {
-                self.bodyTextView.becomeFirstResponder()
-            }
-        }
-        
-        picker.modalPresentationStyle = .popover
-        if let pop = picker.popoverPresentationController {
-            pop.sourceView = sender
-            pop.sourceRect = sender.bounds
-            pop.permittedArrowDirections = [.any]
-            pop.delegate = self
-        }
-        
-        present(picker, animated: true)
     }
     
 
@@ -314,21 +219,6 @@ class EditNoteViewController: UIViewController {
         allmenu.layer.cornerRadius = 10
         allmenu.clipsToBounds = true
         allmenu.isHidden = false
-
-        titleCharCountLabel.text = "0/50"
-        titleCharCountLabel.removeFromSuperview()
-        contentContainerView.addSubview(titleCharCountLabel)
-        titleCharCountLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            titleCharCountLabel.topAnchor.constraint(equalTo: titleTextView.topAnchor, constant: 10),
-            titleCharCountLabel.trailingAnchor.constraint(equalTo: contentContainerView.trailingAnchor, constant: -12)
-        ])
-        titleCharCountLabel.textColor = .lightGray
-
-        // Cấu hình nhãn đếm ký tự phần nội dung (body)
-        bodyCharCountLabel.text = "0"
-        bodyCharCountLabel.isHidden = false
 
         mapImageView.contentMode = .scaleAspectFill
         mapImageView.clipsToBounds = true
@@ -342,8 +232,6 @@ class EditNoteViewController: UIViewController {
         titleTextView.textContainer.lineFragmentPadding = 0
         
         showCurrentDate()
-        
-
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
         mapImageView.addGestureRecognizer(tapGesture)
@@ -390,7 +278,7 @@ class EditNoteViewController: UIViewController {
         }
         
         selectedEmoji = note.emoji
-        selectedEmojiLabel.text = note.emoji ?? ""
+        selectedEmojiLabel.text = selectedEmoji ?? ""
         
         if let range = note.content.range(of: #"\[IMAGE:(.+?)\]"#, options: .regularExpression) {
             let marker = String(note.content[range])
@@ -543,7 +431,6 @@ extension EditNoteViewController: PHPickerViewControllerDelegate, UIImagePickerC
 extension EditNoteViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         updatePlaceholderVisibility()
-        updateTextViewInsets()
         
         if textView == titleTextView {
             let count = textView.text.count
@@ -566,30 +453,9 @@ extension EditNoteViewController: UITextViewDelegate {
     }
     func textViewDidBeginEditing(_ textView: UITextView) {
         updatePlaceholderVisibility()
-        updateTextViewInsets()
     }
     func textViewDidEndEditing(_ textView: UITextView) {
         updatePlaceholderVisibility()
-    }
-    
-    private func updateTextViewInsets() {
-        guard let titleTv = titleTextView,
-              let bodyTv = bodyTextView else { return }
-        
-        let titleRequiredRightInset: CGFloat = 55 // Khoảng cách đủ cho nhãn "0/50"
-        let bodyRequiredRightInset: CGFloat = 45  // Khoảng cách đủ cho nhãn đếm ký tự body
-        
-        var titleInset = titleTv.textContainerInset
-        if abs(titleInset.right - titleRequiredRightInset) > 0.5 {
-            titleInset.right = titleRequiredRightInset
-            titleTv.textContainerInset = titleInset
-        }
-        
-        var bodyInset = bodyTv.textContainerInset
-        if abs(bodyInset.right - bodyRequiredRightInset) > 0.5 {
-            bodyInset.right = bodyRequiredRightInset
-            bodyTv.textContainerInset = bodyInset
-        }
     }
     
     private func updatePlaceholderVisibility() {

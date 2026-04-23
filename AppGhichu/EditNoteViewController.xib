@@ -4,21 +4,19 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24743"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditNoteViewController" customModule="AppGhichu" customModuleProvider="target">
             <connections>
                 <outlet property="allmenu" destination="1wj-LP-1aF" id="49a-OS-W3U"/>
+                <outlet property="bodyCharCountLabel" destination="body-char-count-id-edit" id="body-char-count-edit-conn"/>
+                <outlet property="bodyPlaceholderLabel" destination="body-placeholder-edit-id" id="body-placeholder-edit-conn"/>
                 <outlet property="bodyTextView" destination="4QC-hQ-Mc6" id="6XE-l4-Xmf-new"/>
                 <outlet property="closeMapButton" destination="RL0-Bm-o7i" id="aVg-wu-bj3"/>
-                <outlet property="colorPencilButton" destination="wS9-DL-32s" id="color-pencil-id-conn"/>
                 <outlet property="contentContainerView" destination="9Kd-jK-tqK" id="content-container-conn-edit"/>
                 <outlet property="dateLabel" destination="Yq8-fJ-uMc" id="jPB-MG-3ts"/>
-                <outlet property="emojiButton" destination="zvb-uk-pVZ" id="edit-emoji-id-conn"/>
                 <outlet property="headerView" destination="46M-HV-amF" id="header-view-conn"/>
-                <outlet property="icnStack" destination="9eL-iC-455" id="icn-stack-conn"/>
                 <outlet property="likeButton" destination="5Eo-aC-4Kk" id="vaH-PM-UFr"/>
                 <outlet property="mapContainerHeightConstraint" destination="Vss-Wb-jlb" id="conn-height-id"/>
                 <outlet property="mapContainerView" destination="Mus-oH-dqf" id="2zT-Jp-kLr"/>
@@ -26,10 +24,8 @@
                 <outlet property="moreButton" destination="q1L-hs-TV4" id="ogh-em-ObT"/>
                 <outlet property="selectedEmojiLabel" destination="emoji-label-id-edit" id="emoji-label-conn-edit"/>
                 <outlet property="titleCharCountLabel" destination="title-char-count-id-edit" id="title-char-count-conn-edit"/>
-                <outlet property="titleTextView" destination="2Gf-o0-akZ" id="0B4-o5-DyF-new"/>
-                <outlet property="bodyCharCountLabel" destination="body-char-count-id-edit" id="body-char-count-edit-conn"/>
-                <outlet property="bodyPlaceholderLabel" destination="body-placeholder-edit-id" id="body-placeholder-edit-conn"/>
                 <outlet property="titlePlaceholderLabel" destination="title-placeholder-edit-id" id="title-placeholder-edit-conn"/>
+                <outlet property="titleTextView" destination="2Gf-o0-akZ" id="0B4-o5-DyF-new"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -44,8 +40,8 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="46M-HV-amF" userLabel="Header View">
                             <rect key="frame" x="0.0" y="50" width="393" height="40"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Eo-aC-4Kk">
-                                    <rect key="frame" x="0.0" y="2.6666666666666643" width="46.333333333333336" height="35"/>
+                                <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Eo-aC-4Kk">
+                                    <rect key="frame" x="-8" y="3" width="43" height="35"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="35" id="qVK-li-DEE"/>
                                     </constraints>
@@ -54,10 +50,14 @@
                                         <color key="baseForegroundColor" red="0.35980298370000002" green="0.3510707408" blue="0.79835590489999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </buttonConfiguration>
                                 </button>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0/50" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="title-char-count-id-edit">
-                                    <rect key="frame" x="309.33333333333331" y="12.666666666666664" width="26" height="15"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="emoji-label-id-edit">
+                                    <rect key="frame" x="126" y="10" width="20" height="20"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="20" id="h-emoji-val-edit"/>
+                                        <constraint firstAttribute="width" constant="20" id="w-emoji-val-edit"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UL8-us-EvF">
@@ -83,29 +83,8 @@
                                         <color key="baseForegroundColor" red="0.35980298370000002" green="0.3510707408" blue="0.79835590489999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </buttonConfiguration>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wS9-DL-32s">
-                                    <rect key="frame" x="54" y="3.6666666666666643" width="35" height="35"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="35" id="color-pencil-height-edit"/>
-                                        <constraint firstAttribute="width" constant="35" id="color-pencil-width-edit"/>
-                                    </constraints>
-                                    <state key="normal" title="Button"/>
-                                    <buttonConfiguration key="configuration" style="plain" image="pencil.tip.crop.circle.badge.plus.fill" catalog="system">
-                                        <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </buttonConfiguration>
-                                </button>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="emoji-label-id-edit">
-                                    <rect key="frame" x="260.66666666666669" y="10" width="20" height="20"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="20" id="h-emoji-val-edit"/>
-                                        <constraint firstAttribute="width" constant="20" id="w-emoji-val-edit"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <nil key="textColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="... thg ..., ..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yq8-fJ-uMc">
-                                    <rect key="frame" x="101" y="10" width="165.66666666666666" height="20.333333333333329"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="... thg ..., ..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" translatesAutoresizingMaskIntoConstraints="NO" id="Yq8-fJ-uMc">
+                                    <rect key="frame" x="156" y="9.9999999999999982" width="94.333333333333314" height="20.333333333333329"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
@@ -113,48 +92,50 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstItem="UL8-us-EvF" firstAttribute="leading" secondItem="title-char-count-id-edit" secondAttribute="trailing" id="char-count-to-done-edit"/>
-                                <constraint firstItem="title-char-count-id-edit" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="char-count-center-y-edit"/>
-                                <constraint firstItem="emoji-label-id-edit" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="center-y-emoji-edit"/>
                                 <constraint firstItem="Yq8-fJ-uMc" firstAttribute="centerX" secondItem="46M-HV-amF" secondAttribute="centerX" priority="750" id="centerXHeader"/>
                                 <constraint firstItem="5Eo-aC-4Kk" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="centerYBookmark"/>
                                 <constraint firstItem="UL8-us-EvF" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="centerYDone"/>
+                                <constraint firstItem="emoji-label-id-edit" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="centerYEmojiEdit"/>
                                 <constraint firstItem="Yq8-fJ-uMc" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="centerYHeader"/>
                                 <constraint firstItem="q1L-hs-TV4" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="centerYMore"/>
-                                <constraint firstItem="wS9-DL-32s" firstAttribute="centerY" secondItem="Yq8-fJ-uMc" secondAttribute="centerY" constant="1" id="centerYPencilEdit"/>
                                 <constraint firstAttribute="height" constant="40" id="headerHeight"/>
-                                <constraint firstItem="emoji-label-id-edit" firstAttribute="leading" secondItem="Yq8-fJ-uMc" secondAttribute="trailing" constant="10" id="lead-emoji-from-date-edit"/>
-                                <constraint firstItem="q1L-hs-TV4" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="emoji-label-id-edit" secondAttribute="trailing" constant="5" id="lead-more-from-emoji-edit"/>
-                                <constraint firstItem="Yq8-fJ-uMc" firstAttribute="leading" secondItem="wS9-DL-32s" secondAttribute="trailing" constant="10" id="leading-date-from-pencil-edit"/>
-                                <constraint firstItem="5Eo-aC-4Kk" firstAttribute="leading" secondItem="46M-HV-amF" secondAttribute="leading" id="leadingBookmark"/>
+                                <constraint firstItem="emoji-label-id-edit" firstAttribute="leading" secondItem="5Eo-aC-4Kk" secondAttribute="trailing" constant="87.666666666666686" id="lead-emoji-from-bookmark-edit"/>
+                                <constraint firstItem="q1L-hs-TV4" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Yq8-fJ-uMc" secondAttribute="trailing" constant="10" id="lead-more-from-date-edit"/>
+                                <constraint firstItem="Yq8-fJ-uMc" firstAttribute="leading" secondItem="emoji-label-id-edit" secondAttribute="trailing" constant="10" id="leading-date-from-emoji-edit"/>
+                                <constraint firstItem="5Eo-aC-4Kk" firstAttribute="leading" secondItem="46M-HV-amF" secondAttribute="leading" constant="-8" id="leadingBookmark"/>
                                 <constraint firstItem="UL8-us-EvF" firstAttribute="leading" secondItem="q1L-hs-TV4" secondAttribute="trailing" id="leadingDoneMore"/>
-                                <constraint firstItem="wS9-DL-32s" firstAttribute="leading" secondItem="5Eo-aC-4Kk" secondAttribute="trailing" constant="7.6666666666666643" id="pencil-leading-bookmark-edit"/>
                                 <constraint firstAttribute="trailing" secondItem="UL8-us-EvF" secondAttribute="trailing" constant="8" id="trailingDone"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Kd-jK-tqK" userLabel="Content View">
                             <rect key="frame" x="0.0" y="90" width="393" height="762"/>
                             <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0/50" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="title-char-count-id-edit">
+                                    <rect key="frame" x="354.66666666666669" y="224" width="26.333333333333314" height="14.333333333333343"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tiêu đề" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="title-placeholder-edit-id">
-                                    <rect key="frame" x="8" y="214" width="71.666666666666671" height="26.333333333333332"/>
+                                    <rect key="frame" x="8" y="222" width="75.333333333333329" height="26.333333333333343"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                                     <color key="textColor" white="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bắt đầu viết" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="body-placeholder-edit-id">
-                                    <rect key="frame" x="8" y="279" width="117.66666666666667" height="26.333333333333332"/>
+                                    <rect key="frame" x="7.9999999999999929" y="287" width="121.33333333333331" height="26.333333333333314"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                                     <color key="textColor" white="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="bVv-m8-Xbz">
-                                    <rect key="frame" x="8" y="10" width="377" height="376"/>
+                                    <rect key="frame" x="8" y="10" width="377" height="742"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mus-oH-dqf">
-                                            <rect key="frame" x="0.0" y="0.0" width="361" height="199"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="377" height="199"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_icon" translatesAutoresizingMaskIntoConstraints="NO" id="QXZ-xu-z6H">
-                                                    <rect key="frame" x="0.0" y="0.0" width="361" height="199"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="377" height="199"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="199" id="d7K-lo-AWt"/>
                                                     </constraints>
@@ -165,7 +146,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RL0-Bm-o7i">
-                                                    <rect key="frame" x="337" y="0.0" width="24" height="24"/>
+                                                    <rect key="frame" x="353" y="0.0" width="24" height="24"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="24" id="ddn-fI-6X3-new"/>
                                                         <constraint firstAttribute="height" constant="24" id="kpn-Xg-cor-new"/>
@@ -196,7 +177,7 @@
                                             </userDefinedRuntimeAttributes>
                                         </view>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="2Gf-o0-akZ" userLabel="Title View">
-                                            <rect key="frame" x="0.0" y="204" width="361" height="60"/>
+                                            <rect key="frame" x="0.0" y="204" width="377" height="60"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="60" id="cgO-66-id"/>
@@ -204,83 +185,46 @@
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="rect" keyPath="textContainerInset">
+                                                    <rect key="value" x="8" y="0.0" width="55" height="8"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
                                         </textView>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="4QC-hQ-Mc6" userLabel="Body View">
-                                            <rect key="frame" x="0.0" y="269" width="361" height="107"/>
+                                            <rect key="frame" x="0.0" y="269" width="377" height="473"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="rect" keyPath="textContainerInset">
+                                                    <rect key="value" x="8" y="0.0" width="45" height="8"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
                                         </textView>
                                     </subviews>
                                 </stackView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="body-char-count-id-edit">
-                                    <rect key="frame" x="371" y="726" width="10" height="18"/>
+                                    <rect key="frame" x="371.33333333333331" y="684" width="9.6666666666666856" height="18"/>
                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <stackView opaque="NO" contentMode="scaleToFill" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="9eL-iC-455" userLabel="Icon Stack">
-                                    <rect key="frame" x="258" y="214" width="119" height="35"/>
-                                    <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zvb-uk-pVZ">
-                                            <rect key="frame" x="0.0" y="0.0" width="35" height="35"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="35" id="smiley-height"/>
-                                                <constraint firstAttribute="width" constant="35" id="smiley-width"/>
-                                            </constraints>
-                                            <state key="normal" title="Button"/>
-                                            <buttonConfiguration key="configuration" style="plain" image="face.smiling.inverse" catalog="system">
-                                                <color key="baseForegroundColor" systemColor="systemYellowColor"/>
-                                            </buttonConfiguration>
-                                        </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CkI-kX-qFv">
-                                            <rect key="frame" x="42" y="0.0" width="35" height="35"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="35" id="photo-height-edit"/>
-                                                <constraint firstAttribute="width" constant="35" id="photo-width-edit"/>
-                                            </constraints>
-                                            <state key="normal" title="Button"/>
-                                            <buttonConfiguration key="configuration" style="plain" image="photo.on.rectangle" catalog="system">
-                                                <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            </buttonConfiguration>
-                                            <connections>
-                                                <action selector="icn1:" destination="-1" eventType="touchUpInside" id="dVz-FU-GoR"/>
-                                            </connections>
-                                        </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dzA-sg-MLX">
-                                            <rect key="frame" x="84" y="0.0" width="35" height="35"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="35" id="camera-height-edit"/>
-                                                <constraint firstAttribute="width" constant="35" id="camera-width-edit"/>
-                                            </constraints>
-                                            <state key="normal" title="Button"/>
-                                            <buttonConfiguration key="configuration" style="plain" image="camera" catalog="system">
-                                                <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                            </buttonConfiguration>
-                                            <connections>
-                                                <action selector="icn2:" destination="-1" eventType="touchUpInside" id="wlO-ug-gmt"/>
-                                            </connections>
-                                        </button>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="35" id="iconStackHeight"/>
-                                    </constraints>
-                                </stackView>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstAttribute="trailing" secondItem="body-char-count-id-edit" secondAttribute="trailing" constant="12" id="body-count-trailing-edit"/>
-                                <constraint firstAttribute="bottom" secondItem="body-char-count-id-edit" secondAttribute="bottom" constant="60" id="body-count-bottom-edit"/>
-                                <constraint firstItem="title-placeholder-edit-id" firstAttribute="top" secondItem="2Gf-o0-akZ" secondAttribute="top" constant="8" id="title-placeholder-edit-top"/>
-                                <constraint firstItem="title-placeholder-edit-id" firstAttribute="leading" secondItem="2Gf-o0-akZ" secondAttribute="leading" id="title-placeholder-edit-leading"/>
-                                <constraint firstItem="body-placeholder-edit-id" firstAttribute="top" secondItem="4QC-hQ-Mc6" secondAttribute="top" constant="8" id="body-placeholder-edit-top"/>
-                                <constraint firstItem="body-placeholder-edit-id" firstAttribute="leading" secondItem="4QC-hQ-Mc6" secondAttribute="leading" id="body-placeholder-edit-leading"/>
                                 <constraint firstItem="bVv-m8-Xbz" firstAttribute="top" secondItem="9Kd-jK-tqK" secondAttribute="top" constant="10" id="CG0-NC-vOy"/>
-                                <constraint firstItem="bVv-m8-Xbz" firstAttribute="leading" secondItem="9Kd-jK-tqK" secondAttribute="leading" constant="8" id="leadingStack"/>
+                                <constraint firstAttribute="bottom" secondItem="body-char-count-id-edit" secondAttribute="bottom" constant="60" id="body-count-bottom-edit"/>
+                                <constraint firstAttribute="trailing" secondItem="body-char-count-id-edit" secondAttribute="trailing" constant="12" id="body-count-trailing-edit"/>
+                                <constraint firstItem="body-placeholder-edit-id" firstAttribute="leading" secondItem="4QC-hQ-Mc6" secondAttribute="leading" id="body-placeholder-edit-leading"/>
+                                <constraint firstItem="body-placeholder-edit-id" firstAttribute="top" secondItem="4QC-hQ-Mc6" secondAttribute="top" constant="8" id="body-placeholder-edit-top"/>
                                 <constraint firstAttribute="bottom" secondItem="bVv-m8-Xbz" secondAttribute="bottom" constant="10" id="bottomStack"/>
-                                <constraint firstItem="9eL-iC-455" firstAttribute="top" secondItem="2Gf-o0-akZ" secondAttribute="top" id="topIconsTitle"/>
-                                <constraint firstItem="9eL-iC-455" firstAttribute="trailing" secondItem="bVv-m8-Xbz" secondAttribute="trailing" id="trailingIcons"/>
+                                <constraint firstItem="bVv-m8-Xbz" firstAttribute="leading" secondItem="9Kd-jK-tqK" secondAttribute="leading" constant="8" id="leadingStack"/>
+                                <constraint firstItem="title-char-count-id-edit" firstAttribute="top" secondItem="2Gf-o0-akZ" secondAttribute="top" constant="10" id="title-char-count-top-edit"/>
+                                <constraint firstAttribute="trailing" secondItem="title-char-count-id-edit" secondAttribute="trailing" constant="12" id="title-char-count-trailing-edit"/>
+                                <constraint firstItem="title-placeholder-edit-id" firstAttribute="leading" secondItem="2Gf-o0-akZ" secondAttribute="leading" id="title-placeholder-edit-leading"/>
+                                <constraint firstItem="title-placeholder-edit-id" firstAttribute="top" secondItem="2Gf-o0-akZ" secondAttribute="top" constant="8" id="title-placeholder-edit-top"/>
                                 <constraint firstAttribute="trailing" secondItem="bVv-m8-Xbz" secondAttribute="trailing" constant="8" id="trailingStack"/>
                             </constraints>
                         </view>
@@ -310,16 +254,9 @@
     </objects>
     <resources>
         <image name="bookmark" catalog="system" width="110" height="128"/>
-        <image name="camera" catalog="system" width="128" height="93"/>
         <image name="checkmark.circle.fill" catalog="system" width="128" height="123"/>
         <image name="ellipsis.circle" catalog="system" width="128" height="123"/>
-        <image name="face.smiling.inverse" catalog="system" width="128" height="123"/>
         <image name="img_icon" width="1114" height="557"/>
-        <image name="pencil.tip.crop.circle.badge.plus.fill" catalog="system" width="128" height="114"/>
-        <image name="photo.on.rectangle" catalog="system" width="128" height="98"/>
         <image name="xmark.circle.fill" catalog="system" width="128" height="123"/>
-        <systemColor name="systemYellowColor">
-            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
     </resources>
 </document>

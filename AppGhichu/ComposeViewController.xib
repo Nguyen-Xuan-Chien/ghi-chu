@@ -4,29 +4,27 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24743"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ComposeViewController" customModule="AppGhichu" customModuleProvider="target">
             <connections>
+                <outlet property="bodyCharCountLabel" destination="hidden-body-char-count" id="body-char-count-conn"/>
+                <outlet property="bodyPlaceholderLabel" destination="body-placeholder-id" id="body-placeholder-conn"/>
                 <outlet property="bodyTextView" destination="QU1-mC-fVh" id="DqJ-GN-piA"/>
                 <outlet property="bton1" destination="hidden-bton1" id="btV-3o-7B1"/>
                 <outlet property="bton2" destination="hidden-bton2" id="snq-Wj-W7J"/>
-                <outlet property="colorPencilButton" destination="wS9-DL-32s" id="color-pencil-id-conn"/>
                 <outlet property="contentContainerView" destination="9Kd-jK-tqK" id="content-container-conn"/>
                 <outlet property="dateLabel" destination="NSD-ao-9y4" id="A4S-zh-tlC"/>
                 <outlet property="deleteButton" destination="hidden-delete-btn" id="lqI-Xb-Nc9"/>
                 <outlet property="emojiButton" destination="hidden-emoji-btn" id="emoji-id-conn"/>
+                <outlet property="hiddenElementsContainer" destination="hidden-elements-container" id="hidden-container-conn"/>
                 <outlet property="previewImageView" destination="9G4-8P-5pf" id="hPT-wO-bwy"/>
-                <outlet property="selectedEmojiLabel" destination="emoji-label-id" id="emoji-label-conn"/>
                 <outlet property="titleBarView" destination="46M-HV-amF" id="title-bar-id-conn"/>
-                <outlet property="titleTextView" destination="0gu-ff-Kh4" id="6ea-hz-sfi"/>
                 <outlet property="titleCharCountLabel" destination="title-char-count-id" id="title-char-count-conn"/>
-                <outlet property="bodyCharCountLabel" destination="hidden-body-char-count" id="body-char-count-conn"/>
-                <outlet property="titleTextField" destination="hidden-title-tf" id="title-tf-conn"/>
-                <outlet property="bodyPlaceholderLabel" destination="body-placeholder-id" id="body-placeholder-conn"/>
                 <outlet property="titlePlaceholderLabel" destination="title-placeholder-id" id="title-placeholder-conn"/>
+                <outlet property="titleTextField" destination="hidden-title-tf" id="title-tf-conn"/>
+                <outlet property="titleTextView" destination="0gu-ff-Kh4" id="6ea-hz-sfi"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -35,50 +33,63 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <textField hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hidden-title-tf">
-                    <rect key="frame" x="0.0" y="0.0" width="97" height="34"/>
+                <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hidden-elements-container">
+                    <rect key="frame" x="0.0" y="0.0" width="393" height="100"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits"/>
-                </textField>
-                <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hidden-bton1">
-                    <rect key="frame" x="0.0" y="0.0" width="75" height="35"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" title="Button"/>
-                </button>
-                <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hidden-bton2">
-                    <rect key="frame" x="0.0" y="0.0" width="75" height="35"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" title="Button"/>
-                </button>
-                <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hidden-delete-btn">
-                    <rect key="frame" x="0.0" y="0.0" width="75" height="35"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" title="Button"/>
-                    <connections>
-                        <action selector="removePreviewImage:" destination="-1" eventType="touchUpInside" id="dAq-1h-h4E"/>
-                    </connections>
-                </button>
-                <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hidden-emoji-btn">
-                    <rect key="frame" x="0.0" y="0.0" width="75" height="35"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain" title="Button"/>
-                </button>
+                    <subviews>
+                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hidden-title-tf">
+                            <rect key="frame" x="0.0" y="0.0" width="97" height="34"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hidden-bton1">
+                            <rect key="frame" x="100" y="0.0" width="75" height="35"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hidden-bton2">
+                            <rect key="frame" x="180" y="0.0" width="75" height="35"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hidden-delete-btn">
+                            <rect key="frame" x="260" y="0.0" width="75" height="35"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                            <connections>
+                                <action selector="removePreviewImage:" destination="-1" eventType="touchUpInside" id="dAq-1h-h4E"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hidden-emoji-btn">
+                            <rect key="frame" x="0.0" y="40" width="75" height="35"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Kd-jK-tqK">
                     <rect key="frame" x="0.0" y="158" width="393" height="694"/>
                     <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0/50" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="title-char-count-id">
+                            <rect key="frame" x="354.66666666666669" y="10" width="26.333333333333314" height="14.333333333333336"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tiêu đề" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="title-placeholder-id">
-                            <rect key="frame" x="0.0" y="8" width="71.666666666666671" height="26.333333333333332"/>
+                            <rect key="frame" x="0.0" y="7.9999999999999982" width="75.333333333333329" height="26.333333333333329"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                             <color key="textColor" white="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bắt đầu viết" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="body-placeholder-id">
-                            <rect key="frame" x="0.0" y="78" width="117.66666666666667" height="26.333333333333332"/>
+                            <rect key="frame" x="0.0" y="78" width="121.33333333333333" height="26.333333333333329"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                             <color key="textColor" white="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
@@ -101,6 +112,11 @@
                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="rect" keyPath="textContainerInset">
+                                            <rect key="value" x="8" y="0.0" width="55" height="8"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
                                 </textView>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="QU1-mC-fVh">
                                     <rect key="frame" x="0.0" y="70" width="393" height="624"/>
@@ -108,12 +124,17 @@
                                     <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    <userDefinedRuntimeAttributes>
+                                        <userDefinedRuntimeAttribute type="rect" keyPath="textContainerInset">
+                                            <rect key="value" x="8" y="0.0" width="45" height="8"/>
+                                        </userDefinedRuntimeAttribute>
+                                    </userDefinedRuntimeAttributes>
                                 </textView>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </stackView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hidden-body-char-count">
-                            <rect key="frame" x="371" y="658" width="10" height="18"/>
+                            <rect key="frame" x="371.33333333333331" y="616" width="9.6666666666666856" height="18"/>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
@@ -121,16 +142,18 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="trailing" secondItem="hidden-body-char-count" secondAttribute="trailing" constant="12" id="body-count-trailing"/>
-                        <constraint firstAttribute="bottom" secondItem="hidden-body-char-count" secondAttribute="bottom" constant="60" id="body-count-bottom"/>
-                        <constraint firstItem="title-placeholder-id" firstAttribute="top" secondItem="0gu-ff-Kh4" secondAttribute="top" constant="8" id="title-placeholder-top"/>
-                        <constraint firstItem="title-placeholder-id" firstAttribute="leading" secondItem="0gu-ff-Kh4" secondAttribute="leading" id="title-placeholder-leading"/>
-                        <constraint firstItem="body-placeholder-id" firstAttribute="top" secondItem="QU1-mC-fVh" secondAttribute="top" constant="8" id="body-placeholder-top"/>
-                        <constraint firstItem="body-placeholder-id" firstAttribute="leading" secondItem="QU1-mC-fVh" secondAttribute="leading" id="body-placeholder-leading"/>
-                        <constraint firstAttribute="bottom" secondItem="bVv-m8-Xbz" secondAttribute="bottom" id="hXe-hL-7Fn"/>
-                        <constraint firstItem="bVv-m8-Xbz" firstAttribute="leading" secondItem="9Kd-jK-tqK" secondAttribute="leading" id="sHk-2Q-Uhf"/>
                         <constraint firstItem="bVv-m8-Xbz" firstAttribute="top" secondItem="9Kd-jK-tqK" secondAttribute="top" id="OuG-MB-XIa"/>
                         <constraint firstAttribute="trailing" secondItem="bVv-m8-Xbz" secondAttribute="trailing" id="Zqf-Rf-AhZ"/>
+                        <constraint firstAttribute="bottom" secondItem="hidden-body-char-count" secondAttribute="bottom" constant="60" id="body-count-bottom"/>
+                        <constraint firstAttribute="trailing" secondItem="hidden-body-char-count" secondAttribute="trailing" constant="12" id="body-count-trailing"/>
+                        <constraint firstItem="body-placeholder-id" firstAttribute="leading" secondItem="QU1-mC-fVh" secondAttribute="leading" id="body-placeholder-leading"/>
+                        <constraint firstItem="body-placeholder-id" firstAttribute="top" secondItem="QU1-mC-fVh" secondAttribute="top" constant="8" id="body-placeholder-top"/>
+                        <constraint firstAttribute="bottom" secondItem="bVv-m8-Xbz" secondAttribute="bottom" id="hXe-hL-7Fn"/>
+                        <constraint firstItem="bVv-m8-Xbz" firstAttribute="leading" secondItem="9Kd-jK-tqK" secondAttribute="leading" id="sHk-2Q-Uhf"/>
+                        <constraint firstItem="title-char-count-id" firstAttribute="top" secondItem="0gu-ff-Kh4" secondAttribute="top" constant="10" id="title-char-count-top"/>
+                        <constraint firstAttribute="trailing" secondItem="title-char-count-id" secondAttribute="trailing" constant="12" id="title-char-count-trailing"/>
+                        <constraint firstItem="title-placeholder-id" firstAttribute="leading" secondItem="0gu-ff-Kh4" secondAttribute="leading" id="title-placeholder-leading"/>
+                        <constraint firstItem="title-placeholder-id" firstAttribute="top" secondItem="0gu-ff-Kh4" secondAttribute="top" constant="8" id="title-placeholder-top"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="46M-HV-amF">
@@ -156,42 +179,15 @@
                             <buttonConfiguration key="configuration" style="plain" image="ellipsis.circle" catalog="system"/>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HKF-ek-f67">
-                            <rect key="frame" x="0.0" y="2.6666666666666714" width="26.666666666666668" height="35"/>
+                            <rect key="frame" x="0.0" y="6" width="26" height="32"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="35" id="kNQ-Zy-ili"/>
+                                <constraint firstAttribute="height" constant="32" id="kNQ-Zy-ili"/>
                             </constraints>
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="plain" image="bookmark" catalog="system"/>
                         </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="emoji-label-id">
-                            <rect key="frame" x="248" y="10" width="20" height="20"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="20" id="h-emoji-val"/>
-                                <constraint firstAttribute="width" constant="20" id="w-emoji-val"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wS9-DL-32s">
-                            <rect key="frame" x="47" y="1" width="35" height="35"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="35" id="color-pencil-height"/>
-                                <constraint firstAttribute="width" constant="35" id="color-pencil-width"/>
-                            </constraints>
-                            <state key="normal" title="Button"/>
-                            <buttonConfiguration key="configuration" style="plain" image="pencil.tip.crop.circle.badge.plus.fill" catalog="system">
-                                <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </buttonConfiguration>
-                        </button>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0/50" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="title-char-count-id">
-                            <rect key="frame" x="288.33333333333331" y="12.666666666666671" width="26" height="15"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thứ ..., Ngày ..., Thg ..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NSD-ao-9y4">
-                            <rect key="frame" x="92.333333333333343" y="12" width="131.66666666666666" height="15.666666666666664"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thứ ..., Ngày ..., Thg ..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" translatesAutoresizingMaskIntoConstraints="NO" id="NSD-ao-9y4">
+                            <rect key="frame" x="130" y="12.333333333333343" width="133" height="15.666666666666664"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
@@ -199,21 +195,15 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstItem="title-char-count-id" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="char-count-center-y"/>
-                        <constraint firstItem="MfY-8R-GHM" firstAttribute="leading" secondItem="title-char-count-id" secondAttribute="trailing" constant="5" id="char-count-to-done"/>
-                        <constraint firstItem="2rY-Ix-1lm" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="emoji-label-id" secondAttribute="trailing" constant="5" id="9tL-eM-f1F-new"/>
-                        <constraint firstItem="MfY-8R-GHM" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="Bd9-zq-vpD"/>
-                        <constraint firstItem="wS9-DL-32s" firstAttribute="centerY" secondItem="NSD-ao-9y4" secondAttribute="centerY" constant="-1.666666666666675" id="IDk-BG-LKX"/>
                         <constraint firstItem="MfY-8R-GHM" firstAttribute="leading" secondItem="2rY-Ix-1lm" secondAttribute="trailing" constant="-3.3333333333333712" id="Jfs-ql-C0F"/>
                         <constraint firstItem="NSD-ao-9y4" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="Z1w-yO-C8F"/>
-                        <constraint firstItem="emoji-label-id" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="center-y-emoji"/>
-                        <constraint firstItem="HKF-ek-f67" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="eQd-qU-5Sh"/>
+                        <constraint firstItem="HKF-ek-f67" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" constant="2" id="eQd-qU-5Sh"/>
                         <constraint firstAttribute="trailing" secondItem="MfY-8R-GHM" secondAttribute="trailing" constant="10" id="gl7-Cx-3su"/>
-                        <constraint firstItem="HKF-ek-f67" firstAttribute="leading" secondItem="46M-HV-amF" secondAttribute="leading" id="kgV-Ik-QM6"/>
-                        <constraint firstItem="emoji-label-id" firstAttribute="leading" secondItem="NSD-ao-9y4" secondAttribute="trailing" constant="10" id="lead-emoji-from-date"/>
-                        <constraint firstItem="NSD-ao-9y4" firstAttribute="leading" secondItem="wS9-DL-32s" secondAttribute="trailing" constant="10" id="leading-date-from-pencil"/>
+                        <constraint firstItem="HKF-ek-f67" firstAttribute="leading" secondItem="46M-HV-amF" secondAttribute="leading" constant="-8" id="kgV-Ik-QM6"/>
+                        <constraint firstItem="2rY-Ix-1lm" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="NSD-ao-9y4" secondAttribute="trailing" constant="10" id="lead-more-from-date"/>
+                        <constraint firstItem="NSD-ao-9y4" firstAttribute="leading" secondItem="HKF-ek-f67" secondAttribute="trailing" constant="104" id="leading-date-from-bookmark"/>
                         <constraint firstItem="NSD-ao-9y4" firstAttribute="centerX" secondItem="46M-HV-amF" secondAttribute="centerX" priority="750" id="mBo-hq-lD4"/>
-                        <constraint firstItem="wS9-DL-32s" firstAttribute="leading" secondItem="HKF-ek-f67" secondAttribute="trailing" constant="20.333333333333332" id="pencil-leading-bookmark"/>
+                        <constraint firstItem="2rY-Ix-1lm" firstAttribute="centerY" secondItem="NSD-ao-9y4" secondAttribute="centerY" id="oGq-ef-jbH"/>
                         <constraint firstAttribute="height" constant="40" id="ySY-qf-IHF"/>
                         <constraint firstItem="2rY-Ix-1lm" firstAttribute="centerY" secondItem="MfY-8R-GHM" secondAttribute="centerY" id="yyw-yR-dSy"/>
                     </constraints>
@@ -235,14 +225,6 @@
     </objects>
     <resources>
         <image name="bookmark" catalog="system" width="110" height="128"/>
-        <image name="camera" catalog="system" width="128" height="93"/>
         <image name="ellipsis.circle" catalog="system" width="128" height="123"/>
-        <image name="face.smiling.inverse" catalog="system" width="128" height="123"/>
-        <image name="pencil.tip.crop.circle.badge.plus.fill" catalog="system" width="128" height="114"/>
-        <image name="photo.artframe" catalog="system" width="128" height="93"/>
-        <image name="xmark.circle.fill" catalog="system" width="128" height="123"/>
-        <systemColor name="systemYellowColor">
-            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
     </resources>
 </document>

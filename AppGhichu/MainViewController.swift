@@ -304,24 +304,8 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UIPopo
         ) as! NoteCell
 
         let note = sections[indexPath.section].items[indexPath.row]
-        cell.configure(note: note)
-
-        if let hex = note.colorHex, let color = UIColor(hex: hex) {
-            cell.cardView.backgroundColor = color
-            
-            if let tHex = note.textColorHex, let tColor = UIColor(hex: tHex) {
-                cell.lblTitle.textColor = tColor
-                cell.lblContent.textColor = tColor.withAlphaComponent(0.8)
-                cell.lblDate.textColor = tColor.withAlphaComponent(0.7)
-            } else {
-                cell.lblTitle.textColor = .white
-                cell.lblContent.textColor = .white.withAlphaComponent(0.8)
-                cell.lblDate.textColor = .white.withAlphaComponent(0.7)
-            }
-        } else {
-            let color = sectionPalette[indexPath.section % sectionPalette.count]
-            cell.applyTheme(baseColor: color)
-        }
+        let defaultColor = sectionPalette[indexPath.section % sectionPalette.count]
+        cell.configure(note: note, defaultThemeColor: defaultColor)
 
         cell.onMoreTapped = { [weak self] in
             self?.showMoreMenu(for: note)

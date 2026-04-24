@@ -5,17 +5,12 @@ import AVFoundation
 class ComposeViewController: UIViewController {
     
     var onNoteSaved: (() -> Void)?
-    @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var titleTextView: UITextView!
     @IBOutlet weak var bodyTextView: UITextView!
     @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var bton1: UIButton!  
     @IBOutlet weak var previewImageView: UIImageView!
-    @IBOutlet weak var deleteButton: UIButton!
-    @IBOutlet weak var emojiButton: UIButton!
     @IBOutlet weak var titleBarView: UIView!
     @IBOutlet weak var contentContainerView: UIView!
-    @IBOutlet weak var hiddenElementsContainer: UIView!
     
     @IBOutlet weak var titleCharCountLabel: UILabel!
     @IBOutlet weak var bodyCharCountLabel: UILabel!
@@ -31,22 +26,14 @@ class ComposeViewController: UIViewController {
     private var selectedColorHex: String?
     private var selectedTextColorHex: String?
     private var selectedEmoji: String?
-    private var selectedEmojiLabel: UILabel!
+    @IBOutlet weak var selectedEmojiLabel: UILabel!
     
-    @IBOutlet weak var bton2: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         setupDateLabel()
-        setupEmojiLabel()
-        setupEmojiMenu()
         setupImagesCollectionView()
-        deleteButton.isHidden = true
         setupTextViews()
         setupKeyboardToolbar()
-
-        bton1.isHidden = true
-        bton2.isHidden = true
-        emojiButton.isHidden = true
     }
     
     private func setupKeyboardToolbar() {
@@ -159,21 +146,6 @@ class ComposeViewController: UIViewController {
         dateLabel.text = formatter.string(from: Date()).capitalized
     }
     
-    private func setupEmojiLabel() {
-        selectedEmojiLabel = UILabel()
-        selectedEmojiLabel.font = .systemFont(ofSize: 17)
-        selectedEmojiLabel.textAlignment = .center
-        selectedEmojiLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleBarView.addSubview(selectedEmojiLabel)
-        
-        NSLayoutConstraint.activate([
-            selectedEmojiLabel.centerYAnchor.constraint(equalTo: titleBarView.centerYAnchor),
-            selectedEmojiLabel.leadingAnchor.constraint(equalTo: titleBarView.leadingAnchor, constant: 40),
-            selectedEmojiLabel.widthAnchor.constraint(equalToConstant: 25),
-            selectedEmojiLabel.heightAnchor.constraint(equalToConstant: 25)
-        ])
-    }
-    
     private func resized(_ image: UIImage?, to size: CGSize) -> UIImage? {
         guard let image = image else { return nil }
         let r = UIGraphicsImageRenderer(size: size)
@@ -269,7 +241,6 @@ class ComposeViewController: UIViewController {
                 self.selectedAssetName = name
                 self.imagesCollectionView?.isHidden = true
                 self.previewImageView.isHidden = false
-                self.deleteButton.isHidden = false
             }
             let thumb = resized(UIImage(named: name), to: CGSize(width: 40, height: 40))?.withRenderingMode(.alwaysOriginal)
             action.setValue(thumb, forKey: "image")
@@ -319,37 +290,6 @@ class ComposeViewController: UIViewController {
         }
     }
     
-    private func setupEmojiMenu() {
-        guard let button = emojiButton else { return }
-  
-        button.menu = nil
-        button.showsMenuAsPrimaryAction = false
-        button.addTarget(self, action: #selector(onEmojiButtonTapped), for: .touchUpInside)
-    }
-    
-    @objc private func onEmojiButtonTapped(_ sender: UIButton) {
-        let picker = EmojiPickerViewController()
-        picker.onEmojiSelected = { [weak self] emoji in
-            self?.selectedEmoji = emoji
-            self?.selectedEmojiLabel.text = emoji
-            
-            self?.updatePlaceholderVisibility()
-            self?.dismiss(animated: true)
-        }
-        
-        picker.modalPresentationStyle = .popover
-        if let pop = picker.popoverPresentationController {
-            pop.sourceView = sender
-            pop.sourceRect = sender.bounds
-            pop.permittedArrowDirections = [.any]
-            pop.delegate = self
-        }
-        
-        present(picker, animated: true)
-    }
-    
-
-    
     private func showCamera() {
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
             let picker = UIImagePickerController()
@@ -364,7 +304,7 @@ class ComposeViewController: UIViewController {
     }
     
     @IBAction func doneButtonTapped(_ sender: Any) {
-        let titleInput = (titleTextView?.text ?? titleTextField.text ?? "")
+        let titleInput = (titleTextView?.text ?? "")
         let title = titleInput.trimmingCharacters(in: .whitespacesAndNewlines)
         var body = (bodyTextView.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         
@@ -451,7 +391,6 @@ extension ComposeViewController: PHPickerViewControllerDelegate, UIImagePickerCo
         self.imagesCollectionView?.isHidden = false
         self.imagesCollectionView?.reloadData()
         self.previewImageView.isHidden = false
-        self.deleteButton.isHidden = self.selectedImages.isEmpty
     }
 }
 
@@ -481,7 +420,6 @@ extension ComposeViewController: UICollectionViewDataSource, UICollectionViewDel
         previewImageView.image = nil
         selectedImages.removeAll()
         imagesCollectionView?.isHidden = true
-        deleteButton.isHidden = true
         previewImageView.isHidden = true
     }
     

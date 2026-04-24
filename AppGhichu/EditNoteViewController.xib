@@ -85,7 +85,7 @@
                                 </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="... thg ..., ..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" translatesAutoresizingMaskIntoConstraints="NO" id="Yq8-fJ-uMc">
                                     <rect key="frame" x="156" y="9.9999999999999982" width="94.333333333333314" height="20.333333333333329"/>
-                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
@@ -99,7 +99,7 @@
                                 <constraint firstItem="Yq8-fJ-uMc" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="centerYHeader"/>
                                 <constraint firstItem="q1L-hs-TV4" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="centerYMore"/>
                                 <constraint firstAttribute="height" constant="40" id="headerHeight"/>
-                                <constraint firstItem="emoji-label-id-edit" firstAttribute="leading" secondItem="5Eo-aC-4Kk" secondAttribute="trailing" constant="87.666666666666686" id="lead-emoji-from-bookmark-edit"/>
+                                <constraint firstItem="emoji-label-id-edit" firstAttribute="leading" secondItem="5Eo-aC-4Kk" secondAttribute="trailing" constant="35" id="lead-emoji-from-bookmark-edit"/>
                                 <constraint firstItem="q1L-hs-TV4" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Yq8-fJ-uMc" secondAttribute="trailing" constant="10" id="lead-more-from-date-edit"/>
                                 <constraint firstItem="Yq8-fJ-uMc" firstAttribute="leading" secondItem="emoji-label-id-edit" secondAttribute="trailing" constant="10" id="leading-date-from-emoji-edit"/>
                                 <constraint firstItem="5Eo-aC-4Kk" firstAttribute="leading" secondItem="46M-HV-amF" secondAttribute="leading" constant="-8" id="leadingBookmark"/>

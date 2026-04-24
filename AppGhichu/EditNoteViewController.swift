@@ -259,6 +259,10 @@ class EditNoteViewController: UIViewController {
         guard let note = note else { return }
 
         titleTextView.text = note.title
+        let titleCount = note.title.count
+        titleCharCountLabel.text = "\(titleCount)/50"
+        titleCharCountLabel.textColor = titleCount >= 50 ? .systemRed : .lightGray
+        
         dateLabel.text = formatDate(note.createdAt)
  
         if let hex = note.colorHex, let color = UIColor(hex: hex) {
@@ -331,7 +335,7 @@ class EditNoteViewController: UIViewController {
        
             if inputTitle.isEmpty {
                 let tod = timeOfDay(for: Date())
-                note.title = "Chuyến thăm buổi \(tod) đến Công Ty Luki VN"//
+                note.title = "Chuyến thăm buổi \(tod) đến Công Ty Luki VN"
             } else {
                 note.title = inputTitle
             }

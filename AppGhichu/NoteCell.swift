@@ -32,7 +32,7 @@ class NoteCell: UITableViewCell {
         onMoreTapped = nil
     }
 
-    func configure(note: Note) {
+    func configure(note: Note, defaultThemeColor: UIColor? = nil) {
         let rawTitle = note.title.trimmingCharacters(in: .whitespacesAndNewlines)
         if rawTitle.isEmpty {
             lblTitle.text = "Tiêu đề"
@@ -51,6 +51,23 @@ class NoteCell: UITableViewCell {
         lblHeaderDate.text = note.displayDate
         lblHeaderEmoji.text = note.emoji ?? ""
         
+        // Xử lý màu sắc
+        if let hex = note.colorHex, let color = UIColor(hex: hex) {
+            cardView.backgroundColor = color
+            lblTitle.textColor = .white
+            lblContent.textColor = .white.withAlphaComponent(0.8)
+            lblDate.textColor = .white.withAlphaComponent(0.7)
+            lblHeaderDate.textColor = .white.withAlphaComponent(0.7)
+        } else if let defaultColor = defaultThemeColor {
+            applyTheme(baseColor: defaultColor)
+        }
+
+        if let tHex = note.textColorHex, let tColor = UIColor(hex: tHex) {
+            lblTitle.textColor = tColor
+            lblContent.textColor = tColor.withAlphaComponent(0.8)
+            lblDate.textColor = tColor.withAlphaComponent(0.7)
+            lblHeaderDate.textColor = tColor.withAlphaComponent(0.7)
+        }
         
         if let range = note.content.range(of: #"\[IMAGE:(.+?)\]"#, options: .regularExpression) {
             let marker = String(note.content[range])

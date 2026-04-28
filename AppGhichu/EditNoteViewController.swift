@@ -1,8 +1,9 @@
 import UIKit
 import PhotosUI
 import AVFoundation
+import CoreLocation
 
-class EditNoteViewController: UIViewController {
+class EditNoteViewController: UIViewController, CLLocationManagerDelegate {
 
     @IBOutlet weak var allmenu: UIView!
     @IBOutlet weak var likeButton: UIButton!
@@ -31,6 +32,8 @@ class EditNoteViewController: UIViewController {
     private var selectedColorHex: String?
     private var selectedTextColorHex: String?
     private var selectedEmoji: String?
+    private var locationManager: CLLocationManager?
+    private var currentLocationName: String?
     
     @objc private func icn1() {
         var config = PHPickerConfiguration(photoLibrary: .shared())
@@ -90,6 +93,7 @@ class EditNoteViewController: UIViewController {
     
     @IBOutlet weak var titleTextView: UITextView!
     @IBOutlet weak var bodyTextView: UITextView!
+    @IBOutlet weak var locationLabel: UILabel!
 
     var note: Note?
 
@@ -105,6 +109,65 @@ class EditNoteViewController: UIViewController {
         setupUI()
         fillData()
         setupKeyboardToolbar()
+        setupLocationManager()
+    }
+    
+    private func setupLocationManager() {
+        locationManager = CLLocationManager()
+        locationManager?.delegate = self
+        locationManager?.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager?.requestWhenInUseAuthorization()
+    }
+    
+    @objc private func onLocationTapped() {
+        if let manager = locationManager {
+            switch manager.authorizationStatus {
+            case .authorizedWhenInUse, .authorizedAlways:
+                manager.startUpdatingLocation()
+            case .notDetermined:
+                manager.requestWhenInUseAuthorization()
+            case .denied, .restricted:
+                break
+            @unknown default:
+                break
+            }
+        }
+    }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+        case .authorizedWhenInUse, .authorizedAlways:
+            manager.startUpdatingLocation()
+        case .denied, .restricted:
+            break
+        case .notDetermined:
+            break
+        @unknown default:
+            break
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        manager.stopUpdatingLocation()
+        
+        let geocoder = CLGeocoder()
+        geocoder.reverseGeocodeLocation(location) { [weak self] placemarks, error in
+            if let placemark = placemarks?.first {
+                var addressParts: [String] = []
+                if let name = placemark.name { addressParts.append(name) }
+                if let thoroughfare = placemark.thoroughfare { if !addressParts.contains(thoroughfare) { addressParts.append(thoroughfare) } }
+                if let locality = placemark.locality { if !addressParts.contains(locality) { addressParts.append(locality) } }
+                
+                let address = addressParts.joined(separator: ", ")
+                self?.currentLocationName = address
+                self?.locationLabel.text = address
+                self?.locationLabel.isHidden = false
+            }
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
     }
     
     private func setupKeyboardToolbar() {
@@ -124,7 +187,7 @@ class EditNoteViewController: UIViewController {
         let trailingSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         trailingSpace.width = 40
         
-        keyboardToolbar.items = [leadingSpace, photoBtn, spaceBetween, cameraBtn, spaceBetween, emojiBtn, spaceBetween, colorBtn, flexSpace, doneBtn, trailingSpace]
+        keyboardToolbar.items = [photoBtn, flexSpace, cameraBtn, flexSpace, emojiBtn, flexSpace, colorBtn, flexSpace, doneBtn]
         keyboardToolbar.tintColor = .systemBlue
         
         titleTextView.inputAccessoryView = keyboardToolbar
@@ -284,6 +347,10 @@ class EditNoteViewController: UIViewController {
         selectedEmoji = note.emoji
         selectedEmojiLabel.text = selectedEmoji ?? ""
         
+        currentLocationName = note.location
+        locationLabel.text = note.location ?? "Chưa có vị trí"
+        locationLabel.isHidden = note.location == nil
+        
         if let range = note.content.range(of: #"\[IMAGE:(.+?)\]"#, options: .regularExpression) {
             let marker = String(note.content[range])
             let name = marker
@@ -348,6 +415,7 @@ class EditNoteViewController: UIViewController {
             note.colorHex = selectedColorHex
             note.textColorHex = selectedTextColorHex
             note.emoji = selectedEmoji
+            note.location = currentLocationName
         
             let cleaned = (bodyTextView.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
             if let fname = pickedImageFilename {

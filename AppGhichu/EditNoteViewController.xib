@@ -16,6 +16,7 @@
                 <outlet property="closeMapButton" destination="RL0-Bm-o7i" id="aVg-wu-bj3"/>
                 <outlet property="contentContainerView" destination="9Kd-jK-tqK" id="content-container-conn-edit"/>
                 <outlet property="dateLabel" destination="Yq8-fJ-uMc" id="jPB-MG-3ts"/>
+                <outlet property="locationLabel" destination="location-label-id-edit" id="location-label-conn-edit"/>
                 <outlet property="headerView" destination="46M-HV-amF" id="header-view-conn"/>
                 <outlet property="likeButton" destination="5Eo-aC-4Kk" id="vaH-PM-UFr"/>
                 <outlet property="mapContainerHeightConstraint" destination="Vss-Wb-jlb" id="conn-height-id"/>
@@ -180,17 +181,45 @@
                                             <rect key="frame" x="0.0" y="204" width="377" height="60"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="60" id="cgO-66-id"/>
+                                                <constraint firstAttribute="height" constant="60" id="height-title-view-edit"/>
                                             </constraints>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="rect" keyPath="textContainerInset">
-                                                    <rect key="value" x="8" y="0.0" width="55" height="8"/>
+                                                    <rect key="value" x="0.0" y="8" width="55" height="8"/>
                                                 </userDefinedRuntimeAttribute>
                                             </userDefinedRuntimeAttributes>
                                         </textView>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="location-container-id-edit">
+                                            <rect key="frame" x="0.0" y="269" width="377" height="20"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mappin.and.ellipse" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="location-icon-id-edit">
+                                                    <rect key="frame" x="8" y="2" width="16" height="16"/>
+                                                    <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="16" id="w-loc-icon-edit"/>
+                                                        <constraint firstAttribute="height" constant="16" id="h-loc-icon-edit"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vị trí" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="location-label-id-edit">
+                                                    <rect key="frame" x="28" y="2" width="341" height="16"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstItem="location-icon-id-edit" firstAttribute="leading" secondItem="location-container-id-edit" secondAttribute="leading" constant="8" id="lead-loc-icon-edit"/>
+                                                <constraint firstItem="location-icon-id-edit" firstAttribute="centerY" secondItem="location-container-id-edit" secondAttribute="centerY" id="center-y-loc-icon-edit"/>
+                                                <constraint firstItem="location-label-id-edit" firstAttribute="leading" secondItem="location-icon-id-edit" secondAttribute="trailing" constant="4" id="lead-loc-label-edit"/>
+                                                <constraint firstItem="location-label-id-edit" firstAttribute="centerY" secondItem="location-container-id-edit" secondAttribute="centerY" id="center-y-loc-label-edit"/>
+                                                <constraint firstAttribute="trailing" secondItem="location-label-id-edit" secondAttribute="trailing" constant="8" id="trail-loc-label-edit"/>
+                                                <constraint firstAttribute="height" constant="20" id="height-loc-container-edit"/>
+                                            </constraints>
+                                        </view>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="4QC-hQ-Mc6" userLabel="Body View">
                                             <rect key="frame" x="0.0" y="269" width="377" height="473"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -215,7 +244,7 @@
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstItem="bVv-m8-Xbz" firstAttribute="top" secondItem="9Kd-jK-tqK" secondAttribute="top" constant="10" id="CG0-NC-vOy"/>
-                                <constraint firstAttribute="bottom" secondItem="body-char-count-id-edit" secondAttribute="bottom" constant="60" id="body-count-bottom-edit"/>
+                                <constraint firstAttribute="bottom" secondItem="body-char-count-id-edit" secondAttribute="bottom" constant="100" id="body-count-bottom-edit"/>
                                 <constraint firstAttribute="trailing" secondItem="body-char-count-id-edit" secondAttribute="trailing" constant="12" id="body-count-trailing-edit"/>
                                 <constraint firstItem="body-placeholder-edit-id" firstAttribute="leading" secondItem="4QC-hQ-Mc6" secondAttribute="leading" id="body-placeholder-edit-leading"/>
                                 <constraint firstItem="body-placeholder-edit-id" firstAttribute="top" secondItem="4QC-hQ-Mc6" secondAttribute="top" constant="8" id="body-placeholder-edit-top"/>

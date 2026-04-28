@@ -1,21 +1,24 @@
 import UIKit
 
 class NoteCell: UITableViewCell {
-
+    
     @IBOutlet weak var cardView: UIView!
     @IBOutlet weak var lblMonth: UILabel!
     @IBOutlet weak var imgIcon: UIImageView!
+    @IBOutlet weak var imgIconHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblContent: UILabel!
     @IBOutlet weak var lblDate: UILabel!
     @IBOutlet weak var btnMore: UIButton!
     @IBOutlet weak var lblHeaderDate: UILabel!
     @IBOutlet weak var lblHeaderEmoji: UILabel!
-
+    @IBOutlet weak var locationIconView: UIImageView!
+    @IBOutlet weak var locationLabel: UILabel!
+    
     var onMoreTapped: (() -> Void)?
     
     private var mapTintView: UIView?
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         cardView.layer.cornerRadius = 15
@@ -26,12 +29,12 @@ class NoteCell: UITableViewCell {
     @IBAction func handleMoreTap() {
         onMoreTapped?()
     }
-
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         onMoreTapped = nil
     }
-
+    
     func configure(note: Note, defaultThemeColor: UIColor? = nil) {
         let rawTitle = note.title.trimmingCharacters(in: .whitespacesAndNewlines)
         if rawTitle.isEmpty {
@@ -43,12 +46,13 @@ class NoteCell: UITableViewCell {
         let cleanedContent = note.content.replacingOccurrences(of: #"\[IMAGE:.+?\]\n?"#, with: "", options: .regularExpression).trimmingCharacters(in: .whitespacesAndNewlines)
         lblContent.text = cleanedContent.isEmpty ? "Bắt đầu viết" : cleanedContent
         
-        lblTitle.numberOfLines = 1
-        lblContent.numberOfLines = 2
+        lblTitle.numberOfLines = 0
+        lblContent.numberOfLines = 0
         
         lblDate.isHidden = false
         lblDate.text = note.displayDate
         lblHeaderDate.text = note.displayDate
+        print("NoteCell: displayDate = \(note.displayDate), lblDate.isHidden = \(lblDate.isHidden), lblHeaderDate.isHidden = \(lblHeaderDate.isHidden)")
         lblHeaderEmoji.text = note.emoji ?? ""
         
         // Xử lý màu sắc
@@ -61,7 +65,7 @@ class NoteCell: UITableViewCell {
         } else if let defaultColor = defaultThemeColor {
             applyTheme(baseColor: defaultColor)
         }
-
+        
         if let tHex = note.textColorHex, let tColor = UIColor(hex: tHex) {
             lblTitle.textColor = tColor
             lblContent.textColor = tColor.withAlphaComponent(0.8)
@@ -78,23 +82,60 @@ class NoteCell: UITableViewCell {
                 let url = folder.appendingPathComponent(name)
                 if let img = UIImage(contentsOfFile: url.path) {
                     imgIcon.image = img
+                    imgIcon.isHidden = false
+                    imgIconHeightConstraint?.constant = 153
+                    locationIconView.isHidden = true
+                    locationLabel.isHidden = true
                 } else {
-                    imgIcon.image = UIImage(named: "img_icon") ?? UIImage(systemName: "photo")
+                    imgIcon.isHidden = true
+                    imgIconHeightConstraint?.constant = 0
+                    if let loc = note.location, !loc.isEmpty {
+                        locationIconView.isHidden = false
+                        locationLabel.isHidden = false
+                        locationLabel.text = loc
+                    } else {
+                        locationIconView.isHidden = true
+                        locationLabel.isHidden = true
+                    }
                 }
             } else {
-                imgIcon.image = UIImage(named: "img_icon") ?? UIImage(systemName: "photo")
+                imgIcon.isHidden = true
+                imgIconHeightConstraint?.constant = 0
+                if let loc = note.location, !loc.isEmpty {
+                    locationIconView.isHidden = false
+                    locationLabel.isHidden = false
+                    locationLabel.text = loc
+                } else {
+                    locationIconView.isHidden = true
+                    locationLabel.isHidden = true
+                }
             }
         } else {
-            imgIcon.image = UIImage(named: "img_icon") ?? UIImage(systemName: "photo")
+            imgIcon.isHidden = true
+            imgIconHeightConstraint?.constant = 0
+            if let loc = note.location, !loc.isEmpty {
+                locationIconView.isHidden = false
+                locationLabel.isHidden = false
+                locationLabel.text = loc
+            } else {
+                locationIconView.isHidden = true
+                locationLabel.isHidden = true
+            }
         }
-    }
-    
-    func applyTheme(baseColor: UIColor) {
-        cardView.backgroundColor = baseColor.withAlphaComponent(0.35)
-        cardView.layer.borderWidth = 0
-        lblTitle.textColor = .white
-        lblContent.textColor = UIColor(white: 1.0, alpha: 0.7)
-        lblDate.textColor = UIColor(white: 1.0, alpha: 0.85)
-        lblDate.font = UIFont.systemFont(ofSize: 11, weight: .medium)
+        
+        if let tHex = note.textColorHex, let tColor = UIColor(hex: tHex) {
+            locationLabel.textColor = tColor.withAlphaComponent(0.6)
+        } else {
+            locationLabel.textColor = .lightGray
+        }
+        
+        func applyTheme(baseColor: UIColor) {
+            cardView.backgroundColor = baseColor.withAlphaComponent(0.35)
+            cardView.layer.borderWidth = 0
+            lblTitle.textColor = .white
+            lblContent.textColor = UIColor(white: 1.0, alpha: 0.7)
+            lblDate.textColor = UIColor(white: 1.0, alpha: 0.85)
+            lblDate.font = UIFont.systemFont(ofSize: 11, weight: .medium)
+        }
     }
 }

@@ -178,7 +178,7 @@ class MainViewController: UIViewController {
     private func formattedHeaderDate() -> String {
         let f = DateFormatter()
         f.locale = Locale(identifier: "vi_VN")
-        f.dateFormat = "EEEE, d 'tháng' M"
+        f.dateFormat = "EEEE, 'ngày' d 'thg' M"
         return f.string(from: Date()).capitalized
     }
     private func installTableDateHeader() {
@@ -351,6 +351,9 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource, UIPopo
 
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 320
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

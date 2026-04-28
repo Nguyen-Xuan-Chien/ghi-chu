@@ -17,7 +17,7 @@ extension UITableView {
                          padding: CGFloat = 16) {
         let df = DateFormatter()
         df.locale = locale
-        df.dateFormat = "EEEE, d 'tháng' M"
+        df.dateFormat = "EEEE, 'ngày' d 'thg' M"
         let text = df.string(from: date).capitalized
         
         let container = UIView(frame: CGRect(x: 0, y: 0, width: bounds.width, height: height))
@@ -35,7 +35,7 @@ extension UITableView {
         guard let label = dateHeaderLabel else { return }
         let df = DateFormatter()
         df.locale = locale
-        df.dateFormat = "EEEE, d 'tháng' M"
+        df.dateFormat = "EEEE, 'ngày' d 'thg' M"
         label.text = df.string(from: date).capitalized
     }
     

@@ -9,8 +9,9 @@ struct Note {
     var colorHex: String?
     var textColorHex: String?
     var emoji: String?
+    var location: String?
 
-    init(id: Int64 = 0, title: String, content: String, date: Date = Date(), colorHex: String? = nil, textColorHex: String? = nil, emoji: String? = nil) {
+    init(id: Int64 = 0, title: String, content: String, date: Date = Date(), colorHex: String? = nil, textColorHex: String? = nil, emoji: String? = nil, location: String? = nil) {
         self.id = id
         self.title = title
         self.content = content
@@ -18,13 +19,14 @@ struct Note {
         self.colorHex = colorHex
         self.textColorHex = textColorHex
         self.emoji = emoji
+        self.location = location
 
         let fmt = DateFormatter()
         fmt.dateFormat = "yyyy-MM-dd HH:mm:ss"
         self.dateISO = fmt.string(from: date)
     }
 
-    init(id: Int64, title: String, content: String, dateISO: String, colorHex: String? = nil, textColorHex: String? = nil, emoji: String? = nil) {
+    init(id: Int64, title: String, content: String, dateISO: String, colorHex: String? = nil, textColorHex: String? = nil, emoji: String? = nil, location: String? = nil) {
         self.id = id
         self.title = title
         self.content = content
@@ -32,6 +34,7 @@ struct Note {
         self.colorHex = colorHex
         self.textColorHex = textColorHex
         self.emoji = emoji
+        self.location = location
 
         let fmt = DateFormatter()
         fmt.dateFormat = "yyyy-MM-dd HH:mm:ss"

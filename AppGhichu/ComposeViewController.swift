@@ -1,8 +1,9 @@
 import UIKit
 import PhotosUI
 import AVFoundation
+import CoreLocation
 
-class ComposeViewController: UIViewController {
+class ComposeViewController: UIViewController, CLLocationManagerDelegate {
     
     var onNoteSaved: (() -> Void)?
     @IBOutlet weak var titleTextView: UITextView!
@@ -27,6 +28,9 @@ class ComposeViewController: UIViewController {
     private var selectedTextColorHex: String?
     private var selectedEmoji: String?
     @IBOutlet weak var selectedEmojiLabel: UILabel!
+    @IBOutlet weak var locationLabel: UILabel!
+    private var locationManager: CLLocationManager?
+    private var currentLocationName: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +38,66 @@ class ComposeViewController: UIViewController {
         setupImagesCollectionView()
         setupTextViews()
         setupKeyboardToolbar()
+        setupLocationManager()
+    }
+    
+    private func setupLocationManager() {
+        locationManager = CLLocationManager()
+        locationManager?.delegate = self
+        locationManager?.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager?.requestWhenInUseAuthorization()
+    }
+    
+    @objc private func onLocationTapped() {
+        if let manager = locationManager {
+            switch manager.authorizationStatus {
+            case .authorizedWhenInUse, .authorizedAlways:
+                manager.startUpdatingLocation()
+            case .notDetermined:
+                manager.requestWhenInUseAuthorization()
+            case .denied, .restricted:
+                locationLabel.text = "Không có quyền truy cập vị trí"
+            @unknown default:
+                break
+            }
+        }
+    }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+        case .authorizedWhenInUse, .authorizedAlways:
+            manager.startUpdatingLocation()
+        case .denied, .restricted:
+            locationLabel.text = "Không có quyền truy cập vị trí"
+        case .notDetermined:
+            break
+        @unknown default:
+            break
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        manager.stopUpdatingLocation()
+        
+        let geocoder = CLGeocoder()
+        geocoder.reverseGeocodeLocation(location) { [weak self] placemarks, error in
+            if let placemark = placemarks?.first {
+                var addressParts: [String] = []
+                if let name = placemark.name { addressParts.append(name) }
+                if let thoroughfare = placemark.thoroughfare { if !addressParts.contains(thoroughfare) { addressParts.append(thoroughfare) } }
+                if let locality = placemark.locality { if !addressParts.contains(locality) { addressParts.append(locality) } }
+                
+                let address = addressParts.joined(separator: ", ")
+                self?.currentLocationName = address
+                self?.locationLabel.text = address
+                self?.locationLabel.isHidden = false
+            }
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        locationLabel.text = "Không lấy được vị trí"
     }
     
     private func setupKeyboardToolbar() {
@@ -53,7 +117,7 @@ class ComposeViewController: UIViewController {
         let trailingSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         trailingSpace.width = 40
         
-        keyboardToolbar.items = [leadingSpace, photoBtn, spaceBetween, cameraBtn, spaceBetween, emojiBtn, spaceBetween, colorBtn, flexSpace, doneBtn, trailingSpace]
+        keyboardToolbar.items = [photoBtn, flexSpace, cameraBtn, flexSpace, emojiBtn, flexSpace, colorBtn, flexSpace, doneBtn]
         keyboardToolbar.tintColor = .systemBlue
         
         titleTextView.inputAccessoryView = keyboardToolbar
@@ -330,7 +394,7 @@ class ComposeViewController: UIViewController {
             }
         }
 
-        DatabaseHelper.shared.insertNote(title: title, content: body, dateISO: dateISO, colorHex: selectedColorHex, textColorHex: selectedTextColorHex, emoji: selectedEmoji)
+        DatabaseHelper.shared.insertNote(title: title, content: body, dateISO: dateISO, colorHex: selectedColorHex, textColorHex: selectedTextColorHex, emoji: selectedEmoji, location: currentLocationName)
 
         
 

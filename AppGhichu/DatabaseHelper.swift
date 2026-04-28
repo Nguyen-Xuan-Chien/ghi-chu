@@ -33,7 +33,8 @@ class DatabaseHelper {
             dateISO TEXT,
             colorHex TEXT,
             textColorHex TEXT,
-            emoji TEXT
+            emoji TEXT,
+            location TEXT
         );
         """
 
@@ -47,11 +48,13 @@ class DatabaseHelper {
             sqlite3_exec(db, alterTextSql, nil, nil, nil)
             let alterEmojiSql = "ALTER TABLE notes ADD COLUMN emoji TEXT;"
             sqlite3_exec(db, alterEmojiSql, nil, nil, nil)
+            let alterLocationSql = "ALTER TABLE notes ADD COLUMN location TEXT;"
+            sqlite3_exec(db, alterLocationSql, nil, nil, nil)
         }
     }
 
-    func insertNote(title: String, content: String, dateISO: String, colorHex: String? = nil, textColorHex: String? = nil, emoji: String? = nil) {
-        let sql = "INSERT INTO notes (title, content, dateISO, colorHex, textColorHex, emoji) VALUES (?, ?, ?, ?, ?, ?);"
+    func insertNote(title: String, content: String, dateISO: String, colorHex: String? = nil, textColorHex: String? = nil, emoji: String? = nil, location: String? = nil) {
+        let sql = "INSERT INTO notes (title, content, dateISO, colorHex, textColorHex, emoji, location) VALUES (?, ?, ?, ?, ?, ?, ?);"
         var stmt: OpaquePointer?
 
         if sqlite3_prepare_v2(db, sql, -1, &stmt, nil) == SQLITE_OK {
@@ -74,6 +77,11 @@ class DatabaseHelper {
             } else {
                 sqlite3_bind_null(stmt, 6)
             }
+            if let loc = location {
+                sqlite3_bind_text(stmt, 7, (loc as NSString).utf8String, -1, nil)
+            } else {
+                sqlite3_bind_null(stmt, 7)
+            }
 
             if sqlite3_step(stmt) == SQLITE_DONE {
                 print("📝 Thêm note thành công.")
@@ -92,7 +100,7 @@ class DatabaseHelper {
 
     func getAllNotes() -> [Note] {
 
-        let sql = "SELECT id, title, content, dateISO, colorHex, textColorHex, emoji FROM notes ORDER BY id DESC;"
+        let sql = "SELECT id, title, content, dateISO, colorHex, textColorHex, emoji, location FROM notes ORDER BY id DESC;"
         var stmt: OpaquePointer?
         var list: [Note] = []
 
@@ -119,8 +127,13 @@ class DatabaseHelper {
                 if let eStr = sqlite3_column_text(stmt, 6) {
                     emoji = String(cString: eStr)
                 }
+                
+                var location: String? = nil
+                if let lStr = sqlite3_column_text(stmt, 7) {
+                    location = String(cString: lStr)
+                }
 
-                let note = Note(id: id, title: title, content: content, dateISO: dateISO, colorHex: colorHex, textColorHex: textColorHex, emoji: emoji)
+                let note = Note(id: id, title: title, content: content, dateISO: dateISO, colorHex: colorHex, textColorHex: textColorHex, emoji: emoji, location: location)
                 list.append(note)
             }
 
@@ -203,7 +216,7 @@ class DatabaseHelper {
     func updateNote(_ note: Note) {
         let sql = """
         UPDATE notes
-        SET title = ?, content = ?, dateISO = ?, colorHex = ?, textColorHex = ?, emoji = ?
+        SET title = ?, content = ?, dateISO = ?, colorHex = ?, textColorHex = ?, emoji = ?, location = ?
         WHERE id = ?
         """
 
@@ -228,7 +241,12 @@ class DatabaseHelper {
             } else {
                 sqlite3_bind_null(statement, 6)
             }
-            sqlite3_bind_int64(statement, 7, note.id)
+            if let loc = note.location {
+                sqlite3_bind_text(statement, 7, (loc as NSString).utf8String, -1, nil)
+            } else {
+                sqlite3_bind_null(statement, 7)
+            }
+            sqlite3_bind_int64(statement, 8, note.id)
 
             if sqlite3_step(statement) == SQLITE_DONE {
                 print("✅ Update note thành công")

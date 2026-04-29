@@ -24,6 +24,8 @@ class NoteCell: UITableViewCell {
         cardView.layer.cornerRadius = 15
         cardView.clipsToBounds = true
         
+        locationLabel.numberOfLines = 0
+        locationLabel.lineBreakMode = .byWordWrapping
     }
     
     @IBAction func handleMoreTap() {
@@ -84,43 +86,26 @@ class NoteCell: UITableViewCell {
                     imgIcon.image = img
                     imgIcon.isHidden = false
                     imgIconHeightConstraint?.constant = 153
-                    locationIconView.isHidden = true
-                    locationLabel.isHidden = true
                 } else {
                     imgIcon.isHidden = true
                     imgIconHeightConstraint?.constant = 0
-                    if let loc = note.location, !loc.isEmpty {
-                        locationIconView.isHidden = false
-                        locationLabel.isHidden = false
-                        locationLabel.text = loc
-                    } else {
-                        locationIconView.isHidden = true
-                        locationLabel.isHidden = true
-                    }
                 }
             } else {
                 imgIcon.isHidden = true
                 imgIconHeightConstraint?.constant = 0
-                if let loc = note.location, !loc.isEmpty {
-                    locationIconView.isHidden = false
-                    locationLabel.isHidden = false
-                    locationLabel.text = loc
-                } else {
-                    locationIconView.isHidden = true
-                    locationLabel.isHidden = true
-                }
             }
         } else {
             imgIcon.isHidden = true
             imgIconHeightConstraint?.constant = 0
-            if let loc = note.location, !loc.isEmpty {
-                locationIconView.isHidden = false
-                locationLabel.isHidden = false
-                locationLabel.text = loc
-            } else {
-                locationIconView.isHidden = true
-                locationLabel.isHidden = true
-            }
+        }
+
+        if let loc = note.location, !loc.isEmpty {
+            locationIconView.isHidden = false
+            locationLabel.isHidden = false
+            locationLabel.text = loc
+        } else {
+            locationIconView.isHidden = true
+            locationLabel.isHidden = true
         }
         
         if let tHex = note.textColorHex, let tColor = UIColor(hex: tHex) {

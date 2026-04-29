@@ -3,7 +3,7 @@ import PhotosUI
 import AVFoundation
 import CoreLocation
 
-class EditNoteViewController: UIViewController, CLLocationManagerDelegate {
+class EditNoteViewController: UIViewController {
 
     @IBOutlet weak var allmenu: UIView!
     @IBOutlet weak var likeButton: UIButton!
@@ -32,7 +32,6 @@ class EditNoteViewController: UIViewController, CLLocationManagerDelegate {
     private var selectedColorHex: String?
     private var selectedTextColorHex: String?
     private var selectedEmoji: String?
-    private var locationManager: CLLocationManager?
     private var currentLocationName: String?
     
     @objc private func icn1() {
@@ -109,65 +108,22 @@ class EditNoteViewController: UIViewController, CLLocationManagerDelegate {
         setupUI()
         fillData()
         setupKeyboardToolbar()
-        setupLocationManager()
-    }
-    
-    private func setupLocationManager() {
-        locationManager = CLLocationManager()
-        locationManager?.delegate = self
-        locationManager?.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager?.requestWhenInUseAuthorization()
     }
     
     @objc private func onLocationTapped() {
-        if let manager = locationManager {
-            switch manager.authorizationStatus {
-            case .authorizedWhenInUse, .authorizedAlways:
-                manager.startUpdatingLocation()
-            case .notDetermined:
-                manager.requestWhenInUseAuthorization()
-            case .denied, .restricted:
-                break
-            @unknown default:
-                break
-            }
-        }
-    }
-    
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        switch manager.authorizationStatus {
-        case .authorizedWhenInUse, .authorizedAlways:
-            manager.startUpdatingLocation()
-        case .denied, .restricted:
-            break
-        case .notDetermined:
-            break
-        @unknown default:
-            break
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.last else { return }
-        manager.stopUpdatingLocation()
+        locationLabel.text = "Đang lấy vị trí..."
+        locationLabel.isHidden = false
         
-        let geocoder = CLGeocoder()
-        geocoder.reverseGeocodeLocation(location) { [weak self] placemarks, error in
-            if let placemark = placemarks?.first {
-                var addressParts: [String] = []
-                if let name = placemark.name { addressParts.append(name) }
-                if let thoroughfare = placemark.thoroughfare { if !addressParts.contains(thoroughfare) { addressParts.append(thoroughfare) } }
-                if let locality = placemark.locality { if !addressParts.contains(locality) { addressParts.append(locality) } }
-                
-                let address = addressParts.joined(separator: ", ")
-                self?.currentLocationName = address
-                self?.locationLabel.text = address
-                self?.locationLabel.isHidden = false
+        LocationManager.shared.getCurrentLocation { [weak self] address in
+            DispatchQueue.main.async {
+                if let address = address {
+                    self?.currentLocationName = address
+                    self?.locationLabel.text = address
+                } else {
+                    self?.locationLabel.text = "Không lấy được vị trí"
+                }
             }
         }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
     }
     
     private func setupKeyboardToolbar() {
@@ -176,6 +132,7 @@ class EditNoteViewController: UIViewController, CLLocationManagerDelegate {
         let cameraBtn = UIBarButtonItem(image: UIImage(systemName: "camera"), style: .plain, target: self, action: #selector(icn2))
         let emojiBtn = UIBarButtonItem(image: UIImage(systemName: "face.smiling"), style: .plain, target: self, action: #selector(onEmojiToolbarTapped(_:)))
         let colorBtn = UIBarButtonItem(image: UIImage(systemName: "pencil.tip.crop.circle.badge.plus.fill"), style: .plain, target: self, action: #selector(onColorPencilToolbarTapped(_:)))
+        let locationBtn = UIBarButtonItem(image: UIImage(systemName: "location.fill"), style: .plain, target: self, action: #selector(onLocationTapped))
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let doneBtn = UIBarButtonItem(title: "Xong", style: .done, target: self, action: #selector(dismissKeyboard))
         
@@ -187,7 +144,7 @@ class EditNoteViewController: UIViewController, CLLocationManagerDelegate {
         let trailingSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         trailingSpace.width = 40
         
-        keyboardToolbar.items = [photoBtn, flexSpace, cameraBtn, flexSpace, emojiBtn, flexSpace, colorBtn, flexSpace, doneBtn]
+        keyboardToolbar.items = [photoBtn, flexSpace, cameraBtn, flexSpace, emojiBtn, flexSpace, colorBtn, flexSpace, locationBtn, flexSpace, doneBtn]
         keyboardToolbar.tintColor = .systemBlue
         
         titleTextView.inputAccessoryView = keyboardToolbar
@@ -293,6 +250,9 @@ class EditNoteViewController: UIViewController, CLLocationManagerDelegate {
         bodyTextView.delegate = self   
         bodyTextView.textContainer.lineFragmentPadding = 0
         titleTextView.textContainer.lineFragmentPadding = 0
+        
+        locationLabel.numberOfLines = 0
+        locationLabel.lineBreakMode = .byWordWrapping
         
         showCurrentDate()
         

@@ -6,5 +6,7 @@
 	<string>Ứng dụng cần truy cập máy ảnh để bạn có thể chụp ảnh và thêm vào ghi chú.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Ứng dụng cần truy cập thư viện ảnh để bạn có thể chọn ảnh cho ghi chú.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Ứng dụng cần truy cập vị trí của bạn để thêm thông tin vị trí vào ghi chú.</string>
 </dict>
 </plist>

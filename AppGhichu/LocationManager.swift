@@ -21,7 +21,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         case .notDetermined:
             manager.requestWhenInUseAuthorization()
         case .authorizedWhenInUse, .authorizedAlways:
-            manager.requestLocation()
+            manager.startUpdatingLocation()
         case .denied, .restricted:
             completion("Không có quyền truy cập vị trí")
         @unknown default:
@@ -31,26 +31,35 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else {
-            completion?(nil)
             return
         }
+        
+        // Dừng cập nhật sau khi lấy được vị trí
+        manager.stopUpdatingLocation()
         
         let geocoder = CLGeocoder()
         geocoder.reverseGeocodeLocation(location) { [weak self] placemarks, error in
             if let placemark = placemarks?.first {
                 var addressParts: [String] = []
+                
+                // Ưu tiên các thông tin chi tiết
                 if let name = placemark.name { addressParts.append(name) }
-                if let thoroughfare = placemark.thoroughfare { 
-                    if !addressParts.contains(thoroughfare) { addressParts.append(thoroughfare) } 
+                if let subLocality = placemark.subLocality {
+                    if !addressParts.contains(subLocality) { addressParts.append(subLocality) }
                 }
                 if let locality = placemark.locality { 
                     if !addressParts.contains(locality) { addressParts.append(locality) } 
                 }
+                if let administrativeArea = placemark.administrativeArea {
+                    if !addressParts.contains(administrativeArea) { addressParts.append(administrativeArea) }
+                }
                 
-                let address = addressParts.joined(separator: ", ")
+                let address = addressParts.isEmpty ? "Vị trí không xác định" : addressParts.joined(separator: ", ")
                 self?.completion?(address)
             } else {
-                self?.completion?(nil)
+                // Fallback nếu không reverse geocode được
+                let coords = String(format: "%.4f, %.4f", location.coordinate.latitude, location.coordinate.longitude)
+                self?.completion?("Vị trí: \(coords)")
             }
             self?.completion = nil 
         }
@@ -58,14 +67,17 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Location manager error: \(error.localizedDescription)")
-        completion?("Không lấy được vị trí")
-        completion = nil
+        // Chỉ gọi completion nếu chưa có kết quả
+        if completion != nil {
+            completion?("Không lấy được vị trí: \(error.localizedDescription)")
+            completion = nil
+        }
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         let status = manager.authorizationStatus
         if status == .authorizedWhenInUse || status == .authorizedAlways {
-            manager.requestLocation()
+            manager.startUpdatingLocation()
         }
     }
 }

@@ -84,25 +84,15 @@
                                         <color key="baseForegroundColor" red="0.35980298370000002" green="0.3510707408" blue="0.79835590489999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </buttonConfiguration>
                                 </button>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="... thg ..., ..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" translatesAutoresizingMaskIntoConstraints="NO" id="Yq8-fJ-uMc">
-                                    <rect key="frame" x="156" y="9.9999999999999982" width="94.333333333333314" height="20.333333333333329"/>
-                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
-                                <constraint firstItem="Yq8-fJ-uMc" firstAttribute="centerX" secondItem="46M-HV-amF" secondAttribute="centerX" priority="750" id="centerXHeader"/>
                                 <constraint firstItem="5Eo-aC-4Kk" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="centerYBookmark"/>
                                 <constraint firstItem="UL8-us-EvF" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="centerYDone"/>
                                 <constraint firstItem="emoji-label-id-edit" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="centerYEmojiEdit"/>
-                                <constraint firstItem="Yq8-fJ-uMc" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="centerYHeader"/>
                                 <constraint firstItem="q1L-hs-TV4" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="centerYMore"/>
                                 <constraint firstAttribute="height" constant="40" id="headerHeight"/>
                                 <constraint firstItem="emoji-label-id-edit" firstAttribute="leading" secondItem="5Eo-aC-4Kk" secondAttribute="trailing" constant="35" id="lead-emoji-from-bookmark-edit"/>
-                                <constraint firstItem="q1L-hs-TV4" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Yq8-fJ-uMc" secondAttribute="trailing" constant="10" id="lead-more-from-date-edit"/>
-                                <constraint firstItem="Yq8-fJ-uMc" firstAttribute="leading" secondItem="emoji-label-id-edit" secondAttribute="trailing" constant="10" id="leading-date-from-emoji-edit"/>
                                 <constraint firstItem="5Eo-aC-4Kk" firstAttribute="leading" secondItem="46M-HV-amF" secondAttribute="leading" constant="-8" id="leadingBookmark"/>
                                 <constraint firstItem="UL8-us-EvF" firstAttribute="leading" secondItem="q1L-hs-TV4" secondAttribute="trailing" id="leadingDoneMore"/>
                                 <constraint firstAttribute="trailing" secondItem="UL8-us-EvF" secondAttribute="trailing" constant="8" id="trailingDone"/>
@@ -264,7 +254,7 @@
                         <constraint firstItem="9Kd-jK-tqK" firstAttribute="leading" secondItem="1wj-LP-1aF" secondAttribute="leading" id="leadingContent"/>
                         <constraint firstItem="46M-HV-amF" firstAttribute="leading" secondItem="1wj-LP-1aF" secondAttribute="leading" id="leadingHeader"/>
                         <constraint firstItem="9Kd-jK-tqK" firstAttribute="top" secondItem="46M-HV-amF" secondAttribute="bottom" id="topContent"/>
-                        <constraint firstItem="46M-HV-amF" firstAttribute="top" secondItem="1wj-LP-1aF" secondAttribute="top" constant="50" id="topHeader"/>
+                        <constraint firstItem="46M-HV-amF" firstAttribute="top" secondItem="1wj-LP-1aF" secondAttribute="top" constant="40" id="topHeader"/>
                         <constraint firstAttribute="trailing" secondItem="9Kd-jK-tqK" secondAttribute="trailing" id="trailingContent"/>
                         <constraint firstAttribute="trailing" secondItem="46M-HV-amF" secondAttribute="trailing" id="trailingHeader"/>
                     </constraints>

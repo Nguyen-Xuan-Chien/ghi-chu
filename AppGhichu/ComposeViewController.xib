@@ -180,24 +180,13 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thứ ..., Ngày ..., Thg ..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" translatesAutoresizingMaskIntoConstraints="NO" id="NSD-ao-9y4">
-                            <rect key="frame" x="130" y="6.9999999999999982" width="133" height="26.333333333333329"/>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <nil key="highlightedColor"/>
-                        </label>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="MfY-8R-GHM" firstAttribute="leading" secondItem="2rY-Ix-1lm" secondAttribute="trailing" constant="-3.3333333333333712" id="Jfs-ql-C0F"/>
-                        <constraint firstItem="NSD-ao-9y4" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="Z1w-yO-C8F"/>
                         <constraint firstItem="HKF-ek-f67" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" constant="2" id="eQd-qU-5Sh"/>
                         <constraint firstAttribute="trailing" secondItem="MfY-8R-GHM" secondAttribute="trailing" constant="10" id="gl7-Cx-3su"/>
                         <constraint firstItem="HKF-ek-f67" firstAttribute="leading" secondItem="46M-HV-amF" secondAttribute="leading" constant="-8" id="kgV-Ik-QM6"/>
-                        <constraint firstItem="2rY-Ix-1lm" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="NSD-ao-9y4" secondAttribute="trailing" constant="10" id="lead-more-from-date"/>
-                        <constraint firstItem="NSD-ao-9y4" firstAttribute="leading" secondItem="HKF-ek-f67" secondAttribute="trailing" constant="104" id="leading-date-from-bookmark"/>
-                        <constraint firstItem="NSD-ao-9y4" firstAttribute="centerX" secondItem="46M-HV-amF" secondAttribute="centerX" priority="750" id="mBo-hq-lD4"/>
-                        <constraint firstItem="2rY-Ix-1lm" firstAttribute="centerY" secondItem="NSD-ao-9y4" secondAttribute="centerY" id="oGq-ef-jbH"/>
                         <constraint firstItem="selected-emoji-label-id" firstAttribute="centerY" secondItem="46M-HV-amF" secondAttribute="centerY" id="selected-emoji-label-centerY"/>
                         <constraint firstItem="selected-emoji-label-id" firstAttribute="leading" secondItem="46M-HV-amF" secondAttribute="leading" constant="40" id="selected-emoji-label-leading"/>
                         <constraint firstAttribute="height" constant="40" id="ySY-qf-IHF"/>
@@ -212,7 +201,7 @@
                 <constraint firstAttribute="bottom" secondItem="9Kd-jK-tqK" secondAttribute="bottom" id="DYI-bJ-XO2"/>
                 <constraint firstItem="46M-HV-amF" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="N6V-DE-xEJ"/>
                 <constraint firstItem="46M-HV-amF" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="R0G-py-lP1"/>
-                <constraint firstItem="46M-HV-amF" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="eUm-ew-A5Q"/>
+                <constraint firstItem="46M-HV-amF" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="40" id="eUm-ew-A5Q"/>
                 <constraint firstItem="9Kd-jK-tqK" firstAttribute="top" secondItem="46M-HV-amF" secondAttribute="bottom" id="m3e-Wv-BnQ"/>
                 <constraint firstItem="9Kd-jK-tqK" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="mI5-ZU-8kK"/>
             </constraints>

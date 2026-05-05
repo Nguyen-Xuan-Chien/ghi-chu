@@ -37,19 +37,20 @@ class ComposeViewController: UIViewController {
         setupImagesCollectionView()
         setupTextViews()
         setupKeyboardToolbar()
+        onLocationTapped()
     }
     
     @objc private func onLocationTapped() {
-        locationLabel.text = "Đang lấy vị trí..."
-        locationLabel.isHidden = false
+        locationLabel?.text = "Đang lấy vị trí..."
+        locationLabel?.isHidden = false
         
         LocationManager.shared.getCurrentLocation { [weak self] address in
             DispatchQueue.main.async {
                 if let address = address {
                     self?.currentLocationName = address
-                    self?.locationLabel.text = address
+                    self?.locationLabel?.text = address
                 } else {
-                    self?.locationLabel.text = "Không lấy được vị trí"
+                    self?.locationLabel?.text = "Không lấy được vị trí"
                 }
             }
         }
@@ -60,8 +61,8 @@ class ComposeViewController: UIViewController {
         let photoBtn = UIBarButtonItem(image: UIImage(systemName: "photo.on.rectangle"), style: .plain, target: self, action: #selector(onSystemPhotosTapped))
         let cameraBtn = UIBarButtonItem(image: UIImage(systemName: "camera"), style: .plain, target: self, action: #selector(onCameraTapped))
         let emojiBtn = UIBarButtonItem(image: UIImage(systemName: "face.smiling"), style: .plain, target: self, action: #selector(onEmojiToolbarTapped(_:)))
+        let locationBtn = UIBarButtonItem(image: UIImage(systemName: "mappin.and.ellipse"), style: .plain, target: self, action: #selector(onLocationTapped))
         let colorBtn = UIBarButtonItem(image: UIImage(systemName: "pencil.tip.crop.circle.badge.plus.fill"), style: .plain, target: self, action: #selector(onColorPencilToolbarTapped(_:)))
-        let locationBtn = UIBarButtonItem(image: UIImage(systemName: "location.fill"), style: .plain, target: self, action: #selector(onLocationTapped))
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let doneBtn = UIBarButtonItem(title: "Xong", style: .done, target: self, action: #selector(dismissKeyboard))
         
@@ -73,7 +74,7 @@ class ComposeViewController: UIViewController {
         let trailingSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         trailingSpace.width = 40
         
-        keyboardToolbar.items = [photoBtn, flexSpace, cameraBtn, flexSpace, emojiBtn, flexSpace, colorBtn, flexSpace, locationBtn, flexSpace, doneBtn]
+        keyboardToolbar.items = [photoBtn, flexSpace, cameraBtn, flexSpace, emojiBtn, flexSpace, colorBtn, flexSpace, doneBtn]
         keyboardToolbar.tintColor = .systemBlue
         
         titleTextView.inputAccessoryView = keyboardToolbar
@@ -160,10 +161,7 @@ class ComposeViewController: UIViewController {
     }
     
     private func setupDateLabel() {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "vi_VN")
-        formatter.dateFormat = "EEEE, 'ngày' d 'thg' M"
-        dateLabel.text = formatter.string(from: Date()).capitalized
+        // label removed from xib
     }
     
     private func resized(_ image: UIImage?, to size: CGSize) -> UIImage? {
@@ -213,7 +211,7 @@ class ComposeViewController: UIViewController {
         let vc = NewImageViewController(nibName: "NewImageViewController", bundle: nil)
         vc.modalPresentationStyle = .fullScreen
         vc.inputImage = image
-        vc.dateString = dateLabel.text
+        vc.dateString = dateLabel?.text
         present(vc, animated: true)
     }
     
@@ -326,7 +324,7 @@ class ComposeViewController: UIViewController {
     @IBAction func doneButtonTapped(_ sender: Any) {
         let titleInput = (titleTextView?.text ?? "")
         let title = titleInput.trimmingCharacters(in: .whitespacesAndNewlines)
-        var body = (bodyTextView.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+        var body = (bodyTextView?.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
         
         if title.isEmpty && body.isEmpty {
             let alert = UIAlertController(title: "Chưa có nội dung",
@@ -449,8 +447,10 @@ extension ComposeViewController: UICollectionViewDataSource, UICollectionViewDel
         titleTextView.textContainer.lineFragmentPadding = 0
         bodyTextView.textContainer.lineFragmentPadding = 0
         
-        locationLabel.numberOfLines = 0
-        locationLabel.lineBreakMode = .byWordWrapping
+        if let locLabel = locationLabel {
+            locLabel.numberOfLines = 0
+            locLabel.lineBreakMode = .byWordWrapping
+        }
         
         updatePlaceholderVisibility()
     }

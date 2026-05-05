@@ -9,11 +9,6 @@ class EditNoteViewController: UIViewController {
     @IBOutlet weak var likeButton: UIButton!
     @IBOutlet weak var dateLabel: UILabel!
     private func showCurrentDate() {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "vi_VN")
-        formatter.dateFormat = "d 'thg' M, yyyy"
-
-        dateLabel.text = formatter.string(from: Date())
     }
     @IBOutlet weak var moreButton: UIButton!
 
@@ -111,16 +106,18 @@ class EditNoteViewController: UIViewController {
     }
     
     @objc private func onLocationTapped() {
-        locationLabel.text = "Đang lấy vị trí..."
-        locationLabel.isHidden = false
+        if let locLabel = locationLabel {
+            locLabel.text = "Đang lấy vị trí..."
+            locLabel.isHidden = false
+        }
         
         LocationManager.shared.getCurrentLocation { [weak self] address in
             DispatchQueue.main.async {
                 if let address = address {
                     self?.currentLocationName = address
-                    self?.locationLabel.text = address
+                    self?.locationLabel?.text = address
                 } else {
-                    self?.locationLabel.text = "Không lấy được vị trí"
+                    self?.locationLabel?.text = "Không lấy được vị trí"
                 }
             }
         }
@@ -131,8 +128,8 @@ class EditNoteViewController: UIViewController {
         let photoBtn = UIBarButtonItem(image: UIImage(systemName: "photo.on.rectangle"), style: .plain, target: self, action: #selector(icn1))
         let cameraBtn = UIBarButtonItem(image: UIImage(systemName: "camera"), style: .plain, target: self, action: #selector(icn2))
         let emojiBtn = UIBarButtonItem(image: UIImage(systemName: "face.smiling"), style: .plain, target: self, action: #selector(onEmojiToolbarTapped(_:)))
+        let locationBtn = UIBarButtonItem(image: UIImage(systemName: "mappin.and.ellipse"), style: .plain, target: self, action: #selector(onLocationTapped))
         let colorBtn = UIBarButtonItem(image: UIImage(systemName: "pencil.tip.crop.circle.badge.plus.fill"), style: .plain, target: self, action: #selector(onColorPencilToolbarTapped(_:)))
-        let locationBtn = UIBarButtonItem(image: UIImage(systemName: "location.fill"), style: .plain, target: self, action: #selector(onLocationTapped))
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let doneBtn = UIBarButtonItem(title: "Xong", style: .done, target: self, action: #selector(dismissKeyboard))
         
@@ -144,7 +141,7 @@ class EditNoteViewController: UIViewController {
         let trailingSpace = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         trailingSpace.width = 40
         
-        keyboardToolbar.items = [photoBtn, flexSpace, cameraBtn, flexSpace, emojiBtn, flexSpace, colorBtn, flexSpace, locationBtn, flexSpace, doneBtn]
+        keyboardToolbar.items = [photoBtn, flexSpace, cameraBtn, flexSpace, emojiBtn, flexSpace, colorBtn, flexSpace, doneBtn]
         keyboardToolbar.tintColor = .systemBlue
         
         titleTextView.inputAccessoryView = keyboardToolbar
@@ -242,17 +239,23 @@ class EditNoteViewController: UIViewController {
 
         mapImageView.contentMode = .scaleAspectFill
         mapImageView.clipsToBounds = true
-        dateLabel.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
-        dateLabel.adjustsFontSizeToFitWidth = true
-        dateLabel.minimumScaleFactor = 0.7
-        dateLabel.numberOfLines = 1
+        
+        if let label = dateLabel {
+            label.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
+            label.adjustsFontSizeToFitWidth = true
+            label.minimumScaleFactor = 0.7
+            label.numberOfLines = 1
+        }
+        
         titleTextView.delegate = self
         bodyTextView.delegate = self   
         bodyTextView.textContainer.lineFragmentPadding = 0
         titleTextView.textContainer.lineFragmentPadding = 0
         
-        locationLabel.numberOfLines = 0
-        locationLabel.lineBreakMode = .byWordWrapping
+        if let locLabel = locationLabel {
+            locLabel.numberOfLines = 0
+            locLabel.lineBreakMode = .byWordWrapping
+        }
         
         showCurrentDate()
         
@@ -286,7 +289,7 @@ class EditNoteViewController: UIViewController {
         titleCharCountLabel.text = "\(titleCount)/50"
         titleCharCountLabel.textColor = titleCount >= 50 ? .systemRed : .lightGray
         
-        dateLabel.text = formatDate(note.createdAt)
+        dateLabel?.text = formatDate(note.createdAt)
  
         if let hex = note.colorHex, let color = UIColor(hex: hex) {
             selectedColorHex = hex
@@ -308,8 +311,8 @@ class EditNoteViewController: UIViewController {
         selectedEmojiLabel.text = selectedEmoji ?? ""
         
         currentLocationName = note.location
-        locationLabel.text = note.location ?? "Chưa có vị trí"
-        locationLabel.isHidden = note.location == nil
+        locationLabel?.text = note.location ?? "Chưa có vị trí"
+        locationLabel?.isHidden = note.location == nil
         
         if let range = note.content.range(of: #"\[IMAGE:(.+?)\]"#, options: .regularExpression) {
             let marker = String(note.content[range])
@@ -377,7 +380,7 @@ class EditNoteViewController: UIViewController {
             note.emoji = selectedEmoji
             note.location = currentLocationName
         
-            let cleaned = (bodyTextView.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+            let cleaned = (bodyTextView?.text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
             if let fname = pickedImageFilename {
                 note.content = "[IMAGE:\(fname)]\n" + cleaned
             } else {
@@ -404,7 +407,7 @@ class EditNoteViewController: UIViewController {
         let vc = NewImageViewController(nibName: "NewImageViewController", bundle: nil)
         vc.modalPresentationStyle = .fullScreen
         vc.inputImage = image
-        vc.dateString = dateLabel.text 
+        vc.dateString = dateLabel?.text 
         present(vc, animated: true)
     }
 }

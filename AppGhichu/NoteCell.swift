@@ -57,7 +57,6 @@ class NoteCell: UITableViewCell {
         print("NoteCell: displayDate = \(note.displayDate), lblDate.isHidden = \(lblDate.isHidden), lblHeaderDate.isHidden = \(lblHeaderDate.isHidden)")
         lblHeaderEmoji.text = note.emoji ?? ""
         
-        // Xử lý màu sắc
         if let hex = note.colorHex, let color = UIColor(hex: hex) {
             cardView.backgroundColor = color
             lblTitle.textColor = .white
@@ -75,7 +74,6 @@ class NoteCell: UITableViewCell {
             lblHeaderDate.textColor = tColor
             locationLabel.textColor = tColor.withAlphaComponent(0.6)
         } else if note.colorHex != nil {
-            // Nếu có màu nền nhưng không có màu chữ tùy chỉnh, đảm bảo text location và header date có màu mặc định sáng
             locationLabel.textColor = .lightGray
             lblHeaderDate.textColor = .white
         }

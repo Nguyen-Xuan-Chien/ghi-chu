@@ -200,7 +200,6 @@ class ComposeViewController: UIViewController {
     }
     
     private func setupDateLabel() {
-        // label removed from xib
     }
     
     private func resized(_ image: UIImage?, to size: CGSize) -> UIImage? {

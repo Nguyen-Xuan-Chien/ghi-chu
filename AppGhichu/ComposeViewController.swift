@@ -29,6 +29,7 @@ class ComposeViewController: UIViewController {
     private var selectedEmoji: String?
     @IBOutlet weak var selectedEmojiLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var locationIconView: UIImageView!
     private var currentLocationName: String?
     
     override func viewDidLoad() {
@@ -37,10 +38,26 @@ class ComposeViewController: UIViewController {
         setupImagesCollectionView()
         setupTextViews()
         setupKeyboardToolbar()
-        onLocationTapped()
+        autoFetchLocation()
     }
     
     @objc private func onLocationTapped() {
+        let alert = UIAlertController(title: "Vị trí", message: "Bạn muốn cập nhật vị trí bằng cách nào?", preferredStyle: .actionSheet)
+        
+        alert.addAction(UIAlertAction(title: "Tự động cập nhật", style: .default, handler: { _ in
+            self.autoFetchLocation()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Nhập vị trí thủ công", style: .default, handler: { _ in
+            self.showManualLocationInput()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Hủy", style: .cancel))
+        
+        present(alert, animated: true)
+    }
+    
+    private func autoFetchLocation() {
         locationLabel?.text = "Đang lấy vị trí..."
         locationLabel?.isHidden = false
         
@@ -54,6 +71,25 @@ class ComposeViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    private func showManualLocationInput() {
+        let alert = UIAlertController(title: "Nhập vị trí", message: "Nhập địa chỉ bạn muốn hiển thị", preferredStyle: .alert)
+        alert.addTextField { textField in
+            textField.placeholder = "Ví dụ: Hà Nội, Việt Nam"
+            textField.text = self.currentLocationName
+        }
+        
+        alert.addAction(UIAlertAction(title: "Hủy", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Lưu", style: .default, handler: { [weak self] _ in
+            if let text = alert.textFields?.first?.text, !text.trimmingCharacters(in: .whitespaces).isEmpty {
+                self?.currentLocationName = text
+                self?.locationLabel?.text = text
+                self?.locationLabel?.isHidden = false
+            }
+        }))
+        
+        present(alert, animated: true)
     }
     
     private func setupKeyboardToolbar() {
@@ -115,6 +151,9 @@ class ComposeViewController: UIViewController {
                 self.selectedTextColorHex = color.toHexString()
                 self.titleTextView.textColor = color
                 self.bodyTextView.textColor = color
+                self.locationLabel?.textColor = color
+                self.locationIconView?.tintColor = color
+                self.dateLabel?.textColor = color
             }
             
             picker?.dismiss(animated: true) {
@@ -450,6 +489,9 @@ extension ComposeViewController: UICollectionViewDataSource, UICollectionViewDel
         if let locLabel = locationLabel {
             locLabel.numberOfLines = 0
             locLabel.lineBreakMode = .byWordWrapping
+            locLabel.isUserInteractionEnabled = true
+            let tap = UITapGestureRecognizer(target: self, action: #selector(onLocationTapped))
+            locLabel.addGestureRecognizer(tap)
         }
         
         updatePlaceholderVisibility()

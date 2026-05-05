@@ -14,6 +14,7 @@
                 <outlet property="bodyTextView" destination="QU1-mC-fVh" id="DqJ-GN-piA"/>
                 <outlet property="contentContainerView" destination="9Kd-jK-tqK" id="content-container-conn"/>
                 <outlet property="dateLabel" destination="NSD-ao-9y4" id="A4S-zh-tlC"/>
+                <outlet property="locationIconView" destination="location-icon-id" id="location-icon-conn"/>
                 <outlet property="locationLabel" destination="location-label-id" id="location-label-conn"/>
                 <outlet property="previewImageView" destination="9G4-8P-5pf" id="hPT-wO-bwy"/>
                 <outlet property="selectedEmojiLabel" destination="selected-emoji-label-id" id="selected-emoji-label-conn"/>

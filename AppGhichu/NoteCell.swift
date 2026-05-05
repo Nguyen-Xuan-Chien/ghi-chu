@@ -63,7 +63,7 @@ class NoteCell: UITableViewCell {
             lblTitle.textColor = .white
             lblContent.textColor = .white.withAlphaComponent(0.8)
             lblDate.textColor = .white.withAlphaComponent(0.7)
-            lblHeaderDate.textColor = .white.withAlphaComponent(0.7)
+            lblHeaderDate.textColor = .white
         } else if let defaultColor = defaultThemeColor {
             applyTheme(baseColor: defaultColor)
         }
@@ -72,7 +72,12 @@ class NoteCell: UITableViewCell {
             lblTitle.textColor = tColor
             lblContent.textColor = tColor.withAlphaComponent(0.8)
             lblDate.textColor = tColor.withAlphaComponent(0.7)
-            lblHeaderDate.textColor = tColor.withAlphaComponent(0.7)
+            lblHeaderDate.textColor = tColor
+            locationLabel.textColor = tColor.withAlphaComponent(0.6)
+        } else if note.colorHex != nil {
+            // Nếu có màu nền nhưng không có màu chữ tùy chỉnh, đảm bảo text location và header date có màu mặc định sáng
+            locationLabel.textColor = .lightGray
+            lblHeaderDate.textColor = .white
         }
         
         if let range = note.content.range(of: #"\[IMAGE:(.+?)\]"#, options: .regularExpression) {
@@ -98,7 +103,7 @@ class NoteCell: UITableViewCell {
             imgIcon.isHidden = true
             imgIconHeightConstraint?.constant = 0
         }
-
+        
         if let loc = note.location, !loc.isEmpty {
             locationIconView.isHidden = false
             locationLabel.isHidden = false
@@ -108,12 +113,6 @@ class NoteCell: UITableViewCell {
             locationLabel.isHidden = true
         }
         
-        if let tHex = note.textColorHex, let tColor = UIColor(hex: tHex) {
-            locationLabel.textColor = tColor.withAlphaComponent(0.6)
-        } else {
-            locationLabel.textColor = .lightGray
-        }
-        
         func applyTheme(baseColor: UIColor) {
             cardView.backgroundColor = baseColor.withAlphaComponent(0.35)
             cardView.layer.borderWidth = 0
@@ -121,6 +120,8 @@ class NoteCell: UITableViewCell {
             lblContent.textColor = UIColor(white: 1.0, alpha: 0.7)
             lblDate.textColor = UIColor(white: 1.0, alpha: 0.85)
             lblDate.font = UIFont.systemFont(ofSize: 11, weight: .medium)
+            lblHeaderDate.textColor = .white
+            locationLabel.textColor = .lightGray
         }
     }
 }

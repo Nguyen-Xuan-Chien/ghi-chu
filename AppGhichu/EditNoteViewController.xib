@@ -16,6 +16,7 @@
                 <outlet property="closeMapButton" destination="RL0-Bm-o7i" id="aVg-wu-bj3"/>
                 <outlet property="contentContainerView" destination="9Kd-jK-tqK" id="content-container-conn-edit"/>
                 <outlet property="dateLabel" destination="Yq8-fJ-uMc" id="jPB-MG-3ts"/>
+                <outlet property="locationIconView" destination="location-icon-id-edit" id="location-icon-conn-edit"/>
                 <outlet property="locationLabel" destination="location-label-id-edit" id="location-label-conn-edit"/>
                 <outlet property="headerView" destination="46M-HV-amF" id="header-view-conn"/>
                 <outlet property="likeButton" destination="5Eo-aC-4Kk" id="vaH-PM-UFr"/>

@@ -88,6 +88,7 @@ class EditNoteViewController: UIViewController {
     @IBOutlet weak var titleTextView: UITextView!
     @IBOutlet weak var bodyTextView: UITextView!
     @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var locationIconView: UIImageView!
 
     var note: Note?
 
@@ -106,6 +107,22 @@ class EditNoteViewController: UIViewController {
     }
     
     @objc private func onLocationTapped() {
+        let alert = UIAlertController(title: "Vị trí", message: "Bạn muốn cập nhật vị trí bằng cách nào?", preferredStyle: .actionSheet)
+        
+        alert.addAction(UIAlertAction(title: "Tự động cập nhật", style: .default, handler: { _ in
+            self.autoFetchLocation()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Nhập vị trí thủ công", style: .default, handler: { _ in
+            self.showManualLocationInput()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "Hủy", style: .cancel))
+        
+        present(alert, animated: true)
+    }
+    
+    private func autoFetchLocation() {
         if let locLabel = locationLabel {
             locLabel.text = "Đang lấy vị trí..."
             locLabel.isHidden = false
@@ -121,6 +138,25 @@ class EditNoteViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    private func showManualLocationInput() {
+        let alert = UIAlertController(title: "Nhập vị trí", message: "Nhập địa chỉ bạn muốn hiển thị", preferredStyle: .alert)
+        alert.addTextField { textField in
+            textField.placeholder = "Ví dụ: Hà Nội, Việt Nam"
+            textField.text = self.currentLocationName
+        }
+        
+        alert.addAction(UIAlertAction(title: "Hủy", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Lưu", style: .default, handler: { [weak self] _ in
+            if let text = alert.textFields?.first?.text, !text.trimmingCharacters(in: .whitespaces).isEmpty {
+                self?.currentLocationName = text
+                self?.locationLabel?.text = text
+                self?.locationLabel?.isHidden = false
+            }
+        }))
+        
+        present(alert, animated: true)
     }
     
     private func setupKeyboardToolbar() {
@@ -182,6 +218,9 @@ class EditNoteViewController: UIViewController {
                 self.selectedTextColorHex = color.toHexString()
                 self.titleTextView.textColor = color
                 self.bodyTextView.textColor = color
+                self.locationLabel?.textColor = color
+                self.locationIconView?.tintColor = color
+                self.dateLabel?.textColor = color
             }
             
             picker?.dismiss(animated: true) {
@@ -255,6 +294,9 @@ class EditNoteViewController: UIViewController {
         if let locLabel = locationLabel {
             locLabel.numberOfLines = 0
             locLabel.lineBreakMode = .byWordWrapping
+            locLabel.isUserInteractionEnabled = true
+            let tap = UITapGestureRecognizer(target: self, action: #selector(onLocationTapped))
+            locLabel.addGestureRecognizer(tap)
         }
         
         showCurrentDate()
@@ -302,9 +344,15 @@ class EditNoteViewController: UIViewController {
             selectedTextColorHex = tHex
             titleTextView.textColor = tColor
             bodyTextView.textColor = tColor
+            locationLabel?.textColor = tColor
+            locationIconView?.tintColor = tColor
+            dateLabel?.textColor = tColor
         } else {
             titleTextView.textColor = .white
             bodyTextView.textColor = .white
+            locationLabel?.textColor = .white
+            locationIconView?.tintColor = .white
+            dateLabel?.textColor = .white
         }
         
         selectedEmoji = note.emoji

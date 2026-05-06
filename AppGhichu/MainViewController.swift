@@ -190,7 +190,9 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NoteCell", for: indexPath) as! NoteCell
         let note = sections[indexPath.section].items[indexPath.row]
         let defaultColor = sectionPalette[indexPath.section % sectionPalette.count]
-        cell.configure(note: note, defaultThemeColor: defaultColor)
+        
+        // Luôn hiển thị header ngày tháng cho mỗi ghi chú
+        cell.configure(note: note, defaultThemeColor: defaultColor, showDateHeader: true)
         cell.onMoreTapped = { [weak self] in
             self?.showMoreMenu(for: note)
         }

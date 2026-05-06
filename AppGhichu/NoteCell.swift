@@ -8,7 +8,6 @@ class NoteCell: UITableViewCell {
     @IBOutlet weak var imgIconHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblContent: UILabel!
-    @IBOutlet weak var lblDate: UILabel!
     @IBOutlet weak var btnMore: UIButton!
     @IBOutlet weak var lblHeaderDate: UILabel!
     @IBOutlet weak var lblHeaderEmoji: UILabel!
@@ -37,7 +36,7 @@ class NoteCell: UITableViewCell {
         onMoreTapped = nil
     }
     
-    func configure(note: Note, defaultThemeColor: UIColor? = nil) {
+    func configure(note: Note, defaultThemeColor: UIColor? = nil, showDateHeader: Bool = true) {
         let rawTitle = note.title.trimmingCharacters(in: .whitespacesAndNewlines)
         if rawTitle.isEmpty {
             lblTitle.text = "Tiêu đề"
@@ -51,18 +50,23 @@ class NoteCell: UITableViewCell {
         lblTitle.numberOfLines = 0
         lblContent.numberOfLines = 0
         
-        lblDate.isHidden = false
-        lblDate.text = note.displayDate
+        lblHeaderDate.isHidden = !showDateHeader
+        lblHeaderEmoji.isHidden = !showDateHeader
         lblHeaderDate.text = note.displayDate
-        print("NoteCell: displayDate = \(note.displayDate), lblDate.isHidden = \(lblDate.isHidden), lblHeaderDate.isHidden = \(lblHeaderDate.isHidden)")
         lblHeaderEmoji.text = note.emoji ?? ""
+        
+        // Cập nhật constraint cho cardView nếu ẩn header
+        for constraint in contentView.constraints {
+            if constraint.firstAttribute == .top && constraint.firstItem as? UIView == cardView {
+                constraint.constant = showDateHeader ? 40 : 10
+            }
+        }
         
         if let hex = note.colorHex, let color = UIColor(hex: hex) {
             cardView.backgroundColor = color
             lblTitle.textColor = .white
             lblContent.textColor = .white.withAlphaComponent(0.8)
-            lblDate.textColor = .white.withAlphaComponent(0.7)
-            lblHeaderDate.textColor = .white
+            lblHeaderDate.textColor = .white 
         } else if let defaultColor = defaultThemeColor {
             applyTheme(baseColor: defaultColor)
         }
@@ -70,8 +74,7 @@ class NoteCell: UITableViewCell {
         if let tHex = note.textColorHex, let tColor = UIColor(hex: tHex) {
             lblTitle.textColor = tColor
             lblContent.textColor = tColor.withAlphaComponent(0.8)
-            lblDate.textColor = tColor.withAlphaComponent(0.7)
-            lblHeaderDate.textColor = tColor
+            lblHeaderDate.textColor = .white
             locationLabel.textColor = tColor.withAlphaComponent(0.6)
         } else if note.colorHex != nil {
             locationLabel.textColor = .lightGray
@@ -116,8 +119,6 @@ class NoteCell: UITableViewCell {
             cardView.layer.borderWidth = 0
             lblTitle.textColor = .white
             lblContent.textColor = UIColor(white: 1.0, alpha: 0.7)
-            lblDate.textColor = UIColor(white: 1.0, alpha: 0.85)
-            lblDate.font = UIFont.systemFont(ofSize: 11, weight: .medium)
             lblHeaderDate.textColor = .white
             locationLabel.textColor = .lightGray
         }

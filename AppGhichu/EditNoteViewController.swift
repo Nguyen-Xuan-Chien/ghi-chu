@@ -104,6 +104,10 @@ class EditNoteViewController: UIViewController {
         setupUI()
         fillData()
         setupKeyboardToolbar()
+        
+        if currentLocationName == nil || currentLocationName?.isEmpty == true {
+            autoFetchLocation()
+        }
     }
     
     @objc private func onLocationTapped() {

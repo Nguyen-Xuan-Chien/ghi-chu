@@ -53,14 +53,8 @@
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thứ ..., ... thg ..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="goK-Hd-1YZ">
-                                <rect key="frame" x="0.0" y="224" width="84" height="15"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
-                                <color key="textColor" systemColor="opaqueSeparatorColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2FV-Z5-Ajb">
-                                <rect key="frame" x="288" y="208.66666666666666" width="20" height="20"/>
+                                <rect key="frame" x="288" y="218" width="20" height="20"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="20" id="H7L-Te-m14"/>
                                     <constraint firstAttribute="height" constant="20" id="dqa-14-Tzt"/>
@@ -95,16 +89,13 @@
                             <constraint firstItem="content-label-id" firstAttribute="leading" secondItem="oWh-oq-ZCj" secondAttribute="leading" id="leading-content-id"/>
                             <constraint firstAttribute="trailing" secondItem="content-label-id" secondAttribute="trailing" id="trailing-content-id"/>
                             
-                            <constraint firstItem="goK-Hd-1YZ" firstAttribute="top" secondItem="content-label-id" secondAttribute="bottom" constant="4" id="top-date-id"/>
-                            <constraint firstItem="goK-Hd-1YZ" firstAttribute="leading" secondItem="oWh-oq-ZCj" secondAttribute="leading" id="leading-date-id"/>
-                            <constraint firstAttribute="bottom" secondItem="goK-Hd-1YZ" secondAttribute="bottom" constant="3" id="bottom-date-id"/>
-                            
-                            <constraint firstItem="2FV-Z5-Ajb" firstAttribute="centerY" secondItem="goK-Hd-1YZ" secondAttribute="centerY" id="centerY-more-id"/>
+                            <constraint firstAttribute="bottom" secondItem="content-label-id" secondAttribute="bottom" constant="22" id="bottom-content-id"/>
+                            <constraint firstAttribute="bottom" secondItem="2FV-Z5-Ajb" secondAttribute="bottom" constant="4" id="bottom-more-id"/>
                             <constraint firstAttribute="trailing" secondItem="2FV-Z5-Ajb" secondAttribute="trailing" constant="10" id="trailing-more-id"/>
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thứ ..., ... tháng ..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HDR-DA-TE1">
-                        <rect key="frame" x="8" y="15" width="125" height="17"/>
+                        <rect key="frame" x="8" y="15" width="318" height="17"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                         <color key="textColor" white="1" alpha="0.94999999999999996" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>

@@ -6,6 +6,7 @@ class NoteCell: UITableViewCell {
     @IBOutlet weak var lblMonth: UILabel!
     @IBOutlet weak var imgIcon: UIImageView!
     @IBOutlet weak var imgIconHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var titleTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblContent: UILabel!
     @IBOutlet weak var btnMore: UIButton!
@@ -55,7 +56,6 @@ class NoteCell: UITableViewCell {
         lblHeaderDate.text = note.displayDate
         lblHeaderEmoji.text = note.emoji ?? ""
         
-        // Cập nhật constraint cho cardView nếu ẩn header
         for constraint in contentView.constraints {
             if constraint.firstAttribute == .top && constraint.firstItem as? UIView == cardView {
                 constraint.constant = showDateHeader ? 40 : 10
@@ -66,7 +66,7 @@ class NoteCell: UITableViewCell {
             cardView.backgroundColor = color
             lblTitle.textColor = .white
             lblContent.textColor = .white.withAlphaComponent(0.8)
-            lblHeaderDate.textColor = .white 
+            lblHeaderDate.textColor = .white
         } else if let defaultColor = defaultThemeColor {
             applyTheme(baseColor: defaultColor)
         }
@@ -109,9 +109,11 @@ class NoteCell: UITableViewCell {
             locationIconView.isHidden = false
             locationLabel.isHidden = false
             locationLabel.text = loc
+            titleTopConstraint.constant = 4
         } else {
             locationIconView.isHidden = true
             locationLabel.isHidden = true
+            titleTopConstraint.constant = -20
         }
         
         func applyTheme(baseColor: UIColor) {

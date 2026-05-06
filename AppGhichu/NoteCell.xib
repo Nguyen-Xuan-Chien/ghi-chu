@@ -135,6 +135,7 @@
                 <outlet property="lblDate" destination="goK-Hd-1YZ" id="lrn-MB-ESK"/>
                 <outlet property="lblHeaderDate" destination="HDR-DA-TE1" id="wq2-4q-9kV"/>
                 <outlet property="lblHeaderEmoji" destination="emoji-header-id" id="emoji-header-conn"/>
+                <outlet property="titleTopConstraint" destination="top-title-id" id="title-top-conn-id"/>
                 <outlet property="lblTitle" destination="1Hz-3Q-pu8" id="jhr-aj-z9e"/>
                 <outlet property="locationIconView" destination="loc-icon-id" id="loc-icon-conn"/>
                 <outlet property="locationLabel" destination="loc-label-id" id="loc-label-conn"/>

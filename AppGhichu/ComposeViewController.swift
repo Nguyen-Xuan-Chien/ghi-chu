@@ -63,11 +63,16 @@ class ComposeViewController: UIViewController {
         
         LocationManager.shared.getCurrentLocation { [weak self] address in
             DispatchQueue.main.async {
-                if let address = address {
+                if let address = address, !address.contains("Không") {
                     self?.currentLocationName = address
                     self?.locationLabel?.text = address
+                    self?.locationLabel?.isHidden = false
+                    self?.locationIconView?.isHidden = false
                 } else {
-                    self?.locationLabel?.text = "Không lấy được vị trí"
+                    self?.currentLocationName = ""
+                    self?.locationLabel?.text = ""
+                    self?.locationLabel?.isHidden = true
+                    self?.locationIconView?.isHidden = true
                 }
             }
         }
@@ -82,10 +87,16 @@ class ComposeViewController: UIViewController {
         
         alert.addAction(UIAlertAction(title: "Hủy", style: .cancel))
         alert.addAction(UIAlertAction(title: "Lưu", style: .default, handler: { [weak self] _ in
-            if let text = alert.textFields?.first?.text, !text.trimmingCharacters(in: .whitespaces).isEmpty {
-                self?.currentLocationName = text
-                self?.locationLabel?.text = text
+            let text = alert.textFields?.first?.text?.trimmingCharacters(in: .whitespaces) ?? ""
+            self?.currentLocationName = text
+            self?.locationLabel?.text = text
+            
+            if text.isEmpty {
+                self?.locationLabel?.isHidden = true
+                self?.locationIconView?.isHidden = true
+            } else {
                 self?.locationLabel?.isHidden = false
+                self?.locationIconView?.isHidden = false
             }
         }))
         
